@@ -3,6 +3,9 @@ package com.chefdeluxe.app.repositorio;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.chefdeluxe.app.entidades.Usuario;
 
@@ -19,5 +22,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
 	public Boolean existsByEmail(String email);
 	
 	public void deleteByUsername(String username);
+	
 	
 }

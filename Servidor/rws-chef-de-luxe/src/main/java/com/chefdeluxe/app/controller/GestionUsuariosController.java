@@ -1,9 +1,15 @@
 package com.chefdeluxe.app.controller;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,6 +53,11 @@ public class GestionUsuariosController {
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 	
+	@PersistenceContext
+	EntityManager em;
+	
+
+	
 	@PostMapping("/create/user")
 	public ResponseEntity<?> altaUsuario(@RequestBody RegisterDTO registroDTO){
 		if(usuarioRepositorio.existsByUsername(registroDTO.getUsername())) {
@@ -69,14 +80,15 @@ public class GestionUsuariosController {
 	}
 	
 	@DeleteMapping("/delete/user{username}")
-	public ResponseEntity<?> deleteUsuario(@RequestBody DeleteDTO deleteDTO) {
+	public ResponseEntity<?> deleteUsuario(@RequestBody LoginDTO loginDTO) {
 		
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsername(deleteDTO.getUsername());
+		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
 		if (usuario.isPresent()) {
 			if (!usuario.get().getRoles().contains(rolRepositorio.findByRole("ROLE_ADMIN").get())){
 				return new ResponseEntity<>("Ese usuario no tiene perfil admin", HttpStatus.BAD_REQUEST);	
-			}		
-			usuarioRepositorio.deleteByUsername(deleteDTO.getUsername());
+			}	
+		
+			usuarioRepositorio.deleteById(usuario.get().getId());
 			return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("Ese nombre de usuario no existe", HttpStatus.BAD_REQUEST);
@@ -85,11 +97,17 @@ public class GestionUsuariosController {
 	}
 	
 	@GetMapping("/get/user{username}")
-	public Usuario getUsuario(@RequestBody LoginDTO loginDTO){
+	public ResponseEntity<?>  getUsuario(@RequestBody LoginDTO loginDTO){
 		
 		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
 		if (usuario.isPresent()) {
-			return usuario.get();
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			usuarioDTO.setNombre(usuario.get().getNombre());
+			usuarioDTO.setUsername(usuario.get().getUsername());
+			usuarioDTO.setEmail(usuario.get().getEmail());
+			usuarioDTO.setPassword(usuario.get().getPassword());
+			usuarioDTO.setId(usuario.get().getId());
+			return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
 		}else {
 			new UsernameNotFoundException("Metodo /get/user{username} Usuario no encontrado con ese username o email : " + loginDTO.getUsernameOrEmail());
 		} 
@@ -98,9 +116,10 @@ public class GestionUsuariosController {
 
 	}
 	@GetMapping("/get/users")
-	public ResponseEntity<?> getUsuarios(@RequestBody RegisterDTO registroDTO){
-
-		return new ResponseEntity<>("Usuario leido exitosamente /get/users",HttpStatus.OK);
+	public ResponseEntity<?> getUsuarios( ){
+		List<Usuario> usuarioList = usuarioRepositorio.findAll();
+		return new ResponseEntity<> (usuarioList, HttpStatus.OK);
+	//	return new ResponseEntity<>("Usuario leido exitosamente /get/users",HttpStatus.OK);
 	}	
 	@PutMapping("/update/user{id}")
 	public ResponseEntity<?> UpdateUsuario(@RequestBody RegisterDTO registroDTO){
