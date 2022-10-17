@@ -32,7 +32,7 @@ import com.chefdeluxe.app.entidades.Rol;
 import com.chefdeluxe.app.entidades.Usuario;
 import com.chefdeluxe.app.repositorio.RolRepositorio;
 import com.chefdeluxe.app.repositorio.UsuarioRepositorio;
-import com.chefdeluxe.app.repositorio.UsuariosRolesRepositorio;
+//import com.chefdeluxe.app.repositorio.UsuariosRolesRepositorio;
 import com.chefdeluxe.app.seguridad.JWTAuthResonseDTO;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
 
@@ -45,8 +45,8 @@ public class GestionUsuariosController {
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
 	
-	@Autowired
-	private UsuariosRolesRepositorio usuariosRolesRepositorio;	
+	//@Autowired
+	//private UsuariosRolesRepositorio usuariosRolesRepositorio;	
 	
 	@Autowired
 	private RolRepositorio rolRepositorio;
@@ -65,7 +65,7 @@ public class GestionUsuariosController {
 	@PostMapping("/create/user")
 	public ResponseEntity<?> altaUsuario(@RequestBody RegisterDTO registroDTO){
 		if(usuarioRepositorio.existsByUsername(registroDTO.getUsername())) {
-			return new ResponseEntity<>("Ese nombre de usuario ya existe",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Ese nombre de usuario ya existe",HttpStatus.BAD_REQUEST); 
 		}
 		
 		if(usuarioRepositorio.existsByEmail(registroDTO.getEmail())) {
@@ -103,7 +103,7 @@ public class GestionUsuariosController {
 			if (!usuario.get().getRoles().contains(rolRepositorio.findByRole("ROLE_ADMIN").get())){
 				return new ResponseEntity<>("Ese usuario no tiene perfil admin", HttpStatus.BAD_REQUEST);	
 			}	
-			usuariosRolesRepositorio.deleteById(usuario.get().getId());
+		//	usuariosRolesRepositorio.deleteById(usuario.get().getId());
 			usuarioRepositorio.deleteById(usuario.get().getId());
 			return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
 		} else {
@@ -147,7 +147,7 @@ public class GestionUsuariosController {
 			rolRepositorio.findByRole(registroDTO.getPerfil());
 			Optional <Rol> rol = rolRepositorio.findByRole(registroDTO.getPerfil());
 			if (rol.isPresent()) {
-			usuariosRolesRepositorio.updateUserRole(rol.get().getId(),usuario.get().getId());
+	//		usuariosRolesRepositorio.updateUserRole(rol.get().getId(),usuario.get().getId());
 			}
 			else {
 				return new ResponseEntity<> ("Metodo /update/user{id} Rol no encontrado: " +rol.get().getRole() ,HttpStatus.BAD_REQUEST);
