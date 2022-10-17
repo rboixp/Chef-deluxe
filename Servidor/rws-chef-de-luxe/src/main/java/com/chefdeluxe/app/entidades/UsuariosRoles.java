@@ -7,12 +7,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "usuarios_roles", uniqueConstraints = { @UniqueConstraint(columnNames = { "usuario_id" }),
-		@UniqueConstraint(columnNames = { "rol_id" }) })
+@Table(name = "usuarios_roles", uniqueConstraints = { @UniqueConstraint(columnNames = { "usuario_id" ,"rol_id"  })})
 public class UsuariosRoles {
 	@Id
-	private Long usuario_id;
+	private Long usuario_id;  
 	@Column
-	private Long rol_id;
+	private Long rol_id; 
 
 }

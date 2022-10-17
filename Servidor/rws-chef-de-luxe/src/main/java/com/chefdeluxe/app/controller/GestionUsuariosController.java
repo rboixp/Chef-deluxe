@@ -76,9 +76,21 @@ public class GestionUsuariosController {
 		usuario.setNombre(registroDTO.getNombre());
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
-		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));			
+		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
+		usuario.setApellidos(registroDTO.getApellidos());
+		usuario.setDireccion(registroDTO.getDireccion());
+		usuario.setCodigoPostal(registroDTO.getCodigoPostal());
+		usuario.setPoblacion(registroDTO.getPoblacion());
+		usuario.setNacionalidad(registroDTO.getNacionalidad());
+		usuario.setEdad(registroDTO.getEdad());
+		usuario.setTelefono(registroDTO.getTelefono());
+		usuario.setIban(registroDTO.getIban());
+		
+		
 		Rol roles = rolRepositorio.findByRole(registroDTO.getPerfil()).get();
-		usuario.setRoles(Collections.singleton(roles));		
+		System.out.println("roles" +roles +" Collections.singleton(roles)" +Collections.singleton(roles));
+		usuario.setRoles(Collections.singleton(roles));	
+		System.out.println("userRoles" +usuario.getRoles()); 
 		usuarioRepositorio.save(usuario);
 		return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
 	}
