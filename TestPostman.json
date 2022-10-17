@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "5407ff47-f22d-40a9-ac5c-fc81650d0145",
-		"name": "Test Postman",
+		"name": "New Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23897352"
 	},
@@ -184,14 +184,14 @@
 					"response": []
 				},
 				{
-					"name": "http://localhost:8080/api/users/update/user{id}",
+					"name": "http://localhost:8080/api/users/update/user{username}",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2FuaEBtYWlsLmNvbSIsImlhdCI6MTY2NTkxMjExNywiZXhwIjoxNjY2NTE2OTE3fQ._vYXJOD_qf2cxS0Eub69tZpRQbuiU9D9hsyPRmoKuTx3kkRNfhIYFdzlMMFBkKp7IRbUKr8mIy4-aegtSYRTzg",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjYXJsb3NAbWFpbC5jb20iLCJpYXQiOjE2NjYwMzkzNDMsImV4cCI6MTY2NjY0NDE0M30.91u5FMDVPvq_ccWrxUmGb6VScAUyzmvvt6yCtSIVk1iSWK71dsJfsaZRQpkJ0Srd7nrDhFiBr_0v2JizQkOglQ",
 									"type": "string"
 								}
 							]
@@ -206,7 +206,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"joanh\",\r\n    \"email\": \"joanh@mail.com\",\r\n    \"username\": \"joanc\",\r\n    \"password\": \"chef\",\r\n    \"perfil\": \"ROLE_ADMIN\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"carlos1\",\r\n    \"email\": \"carlos@mail.com1\",\r\n    \"username\": \"carlos\",\r\n    \"password\": \"password1\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"lopez lopez1\",\r\n\t\"direccion\": \"Bailen 131\",\r\n\t\"codigoPostal\": \"080021\",\r\n\t\"poblacion\": \"Tarragona1\",\r\n\t\"nacionalidad\": \"Catalana1\",\r\n\t\"edad\": \"21\",\r\n\t\"telefono\": \"666666661\",\r\n    \"iban\": \"ES2114650100XXX030876291\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -214,7 +214,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/update/user{id}",
+							"raw": "http://localhost:8080/api/users/update/user{username}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -224,7 +224,54 @@
 								"api",
 								"users",
 								"update",
-								"user{id}"
+								"user{username}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/users/create/user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2FuQG1haWwuY29tIiwiaWF0IjoxNjY2MDQwMzYwLCJleHAiOjE2NjY2NDUxNjB9.tveG4beWMXw5lWSU8dbSGddoP3vKZyKTh7BFrMgR-C7AlKC_rAZwnz8F5cMxQCkw4hYDz3ARh33KT5OEXddepw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"jan\",\r\n    \"email\": \"jan@mail.com\",\r\n    \"username\": \"jan\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"jan joan\",\r\n\t\"direccion\": \"jan 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"26\",\r\n\t\"telefono\": \"666666667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/create/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"create",
+								"user"
 							]
 						}
 					},
