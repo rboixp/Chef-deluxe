@@ -1,9 +1,14 @@
 package com.chefdeluxe.app.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -20,6 +25,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -103,7 +109,6 @@ public class GestionUsuariosController {
 			if (!usuario.get().getRoles().contains(rolRepositorio.findByRole("ROLE_ADMIN").get())){
 				return new ResponseEntity<>("Ese usuario no tiene perfil admin", HttpStatus.BAD_REQUEST);	
 			}	
-		//	usuariosRolesRepositorio.deleteById(usuario.get().getId());
 			usuarioRepositorio.deleteById(usuario.get().getId());
 			return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
 		} else {
@@ -117,12 +122,9 @@ public class GestionUsuariosController {
 		
 		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
 		if (usuario.isPresent()) {
+			
 			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO.setNombre(usuario.get().getNombre());
-			usuarioDTO.setUsername(usuario.get().getUsername());
-			usuarioDTO.setEmail(usuario.get().getEmail());
-			usuarioDTO.setPassword(passwordEncoder.encode(usuario.get().getPassword()));
-			usuarioDTO.setId(usuario.get().getId());
+			usuarioDTO = convertDTO(usuario.get());
 			return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
 		}else {
 			new UsernameNotFoundException("Metodo /get/user{username} Usuario no encontrado con ese username o email : " + loginDTO.getUsernameOrEmail());
@@ -133,38 +135,65 @@ public class GestionUsuariosController {
 	}
 	@GetMapping("/get/users")
 	public ResponseEntity<?> getUsuarios( ){
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		List<UsuarioDTO> usuarioDTOList = new ArrayList();
 		List<Usuario> usuarioList = usuarioRepositorio.findAll();
-		return new ResponseEntity<> (usuarioList, HttpStatus.OK);
-	//	return new ResponseEntity<>("Usuario leido exitosamente /get/users",HttpStatus.OK);
+		Iterator<Usuario> it = usuarioList.iterator();
+		
+		while(it.hasNext()) {
+			usuarioDTO = convertDTO(it.next());
+			usuarioDTOList.add(usuarioDTO);
+			};
+		
+		return new ResponseEntity<> (usuarioDTOList, HttpStatus.OK);
 	}	
-	@PutMapping("/update/user{id}")
+	@PutMapping("/update/user{UsernameOrEmail}")
 	public ResponseEntity<?> UpdateUsuario(@RequestBody RegisterDTO registroDTO){
 		LoginDTO loginDTO =  new LoginDTO();
 		loginDTO.setUsernameOrEmail(registroDTO.getUsername());
 		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
-		if (usuario.isPresent()) {
+		usuario = usuarioRepositorio.findById(usuario.get().getId());
 			
-			rolRepositorio.findByRole(registroDTO.getPerfil());
-			Optional <Rol> rol = rolRepositorio.findByRole(registroDTO.getPerfil());
-			if (rol.isPresent()) {
-	//		usuariosRolesRepositorio.updateUserRole(rol.get().getId(),usuario.get().getId());
-			}
-			else {
-				return new ResponseEntity<> ("Metodo /update/user{id} Rol no encontrado: " +rol.get().getRole() ,HttpStatus.BAD_REQUEST);
-			}
-			usuarioRepositorio.updateUser(
-				   registroDTO.getEmail(),
-				   passwordEncoder.encode(registroDTO.getPassword()),
-			       registroDTO.getNombre(),
-			       registroDTO.getUsername(),
-			       usuario.get().getId());
-			usuario = usuarioRepositorio.findById(usuario.get().getId());
-		return new ResponseEntity<>(usuario.get(),HttpStatus.OK);
-		}else {
-			return new ResponseEntity<> ("Metodo /update/user{id} Usuario no encontrado con ese username o email : " ,HttpStatus.BAD_REQUEST);
-		} 
-			
+		rolRepositorio.findByRole(registroDTO.getPerfil());
+		Optional <Rol> rol = rolRepositorio.findByRole(registroDTO.getPerfil());
+		Set <Rol> sRole = new HashSet();
+		sRole.add(rol.get());
+		usuario.get().setRoles(sRole);		
+
+		usuario.get().setNombre(registroDTO.getNombre());
+		usuario.get().setUsername(registroDTO.getUsername());
+		usuario.get().setEmail(registroDTO.getEmail());
+		usuario.get().setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
+		usuario.get().setApellidos(registroDTO.getApellidos());
+		usuario.get().setDireccion(registroDTO.getDireccion());
+		usuario.get().setCodigoPostal(registroDTO.getCodigoPostal());
+		usuario.get().setPoblacion(registroDTO.getPoblacion());
+		usuario.get().setNacionalidad(registroDTO.getNacionalidad());
+		usuario.get().setEdad(registroDTO.getEdad());
+		usuario.get().setTelefono(registroDTO.getTelefono());
+		usuario.get().setIban(registroDTO.getIban());
+		
+		usuarioRepositorio.flush();
+		return new ResponseEntity<>(convertDTO(usuario.get()),HttpStatus.OK);		
 	
 	}
+	public UsuarioDTO convertDTO (Usuario usuario) {
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setNombre(usuario.getNombre());
+		usuarioDTO.setUsername(usuario.getUsername());
+		usuarioDTO.setEmail(usuario.getEmail());
+		usuarioDTO.setPassword(usuario.getPassword());
+		usuarioDTO.setId(usuario.getId());
+		usuarioDTO.setApellidos(usuario.getApellidos());
+		usuarioDTO.setCodigoPostal(usuario.getCodigoPostal());
+		usuarioDTO.setEdad(usuario.getEdad());
+		usuarioDTO.setNacionalidad(usuario.getNacionalidad());
+		usuarioDTO.setDireccion(usuario.getDireccion());
+		usuarioDTO.setPoblacion(usuario.getPoblacion());
+		usuarioDTO.setIban(usuario.getIban());
+		usuarioDTO.setRoles(usuario.getRoles());
+		return usuarioDTO;
+	}
+	
 
 }

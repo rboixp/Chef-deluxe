@@ -84,7 +84,7 @@ public class RegisterDTO {
 		this.perfil = perfil;
 	}
 
-	public String getNombre() {
+	public String Username() {
 		return nombre;
 	}
 
@@ -98,6 +98,9 @@ public class RegisterDTO {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	public String getNombre() {
+		return nombre;
 	}
 
 	public String getUsername() {

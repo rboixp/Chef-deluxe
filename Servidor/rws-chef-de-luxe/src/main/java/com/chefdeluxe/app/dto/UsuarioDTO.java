@@ -1,5 +1,10 @@
 package com.chefdeluxe.app.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.chefdeluxe.app.entidades.Rol;
+
 public class UsuarioDTO {
 	
 	private String nombre;
@@ -15,8 +20,15 @@ public class UsuarioDTO {
 	private int edad;
 	private long telefono;
 	private String iban;
+	private Set<Rol> roles;
 	
 	
+	public Set<Rol> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Rol> roles) {
+		this.roles = roles;
+	}
 	public String getApellidos() {
 		return apellidos;
 	}
