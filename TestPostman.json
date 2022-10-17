@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "5407ff47-f22d-40a9-ac5c-fc81650d0145",
+		"name": "Test Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23897352"
+	},
+	"item": [
+		{
+			"name": "SESION",
+			"item": [
+				{
+					"name": "http://localhost:8080/api/auth/registrar",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"pepe\",\r\n    \"email\": \"pepe2@mail.com\",\r\n    \"username\": \"pepe2\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"Apellidos\": \"perez lopez\",\r\n\t\"Direccion\": \"Tarragona 108\",\r\n\t\"CodigoPostal\": \"08001\",\r\n\t\"Poblacion\": \"Barcelona\",\r\n\t\"Nacionalidad\": \"Española\",\r\n\t\"Edad\": \"55\",\r\n\t\"Telefono\": \"689485652\",\r\n    \"Iban\": \"ES2114650100722030876293\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/registrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"registrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/auth/iniciarSesion",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"paco\",\r\n    \"password\": \"password\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/iniciarSesion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"iniciarSesion"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CRUD",
+			"item": [
+				{
+					"name": "http://localhost:8080/api/users/get/user{username}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\" : \"tete\"\r\n    }\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/get/user{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"get",
+								"user{username}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/users/delete/user{username}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjJAbWFpbC5jb20iLCJpYXQiOjE2NjU4Njk2NzQsImV4cCI6MTY2NjQ3NDQ3NH0.OH2R8g4TtwdV0w4FAOIaoctF6hzu2mBH95n9TmPp39NfOaMFRT7nY4_hMfk8npc9uE-EihAS2Shyp3mklryYcQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"admin2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/delete/user{username}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"delete",
+								"user{username}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/users/get/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/get/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"get",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/users/update/user{id}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2FuaEBtYWlsLmNvbSIsImlhdCI6MTY2NTkxMjExNywiZXhwIjoxNjY2NTE2OTE3fQ._vYXJOD_qf2cxS0Eub69tZpRQbuiU9D9hsyPRmoKuTx3kkRNfhIYFdzlMMFBkKp7IRbUKr8mIy4-aegtSYRTzg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"joanh\",\r\n    \"email\": \"joanh@mail.com\",\r\n    \"username\": \"joanc\",\r\n    \"password\": \"chef\",\r\n    \"perfil\": \"ROLE_ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/update/user{id}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"update",
+								"user{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
