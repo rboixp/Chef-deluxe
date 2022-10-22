@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">ChefDeluxe</string>
+
+    <!-- Login -->
+
+    <string name="tv_title">Chef Deluxe</string>
+    <string name="hint_user">Usuario o correo electrónico</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btt_enter">Entrar</string>
+    <string name="tv_olvidado_session">¿Has olvidado tu contraseña?</string>
+    <string name="tv_register">¿No tienes una cuenta? <b>Regístrate</b>.</string>
+    <string name="tv_failed_user_pass">El correo electrónico o la contraseña no son correctos. Inténtalo de nuevo.</string>
+    <string name="tv_empty_user_pass">El correo electrónico o la contraseña están vacíos. </string>
+    <string name="img_content_description_fail">El correo electrónico o la contraseña están vacíos. </string>
+
+    <string name="tv_data_user">%1$s %2$s</string>
+
+    <!-- Interface Admin -->
+    <string name="tv_title_admin">Administrador</string>
+
+    <!-- Interface Cocinero -->
+    <string name="tv_title_cocinero">Cocinero</string>
+
+    <!-- Interface Cliente -->
+    <string name="tv_title_cliente">Cliente</string>
+
+
+    <!-- Errors-->
+    <string name="codigo_200">"La solicitud ha tenido éxito."</string>
+    <string name="codigo_500">"El correo electrónico o la contraseña no son correctos."</string>
+    <string name="codigo_401">"Carece de credenciales validas de autenticación."</string>
+
+    <string name="codigo_onFailure_connexion">"Fallo en la red. Comprueba la conexió."</string>
+    <string name="codigo_onFailure_conversion">"Problema de conversión."</string>
+    <string name="btt_logout">"Logout"</string>
+    <string name="btt_options">"Opciones"</string>
+
+
+</resources>
