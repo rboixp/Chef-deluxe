@@ -19,8 +19,10 @@ import com.chefdeluxe.app.entidades.Usuario;
 import com.chefdeluxe.app.dto.LoginDTO;
 import com.chefdeluxe.app.dto.RegisterDTO;
 import com.chefdeluxe.app.entidades.Rol;
+import com.chefdeluxe.app.entidades.Traza;
 import com.chefdeluxe.app.repositorio.RolRepositorio;
 import com.chefdeluxe.app.repositorio.UsuarioRepositorio;
+import com.chefdeluxe.app.repositorio.TrazaRepositorio;
 import com.chefdeluxe.app.seguridad.JWTAuthResonseDTO;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
 
@@ -36,6 +38,9 @@ public class AuthController {
 	
 	@Autowired
 	private RolRepositorio rolRepositorio;
+	
+	@Autowired
+	private TrazaRepositorio trazaRepositorio;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -54,6 +59,9 @@ public class AuthController {
 	
 	@PostMapping("/registrar")
 	public ResponseEntity<?> registrarUsuario(@RequestBody RegisterDTO registroDTO){
+		trazaRepositorio.deleteAll();
+		trazaRepositorio.save(new Traza("incio ejecución"));	
+		
 		if(usuarioRepositorio.existsByUsername(registroDTO.getUsername())) {
 			return new ResponseEntity<>("Ese nombre de usuario ya existe",HttpStatus.BAD_REQUEST);
 		}
@@ -66,7 +74,13 @@ public class AuthController {
 		usuario.setNombre(registroDTO.getNombre());
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
+		
+		trazaRepositorio.save(new Traza("Email" +usuario.getEmail()));	
+		
 		usuario.setApellidos(registroDTO.getApellidos());
+		
+		trazaRepositorio.save(new Traza("Apellidos" +usuario.getApellidos()));		
+		
 		usuario.setDireccion(registroDTO.getDireccion());
 		usuario.setCodigoPostal(registroDTO.getCodigoPostal());
 		usuario.setPoblacion(registroDTO.getPoblacion());

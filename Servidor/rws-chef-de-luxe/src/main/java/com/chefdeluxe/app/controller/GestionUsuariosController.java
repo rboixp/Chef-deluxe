@@ -133,15 +133,15 @@ public class GestionUsuariosController {
 	}
 	
 	@GetMapping("/get/user{username}")
-	public ResponseEntity<?>  getUsuario(@RequestBody LoginDTO loginDTO){
+	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail, @RequestParam String password){		
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
 		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
 		
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
+		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
 		 if (!usuario.isPresent()) {
-			 return new ResponseEntity<>("usuario <"  +loginDTO.getUsernameOrEmail() +"> no encontrado" , HttpStatus.BAD_REQUEST);
+			 return new ResponseEntity<>("usuario <"  +usernameOrEmail +"> no encontrado" , HttpStatus.BAD_REQUEST);
 		 }
 		if (nameJWT.equals(usuario.get().getEmail())) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO();
