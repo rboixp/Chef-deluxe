@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -99,9 +100,7 @@ public class GestionUsuariosController {
 		
 		
 		Rol roles = rolRepositorio.findByRole(registroDTO.getPerfil()).get();
-		System.out.println("roles" +roles +" Collections.singleton(roles)" +Collections.singleton(roles));
 		usuario.setRoles(Collections.singleton(roles));	
-		System.out.println("userRoles" +usuario.getRoles()); 
 		usuarioRepositorio.save(usuario);
 		return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
 	}
@@ -114,8 +113,8 @@ public class GestionUsuariosController {
 
 		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
 
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),
-				loginDTO.getUsernameOrEmail());
+		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
+
 
 		if (nameJWT.equals(usuario.get().getEmail())) {
 			usuarioRepositorio.deleteById(usuario.get().getId());
@@ -141,7 +140,9 @@ public class GestionUsuariosController {
 		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
 		
 		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
-		
+		 if (!usuario.isPresent()) {
+			 return new ResponseEntity<>("usuario <"  +loginDTO.getUsernameOrEmail() +"> no encontrado" , HttpStatus.BAD_REQUEST);
+		 }
 		if (nameJWT.equals(usuario.get().getEmail())) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO();
 			usuarioDTO = convertDTO(usuario.get());

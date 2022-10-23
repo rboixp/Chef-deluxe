@@ -66,8 +66,6 @@ public class AuthController {
 		usuario.setNombre(registroDTO.getNombre());
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
-		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
-		
 		usuario.setApellidos(registroDTO.getApellidos());
 		usuario.setDireccion(registroDTO.getDireccion());
 		usuario.setCodigoPostal(registroDTO.getCodigoPostal());
@@ -76,13 +74,9 @@ public class AuthController {
 		usuario.setEdad(registroDTO.getEdad());
 		usuario.setTelefono(registroDTO.getTelefono());
 		usuario.setIban(registroDTO.getIban());
-		
-
-	//	Rol roles = rolRepositorio.findByRole("ROLE_ADMIN").get();
+		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));			
 		Rol roles = rolRepositorio.findByRole(registroDTO.getPerfil()).get();
-		System.out.println("roles" +roles.toString() +" Collections.singleton(roles)" +Collections.singleton(roles).toString());
 		usuario.setRoles(Collections.singleton(roles));	
-		System.out.println("userRoles" +usuario.getRoles().toString());		
 		usuarioRepositorio.save(usuario);
 		return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
 	}
