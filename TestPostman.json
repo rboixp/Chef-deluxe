@@ -25,7 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"pepe\",\r\n    \"email\": \"pepe2@mail.com\",\r\n    \"username\": \"pepe2\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"Apellidos\": \"perez lopez\",\r\n\t\"Direccion\": \"Tarragona 108\",\r\n\t\"CodigoPostal\": \"08001\",\r\n\t\"Poblacion\": \"Barcelona\",\r\n\t\"Nacionalidad\": \"Española\",\r\n\t\"Edad\": \"55\",\r\n\t\"Telefono\": \"689485652\",\r\n    \"Iban\": \"ES2114650100722030876293\"\r\n}"
+							"raw": "{\r\n    \"nombre\": \"maria\",\r\n    \"email\": \"maria@mail.com\",\r\n    \"username\": \"maria\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"jan joan\",\r\n\t\"direccion\": \"jan 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"26\",\r\n\t\"telefono\": \"666666667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/auth/registrar",
@@ -59,7 +59,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"paco\",\r\n    \"password\": \"password\"\r\n}"
+							"raw": "{\r\n    \"usernameOrEmail\": \"maria\",\r\n    \"password\": \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/auth/iniciarSesion",
@@ -84,12 +84,16 @@
 			"item": [
 				{
 					"name": "http://localhost:8080/api/users/get/user{username}",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2NjE5OTY1NCwiZXhwIjoxNjY2ODA0NDU0fQ.ByOeX7buvcSrnb02EsIQ_fCiA_NfFvqmxO1z1jA9_KvE1cypi-gKtyCKz2axEiCVJMYysPgFdZsXeZWrTzon2Q",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -99,12 +103,8 @@
 								"type": "default"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\" : \"tete\"\r\n    }\r\n"
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/get/user{username}",
+							"raw": "http://localhost:8080/api/users/get/user?usernameOrEmail=\"maria\"&password=\"password\"",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -114,7 +114,17 @@
 								"api",
 								"users",
 								"get",
-								"user{username}"
+								"user"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "\"maria\""
+								},
+								{
+									"key": "password",
+									"value": "\"password\""
+								}
 							]
 						}
 					},
@@ -128,7 +138,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjJAbWFpbC5jb20iLCJpYXQiOjE2NjU4Njk2NzQsImV4cCI6MTY2NjQ3NDQ3NH0.OH2R8g4TtwdV0w4FAOIaoctF6hzu2mBH95n9TmPp39NfOaMFRT7nY4_hMfk8npc9uE-EihAS2Shyp3mklryYcQ",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpYUBtYWlsLmNvbSIsImlhdCI6MTY2NjUxMDY1MywiZXhwIjoxNjY3MTE1NDUzfQ.LfSa2hAOpzaNjGaXsIm9JE1o58vguHUZ5KALvT-_bdw0SdoC_zt8Ji-9q1jXfcFCA9VCbsg4PssUxFpmr5vWWw",
 									"type": "string"
 								}
 							]
@@ -137,7 +147,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"admin2\"\r\n}",
+							"raw": "{\r\n    \"usernameOrEmail\": \"maria\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -164,8 +174,24 @@
 				{
 					"name": "http://localhost:8080/api/users/get/users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2NjIxNTM3MSwiZXhwIjoxNjY2ODIwMTcxfQ.FqXZs5iQhI3la41DEImKMcLDHRTK7IwZcUbQKwUVwqecNyyUQgb3uo4YQw0ekupAGw4G3qloHLcTXFuE2z5o7Q",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8080/api/users/get/users",
 							"protocol": "http",
@@ -191,7 +217,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjYXJsb3NAbWFpbC5jb20iLCJpYXQiOjE2NjYwMzkzNDMsImV4cCI6MTY2NjY0NDE0M30.91u5FMDVPvq_ccWrxUmGb6VScAUyzmvvt6yCtSIVk1iSWK71dsJfsaZRQpkJ0Srd7nrDhFiBr_0v2JizQkOglQ",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnRAbWFpbC5jb20iLCJpYXQiOjE2NjYxOTk2MzksImV4cCI6MTY2NjgwNDQzOX0.LFwIQzdnkgYs6GJnStWg4WLWqozGzMrjDVjX6q09aTRtNVHRU3mLT0XM1-gZ5FaHeREwR2KM9HzPnshj38PyYA",
 									"type": "string"
 								}
 							]
@@ -206,7 +232,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"carlos1\",\r\n    \"email\": \"carlos@mail.com1\",\r\n    \"username\": \"carlos\",\r\n    \"password\": \"password1\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"lopez lopez1\",\r\n\t\"direccion\": \"Bailen 131\",\r\n\t\"codigoPostal\": \"080021\",\r\n\t\"poblacion\": \"Tarragona1\",\r\n\t\"nacionalidad\": \"Catalana1\",\r\n\t\"edad\": \"21\",\r\n\t\"telefono\": \"666666661\",\r\n    \"iban\": \"ES2114650100XXX030876291\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"client\",\r\n    \"email\": \"client@mail.com1\",\r\n    \"username\": \"client\",\r\n    \"password\": \"password1\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"client \",\r\n\t\"direccion\": \"Bailen 131\",\r\n\t\"codigoPostal\": \"080021\",\r\n\t\"poblacion\": \"Tarragona1\",\r\n\t\"nacionalidad\": \"Catalana1\",\r\n\t\"edad\": \"21\",\r\n\t\"telefono\": \"666666661\",\r\n    \"iban\": \"ES2114650100XXX030876291\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -238,7 +264,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2FuQG1haWwuY29tIiwiaWF0IjoxNjY2MDQwMzYwLCJleHAiOjE2NjY2NDUxNjB9.tveG4beWMXw5lWSU8dbSGddoP3vKZyKTh7BFrMgR-C7AlKC_rAZwnz8F5cMxQCkw4hYDz3ARh33KT5OEXddepw",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2NjE5OTY1NCwiZXhwIjoxNjY2ODA0NDU0fQ.ByOeX7buvcSrnb02EsIQ_fCiA_NfFvqmxO1z1jA9_KvE1cypi-gKtyCKz2axEiCVJMYysPgFdZsXeZWrTzon2Q",
 									"type": "string"
 								}
 							]
@@ -253,7 +279,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"jan\",\r\n    \"email\": \"jan@mail.com\",\r\n    \"username\": \"jan\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"jan joan\",\r\n\t\"direccion\": \"jan 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"26\",\r\n\t\"telefono\": \"666666667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"maria\",\r\n    \"email\": \"maria@mail.com\",\r\n    \"username\": \"maria\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"jan joan\",\r\n\t\"direccion\": \"jan 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"26\",\r\n\t\"telefono\": \"666666667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -267,6 +293,313 @@
 								"localhost"
 							],
 							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"create",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PROD",
+			"item": [
+				{
+					"name": "Consulta por usuario",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDYwNzU2LCJleHAiOjE2NjcwNjU1NTZ9.qjPciwuHzhI54TcwkwlEK5rTDKjXIom3bZ_YqJ6Ss-Wmj4MTZd5w0Gt96anCSaTRdRIL48bpQPgSlgYdjrhlug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"anna789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/user",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"get",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDc3Mzg2LCJleHAiOjE2NjcwODIxODZ9.wEBgqbqte9mbBXyp91HR0_rMdSx_HUvVeUs-ZXo63r-obavCXODe_XHPJsl6XltkZ5tS7yH5TFF_6XVyN9AwrA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"anna789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/users",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"get",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"miriam\",\r\n    \"email\": \"miriam@mail.com\",\r\n    \"username\": \"miriam\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"Apellidos\": \"Perez Lopez\",\r\n\t\"Direccion\": \"Europoa 23 3 1\",\r\n\t\"CodigoPostal\": \"08242\",\r\n\t\"Poblacion\": \"Manresa\",\r\n\t\"Nacionalidad\": \"Española\",\r\n\t\"Edad\": \"25\",\r\n\t\"Telefono\": \"689898989\",\r\n    \"Iban\": \"ES2114650100722030876293\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/auth/registrar",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"registrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Iniciar Sesion",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"anna789\",\r\n    \"password\": \"password\"\r\n}"
+						},
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/auth/iniciarSesion",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"iniciarSesion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualiza usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDYwNzU2LCJleHAiOjE2NjcwNjU1NTZ9.qjPciwuHzhI54TcwkwlEK5rTDKjXIom3bZ_YqJ6Ss-Wmj4MTZd5w0Gt96anCSaTRdRIL48bpQPgSlgYdjrhlug",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Anna\",\r\n    \"email\": \"anna789@mail.com\",\r\n    \"username\": \"anna789\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"Apellidos\": \"Perez Lopez\",\r\n\t\"Direccion\": \"Europoa 23 3 1\",\r\n\t\"CodigoPostal\": \"08242\",\r\n\t\"Poblacion\": \"Manresa\",\r\n\t\"Nacionalidad\": \"Española\",\r\n\t\"Edad\": \"25\",\r\n\t\"Telefono\": \"689898989\",\r\n    \"Iban\": \"ES2114650100722030876293\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/update/user{username}",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"update",
+								"user{username}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDc3Mzg2LCJleHAiOjE2NjcwODIxODZ9.wEBgqbqte9mbBXyp91HR0_rMdSx_HUvVeUs-ZXo63r-obavCXODe_XHPJsl6XltkZ5tS7yH5TFF_6XVyN9AwrA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"maria789@mail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/delete/user{username}",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"delete",
+								"user{username}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear usuario CRUD",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NTIwNDYzLCJleHAiOjE2NjcxMjUyNjN9.-23_v0l2Rfi2in9JETmgvg8mqLEV4Tv0yGiS4-ucCuFWiNKak0ZyjqMIo7087JBYYKxI3LNxxI2Bs_-mjtVmKw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Maria\",\r\n    \"email\": \"maria789@mail.com\",\r\n    \"username\": \"maria\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"Apellidos\": \"Perez Lopez\",\r\n\t\"Direccion\": \"Europoa 23 3 1\",\r\n\t\"CodigoPostal\": \"08242\",\r\n\t\"Poblacion\": \"Manresa\",\r\n\t\"Nacionalidad\": \"Española\",\r\n\t\"Edad\": \"25\",\r\n\t\"Telefono\": \"689898989\",\r\n    \"Iban\": \"ES2114650100722030876293\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/create/user",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
 							"path": [
 								"api",
 								"users",

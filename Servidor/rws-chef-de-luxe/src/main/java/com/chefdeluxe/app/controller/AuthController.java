@@ -75,14 +75,17 @@ public class AuthController {
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
 		
-		trazaRepositorio.save(new Traza("Email" +usuario.getEmail()));	
+		trazaRepositorio.save(new Traza("Email " +usuario.getEmail()));	
 		
 		usuario.setApellidos(registroDTO.getApellidos());
 		
-		trazaRepositorio.save(new Traza("Apellidos" +usuario.getApellidos()));		
+		trazaRepositorio.save(new Traza("Apellidos " +usuario.getApellidos()));		
 		
 		usuario.setDireccion(registroDTO.getDireccion());
+		trazaRepositorio.save(new Traza("Direccion " +usuario.getDireccion()));	
+		
 		usuario.setCodigoPostal(registroDTO.getCodigoPostal());
+		
 		usuario.setPoblacion(registroDTO.getPoblacion());
 		usuario.setNacionalidad(registroDTO.getNacionalidad());
 		usuario.setEdad(registroDTO.getEdad());
