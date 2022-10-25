@@ -14,6 +14,14 @@ public class Login {
     @Expose
     private String password;
 
+    public Login() {
+
+    }
+
+    public Login(String usernameOrEmail) {
+        this.usernameOrEmail = usernameOrEmail;
+    }
+
     public String getUsernameOrEmail() {
         return usernameOrEmail;
     }

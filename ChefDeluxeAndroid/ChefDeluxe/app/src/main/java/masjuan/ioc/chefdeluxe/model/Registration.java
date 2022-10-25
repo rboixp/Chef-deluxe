@@ -3,66 +3,48 @@ package masjuan.ioc.chefdeluxe.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Set;
+public class Registration {
 
-public class User {
 
     @SerializedName("nombre")
     @Expose
     private String nombre;
-
-    @SerializedName("username")
-    @Expose
-    private String username;
-
     @SerializedName("email")
     @Expose
     private String email;
-
+    @SerializedName("username")
+    @Expose
+    private String username;
     @SerializedName("password")
     @Expose
     private String password;
-
-    @SerializedName("id")
+    @SerializedName("perfil")
     @Expose
-    private Long id;
-
+    private String perfil;
     @SerializedName("apellidos")
     @Expose
     private String apellidos;
-
     @SerializedName("direccion")
     @Expose
     private String direccion;
-
     @SerializedName("codigoPostal")
     @Expose
     private int codigoPostal;
-
     @SerializedName("poblacion")
     @Expose
     private String poblacion;
-
     @SerializedName("nacionalidad")
     @Expose
     private String nacionalidad;
-
     @SerializedName("edad")
     @Expose
     private int edad;
-
     @SerializedName("telefono")
     @Expose
     private long telefono;
-
     @SerializedName("iban")
     @Expose
     private String iban;
-
-    @SerializedName("roles")
-    @Expose
-    private Set<Role> roles;
-
 
     public String getNombre() {
         return nombre;
@@ -70,14 +52,6 @@ public class User {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {
@@ -88,6 +62,14 @@ public class User {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -96,12 +78,12 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
+    public String getPerfil() {
+        return perfil;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
     public String getApellidos() {
@@ -168,11 +150,5 @@ public class User {
         this.iban = iban;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }

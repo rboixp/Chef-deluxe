@@ -54,8 +54,7 @@ public class CookFragment extends Fragment {
             return super.onOptionsItemSelected(item);
         });
 
-        b.toolbar.setNavigationOnClickListener(view1 ->Toast.makeText(getActivity(), "Endarrera", Toast.LENGTH_SHORT).show() );
-
+        b.toolbar.setNavigationOnClickListener(view1 -> Toast.makeText(getActivity(), "Endarrera", Toast.LENGTH_SHORT).show());
     }
 
     // Mètode que modifica el menu de forma dinàmica
@@ -72,6 +71,4 @@ public class CookFragment extends Fragment {
                 //.addToBackStack(null)
                 .commit();
     }
-
-
 }
