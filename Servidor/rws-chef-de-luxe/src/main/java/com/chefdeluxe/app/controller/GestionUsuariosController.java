@@ -132,7 +132,7 @@ public class GestionUsuariosController {
 
 	}
 	
-	@GetMapping("/get/user{username}")
+	@GetMapping("/get/user")
 	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail, @RequestParam String password){		
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
