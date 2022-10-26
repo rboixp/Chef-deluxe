@@ -21,9 +21,4 @@ public interface ApiServiceToken {
     @GET(RUTA_USER + "get/user")
     Call<User> getRol(@Query("usernameOrEmail") String usernameOrEmail, @Query("password") String password);
 
-    //
-    // **proves
-    @GET(RUTA_USER + "get/user")
-    Call<Role> getRoleFinal(@Query("usernameOrEmail") String usernameOrEmail, @Query("password") String password);
-
 }

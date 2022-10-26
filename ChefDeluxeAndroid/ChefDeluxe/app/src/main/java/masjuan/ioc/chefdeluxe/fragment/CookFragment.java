@@ -12,11 +12,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import masjuan.ioc.chefdeluxe.R;
+import masjuan.ioc.chefdeluxe.api.ApiClientToken;
 import masjuan.ioc.chefdeluxe.databinding.FragmentCookBinding;
+import masjuan.ioc.chefdeluxe.utils.FragmentUtils;
+import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
 
 public class CookFragment extends Fragment {
-
+    private FragmentUtils frag = null;
     private FragmentCookBinding b;
+    private SharedPreferences preferences;
 
     public CookFragment() {
         // Required empty public constructor
@@ -29,12 +33,13 @@ public class CookFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        frag = new FragmentUtils(requireActivity().getSupportFragmentManager());
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         b = FragmentCookBinding.inflate(inflater, container, false);
-
+        preferences = new SharedPreferences(requireActivity());
         return b.getRoot();
     }
 
@@ -65,10 +70,12 @@ public class CookFragment extends Fragment {
 
     // Mètode que fa de "logout", reemplacem el fragment
     public void logout() {
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.container, LoginFragment.newInstance(), null)
-                //.addToBackStack(null)
-                .commit();
+        preferences.cleanToken();
+        preferences.cleanUsername();
+        String token = preferences.getToken();
+        if (token.equals("")) {
+            ApiClientToken.deleteInstance();
+            frag.replaceFragment(R.id.container, LoginFragment.newInstance());
+        }
     }
 }

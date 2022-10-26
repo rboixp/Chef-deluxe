@@ -52,5 +52,4 @@ dependencies {
     // Biblioteca que registre les dades de sol.licitud i resposta de Httpp
     implementation("com.squareup.okhttp3:logging-interceptor")
 
-    implementation group: 'com.squareup.retrofit2', name: 'converter-scalars', version: '2.9.0'
 }

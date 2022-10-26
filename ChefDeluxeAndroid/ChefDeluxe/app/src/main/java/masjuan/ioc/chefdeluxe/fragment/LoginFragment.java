@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
+import java.util.Set;
 
 import masjuan.ioc.chefdeluxe.R;
 import masjuan.ioc.chefdeluxe.api.ApiClient;
@@ -20,6 +21,7 @@ import masjuan.ioc.chefdeluxe.api.ApiService;
 import masjuan.ioc.chefdeluxe.api.ApiServiceToken;
 import masjuan.ioc.chefdeluxe.databinding.FragmentLoginBinding;
 import masjuan.ioc.chefdeluxe.model.Login;
+import masjuan.ioc.chefdeluxe.model.Role;
 import masjuan.ioc.chefdeluxe.model.Token;
 import masjuan.ioc.chefdeluxe.model.User;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
@@ -34,12 +36,10 @@ public class LoginFragment extends Fragment {
 
     private String usernameInput;
     private String passwordInput;
-
     private FragmentLoginBinding b;
     private FragmentUtils frag = null;
     private SharedPreferences preferences;
-
-    ApiCodes apiCodes = new ApiCodes();
+    private ApiCodes apiCodes = new ApiCodes();
 
     public LoginFragment() {
         // Required empty public constructor
@@ -115,11 +115,10 @@ public class LoginFragment extends Fragment {
                             preferences.setToken(token);
                             preferences.setUsername(usernameInput);
                             preferences.setPassword(passwordInput);
-                            getRol(preferences.getUsername(), preferences.getPassword());
 
-
-                            // Replaçem el fragment per el de l'usuari que ha iniciat sessió
                             //frag.replaceFragment(R.id.container, AdminFragment.newInstance());
+                            getUser(preferences.getUsername(), preferences.getPassword());
+
                         }
                     }
                 } else {
@@ -134,31 +133,39 @@ public class LoginFragment extends Fragment {
                 // Comprova si l'objecte t es una classe
                 if (t instanceof IOException) {
                     Log.v("Código", getResources().getString(R.string.codigo_onFailure_connexion));
-                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
+                    countDownTimer(getResources().getString(R.string.codigo_onFailure_connexion));
+                    //Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
 
                 } else {
                     Log.v("Código", getResources().getString(R.string.codigo_onFailure_conversion));
-                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_conversion), Toast.LENGTH_SHORT).show();
+                    countDownTimer(getResources().getString(R.string.codigo_onFailure_conversion));
+                    //Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_conversion), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     // Aconseguim el rol de l'usuari passat per parametre (parametre de l'ApiService)
-    private void getRol(String username, String password) {
+    private void getUser(String username, String password) {
         ApiServiceToken apiServiceToke = ApiClientToken.getInstance(preferences.getToken());
 
-        Call<User> rol = apiServiceToke.getRol(username, password);
+        Call<User> user = apiServiceToke.getRol(username, password);
 
-        rol.enqueue(new Callback<User>() {
+        user.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
 
-                        // Fragment depenen del rol de cada usuari
-                        takeRol("ROLE_ADMIN"); // ROLE_ADMI, ROLE_CHEF, ROLE_CLIENT
+                        // Recuperem el rol
+                        Role rol = new Role();
+                        Set<Role> stRole = response.body().getRoles();
+                        stRole.add(rol);
 
+                        for (Role role : stRole) {
+                            takeRol((int) role.getId());
+                            // System.out.print("Id rol" + rol.getId() + "Nom rol" + role.getRole());
+                        }
 
                     } else {
                         Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -173,16 +180,18 @@ public class LoginFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 if (t instanceof IOException) {
-                    Log.v("Código", "Fallo en la red. Comprueba tu conexión");
-                    Toast.makeText(getActivity(), "Fallo en la red. Comprueba la conexión.", Toast.LENGTH_SHORT).show();
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_connexion));
+                    countDownTimer(getResources().getString(R.string.codigo_onFailure_connexion));
+
 
                 } else {
-                    Log.v("Código", "Problema de conversión2.");
-                    Toast.makeText(getActivity(), "Problema de conversión2.", Toast.LENGTH_SHORT).show();
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_conversion));
+                    countDownTimer(getResources().getString(R.string.codigo_onFailure_conversion));
                 }
             }
         });
     }
+
 
     // Dades del login
     @NonNull
@@ -194,17 +203,16 @@ public class LoginFragment extends Fragment {
     }
 
     // Depenen del rol de l'usuari va a un fragment o un altre
-    private void takeRol(@NonNull String role) {
+    private void takeRol(int idRol) {
         // Replaçem el fragment per el de l'usuari que ha iniciat sessió
-        if (role.equals(getResources().getString(R.string.name_rol_admin))) {
+        if (idRol == 1) { // Admin
             frag.replaceFragment(R.id.container, AdminFragment.newInstance());
-        } else if (role.equals(getResources().getString(R.string.name_rol_client))) {
-            frag.replaceFragment(R.id.container, ClientFragment.newInstance());
-        } else if (role.equals(getResources().getString(R.string.name_rol_chef))) {
+        } else if (idRol == 2) { // Chef
             frag.replaceFragment(R.id.container, CookFragment.newInstance());
+        } else if (idRol == 3) { // Client
+            frag.replaceFragment(R.id.container, ClientFragment.newInstance());
         }
     }
-
 
     // Mètode que mostra i oculta un tv al fallar el login
     private void countDownTimer(String errorLogin) {

@@ -1,5 +1,7 @@
 package masjuan.ioc.chefdeluxe.api;
 
+import static masjuan.ioc.chefdeluxe.utils.VariablesGlobales.urlBase;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -11,12 +13,9 @@ import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClientToken {
     private static ApiServiceToken API_SERVICE;
-
-    public static final String BASE_URL = "http://ip:8080";
 
     public static synchronized ApiServiceToken getInstance(final String tokenDeAcceso) {
 
@@ -30,7 +29,7 @@ public class ApiClientToken {
             Interceptor headerInterceptor = chain -> {
                 Request newRequest = chain.request().newBuilder()   // Request , li enviem els Headers
                         .addHeader("Accept", "application/json")
-                        .addHeader("Authorization", "Bearer " + tokenDeAcceso) // Amb el Bearer?
+                        .addHeader("Authorization", "Bearer " + tokenDeAcceso)
                         .build();
                 return chain.proceed(newRequest);
             };
@@ -47,9 +46,8 @@ public class ApiClientToken {
 
             // Crear Retrofit Builder
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(urlBase)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .addConverterFactory(ScalarsConverterFactory.create())
                     .client(okHttpBuilder.build())
                     .build();
 

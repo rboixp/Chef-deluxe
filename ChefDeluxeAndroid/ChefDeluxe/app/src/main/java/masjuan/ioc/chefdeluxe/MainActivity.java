@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Infla el disseny .xml
         // Crida la classe d'enllaç .xml
-        masjuan.ioc.chefdeluxe.databinding.ActivityMainBinding b = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding b = ActivityMainBinding.inflate(getLayoutInflater());
         // Vista de contingut del disseny
         setContentView(b.getRoot());
 
