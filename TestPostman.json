@@ -59,7 +59,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"maria\",\r\n    \"password\": \"password\"\r\n}"
+							"raw": "{\r\n    \"usernameOrEmail\": \"pereName\",\r\n    \"password\": \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/auth/iniciarSesion",
@@ -145,17 +145,8 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"maria\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/delete/user{username}",
+							"raw": "http://localhost:8080/api/users/delete/user?usernameOrEmail=pereName",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -165,7 +156,13 @@
 								"api",
 								"users",
 								"delete",
-								"user{username}"
+								"user"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "pereName"
+								}
 							]
 						}
 					},
@@ -217,7 +214,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnRAbWFpbC5jb20iLCJpYXQiOjE2NjYxOTk2MzksImV4cCI6MTY2NjgwNDQzOX0.LFwIQzdnkgYs6GJnStWg4WLWqozGzMrjDVjX6q09aTRtNVHRU3mLT0XM1-gZ5FaHeREwR2KM9HzPnshj38PyYA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXJlQG1haWwuY29tIiwiaWF0IjoxNjY2Nzk3NDk3LCJleHAiOjE2Njc0MDIyOTd9.US0-4THjuepVmzi424Mtwe_pccBjBu4oQBl4gmqS9T0zblo7cjTdn8YUMv8ZYlmakZWSvsZ9sYZPFaXmU9k0Nw",
 									"type": "string"
 								}
 							]
@@ -232,7 +229,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"client\",\r\n    \"email\": \"client@mail.com1\",\r\n    \"username\": \"client\",\r\n    \"password\": \"password1\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"client \",\r\n\t\"direccion\": \"Bailen 131\",\r\n\t\"codigoPostal\": \"080021\",\r\n\t\"poblacion\": \"Tarragona1\",\r\n\t\"nacionalidad\": \"Catalana1\",\r\n\t\"edad\": \"21\",\r\n\t\"telefono\": \"666666661\",\r\n    \"iban\": \"ES2114650100XXX030876291\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"pere\",\r\n    \"email\": \"pere@mail.com\",\r\n    \"username\": \"pereName2\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"perez perez\",\r\n\t\"direccion\": \"llibertat 12\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent de llobregat\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"99\",\r\n\t\"telefono\": \"666566667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -240,7 +237,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/update/user{username}",
+							"raw": "http://localhost:8080/api/users/update/user?usernameOrEmail=pereName",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -250,7 +247,13 @@
 								"api",
 								"users",
 								"update",
-								"user{username}"
+								"user"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "pereName"
+								}
 							]
 						}
 					},
@@ -279,7 +282,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"maria\",\r\n    \"email\": \"maria@mail.com\",\r\n    \"username\": \"maria\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"jan joan\",\r\n\t\"direccion\": \"jan 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"26\",\r\n\t\"telefono\": \"666666667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"joanjo\",\r\n    \"email\": \"joanjo@mail.com\",\r\n    \"username\": \"joanjo\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"666566668\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -327,16 +330,11 @@
 						"method": "GET",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"anna789\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"mode": "formdata",
+							"formdata": []
 						},
 						"url": {
-							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/user",
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/user?usernameOrEmail=joanjo",
 							"protocol": "http",
 							"host": [
 								"awschefdeluxe-env",
@@ -350,6 +348,17 @@
 								"users",
 								"get",
 								"user"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "joanjo"
+								},
+								{
+									"key": "password",
+									"value": " ",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -366,7 +375,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDc3Mzg2LCJleHAiOjE2NjcwODIxODZ9.wEBgqbqte9mbBXyp91HR0_rMdSx_HUvVeUs-ZXo63r-obavCXODe_XHPJsl6XltkZ5tS7yH5TFF_6XVyN9AwrA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2Fuam9AbWFpbC5jb20iLCJpYXQiOjE2NjcwMzM1NjIsImV4cCI6MTY2NzYzODM2Mn0.IpjywbxO7M_GNnX9LykB5O7mSt3u8qSFMTgT2AD46C3wwnxU17ppvfvh1vdiyDKlnTUDKq7xgoNTL-P7p7WMCg",
 									"type": "string"
 								}
 							]
@@ -374,13 +383,8 @@
 						"method": "GET",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"anna789\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"mode": "formdata",
+							"formdata": []
 						},
 						"url": {
 							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/users",
@@ -451,7 +455,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"anna789\",\r\n    \"password\": \"password\"\r\n}"
+							"raw": "{\r\n    \"usernameOrEmail\": \"joanjo\",\r\n    \"password\": \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/auth/iniciarSesion",
@@ -495,7 +499,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Anna\",\r\n    \"email\": \"anna789@mail.com\",\r\n    \"username\": \"anna789\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"Apellidos\": \"Perez Lopez\",\r\n\t\"Direccion\": \"Europoa 23 3 1\",\r\n\t\"CodigoPostal\": \"08242\",\r\n\t\"Poblacion\": \"Manresa\",\r\n\t\"Nacionalidad\": \"Española\",\r\n\t\"Edad\": \"25\",\r\n\t\"Telefono\": \"689898989\",\r\n    \"Iban\": \"ES2114650100722030876293\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"joanjo\",\r\n    \"email\": \"joanjo@mail.com\",\r\n    \"username\": \"joanjo\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 14\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"666566668\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -503,7 +507,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/update/user{username}",
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/update/user?usernameOrEmail=joanjo",
 							"protocol": "http",
 							"host": [
 								"awschefdeluxe-env",
@@ -516,7 +520,13 @@
 								"api",
 								"users",
 								"update",
-								"user{username}"
+								"user"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "joanjo"
+								}
 							]
 						}
 					},
@@ -530,7 +540,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDc3Mzg2LCJleHAiOjE2NjcwODIxODZ9.wEBgqbqte9mbBXyp91HR0_rMdSx_HUvVeUs-ZXo63r-obavCXODe_XHPJsl6XltkZ5tS7yH5TFF_6XVyN9AwrA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2Fuam9AbWFpbC5jb20iLCJpYXQiOjE2NjcwMzM1NjIsImV4cCI6MTY2NzYzODM2Mn0.IpjywbxO7M_GNnX9LykB5O7mSt3u8qSFMTgT2AD46C3wwnxU17ppvfvh1vdiyDKlnTUDKq7xgoNTL-P7p7WMCg",
 									"type": "string"
 								}
 							]
@@ -538,16 +548,11 @@
 						"method": "DELETE",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"maria789@mail.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"mode": "formdata",
+							"formdata": []
 						},
 						"url": {
-							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/delete/user{username}",
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/delete/user?usernameOrEmail=joanjo",
 							"protocol": "http",
 							"host": [
 								"awschefdeluxe-env",
@@ -560,7 +565,13 @@
 								"api",
 								"users",
 								"delete",
-								"user{username}"
+								"user"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "joanjo"
+								}
 							]
 						}
 					},
