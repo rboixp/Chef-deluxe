@@ -105,26 +105,26 @@ public class GestionUsuariosController {
 		return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/delete/user{username}")
-	public ResponseEntity<?> deleteUsuario(@RequestBody LoginDTO loginDTO) {
+	@DeleteMapping("/delete/user")
+	public ResponseEntity<?> deleteUsuario(@RequestParam String usernameOrEmail) {
 
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
 
 		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
 
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
+		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
 
 
 		if (nameJWT.equals(usuario.get().getEmail())) {
 			usuarioRepositorio.deleteById(usuario.get().getId());
-			return new ResponseEntity<>("Su usuarioase ha eliminado exitosamente", HttpStatus.OK);
+			return new ResponseEntity<>("Su usuarioa se ha eliminado exitosamente", HttpStatus.OK);
 		}
 
 		if (usuarioJWT.get().getRoles().contains(rolAdmin)) {
 			usuarioRepositorio.deleteById(usuario.get().getId());
 			return new ResponseEntity<>(
-					"El usuario " + loginDTO.getUsernameOrEmail() + "  se ha eliminado exitosamente", HttpStatus.OK);
+					"El usuario " + usernameOrEmail + "  se ha eliminado exitosamente", HttpStatus.OK);
 		}
 
 		return new ResponseEntity<>("Solo se permiten bajas del mismo usuario o usuario admin. Usuario " + nameJWT
@@ -133,7 +133,7 @@ public class GestionUsuariosController {
 	}
 	
 	@GetMapping("/get/user")
-	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail, @RequestParam String password){		
+	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail){		
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
@@ -182,19 +182,21 @@ public class GestionUsuariosController {
 		
 		return new ResponseEntity<> (usuarioDTOList, HttpStatus.OK);
 	}	
-	@PutMapping("/update/user{UsernameOrEmail}")
-	public ResponseEntity<?> UpdateUsuario(@RequestBody RegisterDTO registroDTO){
+	@PutMapping("/update/user")
+	public ResponseEntity<?> UpdateUsuario(@RequestParam String usernameOrEmail,@RequestBody RegisterDTO registroDTO
+			){
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
 		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
+		Optional<Usuario> usuarioModificar = usuarioRepositorio.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
 			
 		LoginDTO loginDTO =  new LoginDTO();
-		loginDTO.setUsernameOrEmail(registroDTO.getUsername());
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(loginDTO.getUsernameOrEmail(),loginDTO.getUsernameOrEmail());
+		loginDTO.setUsernameOrEmail(usernameOrEmail);
+		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(usuarioModificar.get().getUsername(),usuarioModificar.get().getEmail());
 		usuario = usuarioRepositorio.findById(usuario.get().getId());
 		
-		if (!usuarioJWT.get().getRoles().contains(rolAdmin) && !nameJWT.equals(usuario.get().getEmail())) {
+		if (!usuarioJWT.get().getRoles().contains(rolAdmin) && !nameJWT.equals(usuarioModificar.get().getEmail())) {
 			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar" , HttpStatus.BAD_REQUEST);
 		}
 			
