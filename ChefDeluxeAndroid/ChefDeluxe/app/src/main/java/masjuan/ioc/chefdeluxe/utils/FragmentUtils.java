@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import java.util.Objects;
-
 public class FragmentUtils {
     private final FragmentManager mFragmentManager;
 
@@ -33,27 +31,20 @@ public class FragmentUtils {
     public void removeFragment(String tag) {
         removeFragment(mFragmentManager, tag);
     }
-/*
-    public <T> T getFragmentByTag(Class<T> fragmentClass, String tag) {
-        return getFragmentByTag(mFragmentManager, fragmentClass, tag);
-    }
-*/
 
     //
     public void popBackStack(FragmentManager manager) {
         if (!manager.isStateSaved()) {
             manager.popBackStack();
         }
-
     }
 
-    ///////
+    //
     public static void addFragment(FragmentManager manager, int containerId, Fragment fragment, String tag) {
         if (!manager.isStateSaved()) {
             manager.beginTransaction().add(containerId, fragment, tag).commit();
         }
     }
-
 
     public static void replaceFragment(FragmentManager manager, int containerId, Fragment fragment, String tag) {
         manager.beginTransaction().replace(containerId, fragment, tag).addToBackStack(tag).commit();
@@ -88,5 +79,10 @@ public class FragmentUtils {
         return null;
     }
 
+
+    public <T> T getFragmentByTag(Class<T> fragmentClass, String tag) {
+        return getFragmentByTag(mFragmentManager, fragmentClass, tag);
+    }
      */
+
 }

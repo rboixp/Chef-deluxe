@@ -12,6 +12,9 @@
     <string name="tv_failed_user_pass">El correo electrónico o la contraseña no son correctos. Inténtalo de nuevo.</string>
     <string name="tv_empty_user_pass">El correo electrónico o la contraseña están vacíos. </string>
     <string name="img_content_description_fail">El correo electrónico o la contraseña están vacíos. </string>
+    <string name="name_rol_admin">"ROLE_ADMIN"</string>
+    <string name="name_rol_chef">"ROLE_CHEF"</string>
+    <string name="name_rol_client">"ROLE_CLIENT"</string>
 
     <string name="tv_data_user">%1$s %2$s</string>
 
@@ -34,6 +37,15 @@
     <string name="codigo_onFailure_conversion">"Problema de conversión."</string>
     <string name="btt_logout">"Logout"</string>
     <string name="btt_options">"Opciones"</string>
+
+
+    <!-- Register -->
+    <string name="tv_register_login">¿Ya tienes una cuenta? <b>Inicia sessión</b>.</string>
+    <string name="tv_register_pass_requirement">Tu contraseña debe contener al menos 8 caracteres i incluir un número o un caràcter especial.</string>
+    <string name="btt_register_acc_create">Crear cuenta</string>
+    <string name="btt_register_select_rol">Seleccionar un rol</string>
+    <string name="btt_register_rol_client">Cliente</string>
+    <string name="btt_register_rol_cook">Cocinero</string>
 
 
 </resources>

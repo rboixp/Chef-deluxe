@@ -22,13 +22,13 @@ public class SharedPreferences {
         editor.apply(); // Canvia l'objecte SharedPreferences en la memoria al moment, en forma asíncrona.
     }
 
-    public void setUsername(String llave, String valor) {
-        editor.putString(llave, valor);
+    public void setUsername(String valor) {
+        editor.putString(fichero + "username", valor);
         editor.apply();
     }
 
-    public void setPassword(String llave, String valor) {
-        editor.putString(llave, valor);
+    public void setPassword(String valor) {
+        editor.putString(fichero + "password", valor);
         editor.apply();
     }
 
@@ -50,8 +50,14 @@ public class SharedPreferences {
     }
 
     public void cleanToken() {
-        editor.clear();
+        //editor.clear();
+        setToken("");
         editor.apply();
     }
 
+    public void cleanUsername() {
+        //editor.clear();
+        setUsername("");
+        editor.apply();
+    }
 }

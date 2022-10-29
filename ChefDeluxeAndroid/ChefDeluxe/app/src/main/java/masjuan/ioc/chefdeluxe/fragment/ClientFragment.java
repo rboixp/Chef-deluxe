@@ -11,16 +11,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import masjuan.ioc.chefdeluxe.R;
+import masjuan.ioc.chefdeluxe.api.ApiClientToken;
 import masjuan.ioc.chefdeluxe.databinding.FragmentClientBinding;
+import masjuan.ioc.chefdeluxe.utils.ApiCodes;
+import masjuan.ioc.chefdeluxe.utils.FragmentUtils;
+import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
 
 public class ClientFragment extends Fragment {
 
     private FragmentClientBinding b;
+    private SharedPreferences preferences;
+    private FragmentUtils frag = null;
+
+    ApiCodes apiCodes = new ApiCodes();
 
     public ClientFragment() {
         // Required empty public constructor
     }
-
 
     public static ClientFragment newInstance() {
         return new ClientFragment();
@@ -29,11 +36,13 @@ public class ClientFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        frag = new FragmentUtils(requireActivity().getSupportFragmentManager());
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         b = FragmentClientBinding.inflate(inflater, container, false);
+        preferences = new SharedPreferences(requireActivity());
 
         return b.getRoot();
     }
@@ -55,10 +64,14 @@ public class ClientFragment extends Fragment {
         itemOption.setVisible(false);
     }
 
+    // Mètode que tanca sessió
     public void logout() {
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.container, LoginFragment.newInstance(), null)
-                .commit();
+        preferences.cleanToken();
+        preferences.cleanUsername();
+        String token = preferences.getToken();
+        if (token.equals("")) {
+            ApiClientToken.deleteInstance();
+            frag.replaceFragment(R.id.container, LoginFragment.newInstance());
+        }
     }
 }

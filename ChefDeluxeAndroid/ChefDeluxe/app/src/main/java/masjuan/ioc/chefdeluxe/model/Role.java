@@ -8,7 +8,6 @@ public class Role {
     @SerializedName("id")
     @Expose
     private long id;
-
     @SerializedName("role")
     @Expose
     private String role;
@@ -27,9 +26,5 @@ public class Role {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public Role() {
-        super();
     }
 }

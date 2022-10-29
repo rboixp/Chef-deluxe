@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import masjuan.ioc.chefdeluxe.R;
+import masjuan.ioc.chefdeluxe.api.ApiClientToken;
 import masjuan.ioc.chefdeluxe.databinding.FragmentAdminBinding;
 import masjuan.ioc.chefdeluxe.utils.FragmentUtils;
 import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
@@ -63,9 +64,12 @@ public class AdminFragment extends Fragment {
     // Mètode que tanca sessió
     public void logout() {
         preferences.cleanToken();
+        preferences.cleanUsername();
         String token = preferences.getToken();
         if (token.equals("")) {
+            ApiClientToken.deleteInstance();
             frag.replaceFragment(R.id.container, LoginFragment.newInstance());
         }
+        //  ApiTokenRestClient.deleteInstance();
     }
 }
