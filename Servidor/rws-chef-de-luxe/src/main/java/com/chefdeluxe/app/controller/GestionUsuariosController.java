@@ -238,6 +238,7 @@ public class GestionUsuariosController {
 		usuarioDTO.setPoblacion(usuario.getPoblacion());
 		usuarioDTO.setIban(usuario.getIban());
 		usuarioDTO.setRoles(usuario.getRoles());
+		usuarioDTO.setTelefono(usuario.getTelefono());
 		return usuarioDTO;
 	}
 	

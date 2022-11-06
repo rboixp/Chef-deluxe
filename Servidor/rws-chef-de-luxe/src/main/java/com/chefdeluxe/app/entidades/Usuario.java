@@ -45,8 +45,8 @@ public class Usuario {
 	private String apellidos;
 	@Column(length = 128)
 	private String direccion;
-	@Column()
-	private int codigoPostal;
+	@Column(length = 10)
+	private String codigoPostal;
 	@Column(length = 128)
 	private String poblacion;
 	@Column(length = 128)
@@ -79,11 +79,11 @@ public class Usuario {
 		this.direccion = direccion;
 	}
 
-	public int getCodigoPostal() {
+	public String getCodigoPostal() {
 		return codigoPostal;
 	}
 
-	public void setCodigoPostal(int codigoPostal) {
+	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
 

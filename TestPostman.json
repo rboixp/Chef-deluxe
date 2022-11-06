@@ -25,7 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"maria\",\r\n    \"email\": \"maria@mail.com\",\r\n    \"username\": \"maria\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"jan joan\",\r\n\t\"direccion\": \"jan 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"26\",\r\n\t\"telefono\": \"666666667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
+							"raw": "{\r\n    \"nombre\": \"admin\",\r\n    \"email\": \"admin@mail.com\",\r\n    \"username\": \"admin\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/auth/registrar",
@@ -59,7 +59,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"pereName\",\r\n    \"password\": \"password\"\r\n}"
+							"raw": "{\r\n    \"usernameOrEmail\": \"admin\",\r\n    \"password\": \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/auth/iniciarSesion",
@@ -176,7 +176,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2NjIxNTM3MSwiZXhwIjoxNjY2ODIwMTcxfQ.FqXZs5iQhI3la41DEImKMcLDHRTK7IwZcUbQKwUVwqecNyyUQgb3uo4YQw0ekupAGw4G3qloHLcTXFuE2z5o7Q",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWtlQG1haWwuY29tIiwiaWF0IjoxNjY3NjM4MzQ1LCJleHAiOjE2NjgyNDMxNDV9.vDWZfvn7-uUV4sw8pwMwaDQtcfAoC1cRk8LRc9L__ZdHgcRkVZqzowPVPcm1VUKTgj2AWpzBsyTrWG_IK75ScA",
 									"type": "string"
 								}
 							]
@@ -413,7 +413,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"joanjo\",\r\n    \"email\": \"joanjo@mail.com\",\r\n    \"username\": \"joanjo\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"666566668\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"kike\",\r\n    \"email\": \"kike@mail.com\",\r\n    \"username\": \"kike\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -616,6 +616,174 @@
 								"users",
 								"create",
 								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DISPONIBILIDAD",
+			"item": [
+				{
+					"name": "Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQZXBlQG1haWwuY29tIiwiaWF0IjoxNjY3NzU4MjQ3LCJleHAiOjE2NjgzNjMwNDd9.cJVIo8hmP2TvAc4Q-NiH8m11VDTd2Zt71mo2x24PISTV4h07v3Ryfck5mycNPqFAuJKKlo1Yn34vEoEx9L8Buw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"Pepe\",\r\n    \"estado\": \"Activo\",\r\n    \"poblacion\": \"Badalona\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/chef/disponibilidad/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista por user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQZXBlQG1haWwuY29tIiwiaWF0IjoxNjY3NzU4MjQ3LCJleHAiOjE2NjgzNjMwNDd9.cJVIo8hmP2TvAc4Q-NiH8m11VDTd2Zt71mo2x24PISTV4h07v3Ryfck5mycNPqFAuJKKlo1Yn34vEoEx9L8Buw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/chef/disponibilidad/get/username?usernameOrEmail=Pepe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"get",
+								"username"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "Pepe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2Nzc1OTQzNiwiZXhwIjoxNjY4MzY0MjM2fQ.vHkGf5HmYcSVwxrqxmCVxFiHhV79FPrazf9NNNaV0fJ9AjMN0DQdhD2w-yZ3QGu09v6dWzomgS4YOaGm9ARm_w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/chef/disponibilidad/get/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"get",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista por estado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2Nzc1OTQzNiwiZXhwIjoxNjY4MzY0MjM2fQ.vHkGf5HmYcSVwxrqxmCVxFiHhV79FPrazf9NNNaV0fJ9AjMN0DQdhD2w-yZ3QGu09v6dWzomgS4YOaGm9ARm_w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/chef/disponibilidad/get/filtrado?estado=todos&poblacion=todos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"get",
+								"filtrado"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "todos"
+								},
+								{
+									"key": "poblacion",
+									"value": "todos"
+								}
 							]
 						}
 					},

@@ -14,7 +14,7 @@ public class UsuarioDTO {
 	private Long id;
 	private String apellidos;
 	private String direccion;
-	private int codigoPostal;
+	private String codigoPostal;
 	private String poblacion;
 	private String nacionalidad;
 	private int edad;
@@ -63,10 +63,10 @@ public class UsuarioDTO {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	public int getCodigoPostal() {
+	public String getCodigoPostal() {
 		return codigoPostal;
 	}
-	public void setCodigoPostal(int codigoPostal) {
+	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
 	public String getPoblacion() {
