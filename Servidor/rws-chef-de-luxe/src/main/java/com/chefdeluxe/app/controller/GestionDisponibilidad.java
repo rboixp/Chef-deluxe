@@ -148,13 +148,13 @@ public class GestionDisponibilidad {
 	@GetMapping("/disponibilidad/get/filtrado")
 	public ResponseEntity<?> getListaDisponibilidadEstado( @RequestParam String estado ,@RequestParam String poblacion){
 		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
-		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
+	//	String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
+	//	Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
+	//	Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
 		
-		if (!usuarioJWT.get().getRoles().contains(rolAdmin)) {
-			return new ResponseEntity<>("Usuario <" +nameJWT +"> no es admin " , HttpStatus.BAD_REQUEST);
-		}	
+	//	if (!usuarioJWT.get().getRoles().contains(rolAdmin)) {
+	//		return new ResponseEntity<>("Usuario <" +nameJWT +"> no es admin " , HttpStatus.BAD_REQUEST);
+	//	}	
 		
 	      List<Disponibilidad> diponibilidades = disponibilidadRepositorio.findAll();
 	      
