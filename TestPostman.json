@@ -620,6 +620,88 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Disponibilidad",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/chef/disponibilidad/post",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista disponibilidad filtrada",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWtlQG1haWwuY29tIiwiaWF0IjoxNjY3NzYxNTcyLCJleHAiOjE2NjgzNjYzNzJ9.eFmcN4B5GL4Ngz0_vNAehzWU9xMcInrK-IrIaouwvDl3PWsVR2jJvQ6MlpuTZkI6mG-1OHlzJzvSCdOcOBnU9w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Transfer-Encoding",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/chef/disponibilidad/get/filtrado?estado=todos&poblacion=todos",
+							"protocol": "http",
+							"host": [
+								"awschefdeluxe-env",
+								"eba-ygfvtvek",
+								"us-east-1",
+								"elasticbeanstalk",
+								"com"
+							],
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"get",
+								"filtrado"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "todos"
+								},
+								{
+									"key": "poblacion",
+									"value": "todos"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
