@@ -25,7 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"admin\",\r\n    \"email\": \"admin@mail.com\",\r\n    \"username\": \"admin\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
+							"raw": "{\r\n    \"nombre\": \"client\",\r\n    \"email\": \"client@mail.com\",\r\n    \"username\": \"client\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/auth/registrar",
@@ -59,7 +59,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"admin\",\r\n    \"password\": \"password\"\r\n}"
+							"raw": "{\r\n    \"usernameOrEmail\": \"client\",\r\n    \"password\": \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/auth/iniciarSesion",
@@ -413,7 +413,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"kike\",\r\n    \"email\": \"kike@mail.com\",\r\n    \"username\": \"kike\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"pepe\",\r\n    \"email\": \"pepe@mail.com\",\r\n    \"username\": \"pepe\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -455,7 +455,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usernameOrEmail\": \"joanjo\",\r\n    \"password\": \"password\"\r\n}"
+							"raw": "{\r\n    \"usernameOrEmail\": \"kike\",\r\n    \"password\": \"password\"\r\n}"
 						},
 						"url": {
 							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/auth/iniciarSesion",
@@ -624,8 +624,33 @@
 				{
 					"name": "Disponibilidad",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWtlQG1haWwuY29tIiwiaWF0IjoxNjY3NzYxNTcyLCJleHAiOjE2NjgzNjYzNzJ9.eFmcN4B5GL4Ngz0_vNAehzWU9xMcInrK-IrIaouwvDl3PWsVR2jJvQ6MlpuTZkI6mG-1OHlzJzvSCdOcOBnU9w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\": \"kike\",\r\n    \"estado\": \"No Activo\",\r\n    \"poblacion\": \"Sabadell\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/chef/disponibilidad/post",
 							"protocol": "http",
@@ -866,6 +891,148 @@
 									"key": "poblacion",
 									"value": "todos"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update estado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estado\": \"Activo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/chef/disponibilidad/update/estado?usernameOrEmail=chef&poblacion=Barcelona",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"update",
+								"estado"
+							],
+							"query": [
+								{
+									"key": "usernameOrEmail",
+									"value": "chef"
+								},
+								{
+									"key": "poblacion",
+									"value": "Barcelona"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQZXBlQG1haWwuY29tIiwiaWF0IjoxNjY3NzU4MjQ3LCJleHAiOjE2NjgzNjMwNDd9.cJVIo8hmP2TvAc4Q-NiH8m11VDTd2Zt71mo2x24PISTV4h07v3Ryfck5mycNPqFAuJKKlo1Yn34vEoEx9L8Buw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/chef/disponibilidad/delete?id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chef",
+								"disponibilidad",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RESERVA",
+			"item": [
+				{
+					"name": "Reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnRAbWFpbC5jb20iLCJpYXQiOjE2Njc3NzI5MzcsImV4cCI6MTY2ODM3NzczN30.42qRSHOWHXELeRyBLHQXgWZpAuWv1Lx-mXPxEiwKY-CDOz7-aov9u1l8UXEobX2k7exgI1S0XjfXKgo2c1bcQA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estado\": \"pendiente\",\r\n    \"cliente\": \"client\",\r\n    \"chef\": \"chef\",\r\n    \"incio\": \"2022-01-01T13:00:00.00000\",\r\n    \"fin\": \"2022-01-01T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/client/reserva/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"client",
+								"reserva",
+								"post"
 							]
 						}
 					},
