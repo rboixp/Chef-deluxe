@@ -10,4 +10,8 @@ public interface RolRepositorio extends JpaRepository<Rol, Long>{
 
 	public Optional<Rol> findByRole(String role);
 	
+	public Rol save(Rol rol);
+	
+	public  void flush();
+	
 }

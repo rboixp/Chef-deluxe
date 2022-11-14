@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.chefdeluxe.app"},{"l":"com.chefdeluxe.app.config"},{"l":"com.chefdeluxe.app.controller"},{"l":"com.chefdeluxe.app.dto"},{"l":"com.chefdeluxe.app.entidades"},{"l":"com.chefdeluxe.app.excepciones"},{"l":"com.chefdeluxe.app.repositorio"},{"l":"com.chefdeluxe.app.seguridad"}];updateSearchResults();

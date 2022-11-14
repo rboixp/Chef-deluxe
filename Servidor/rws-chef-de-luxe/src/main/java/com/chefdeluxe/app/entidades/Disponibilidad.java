@@ -33,7 +33,7 @@ public class Disponibilidad {
 		this.id = id;
 	}
 
-	public long getId_user() {
+	public long getIduser() {
 		return idUser;
 	}
 

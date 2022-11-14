@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,12 +30,20 @@ import com.chefdeluxe.app.entidades.Disponibilidad;
 import com.chefdeluxe.app.entidades.Reserva;
 import com.chefdeluxe.app.entidades.Rol;
 import com.chefdeluxe.app.entidades.Usuario;
-import com.chefdeluxe.app.repositorio.DisponibilidadRepositorio;
-import com.chefdeluxe.app.repositorio.ReservaRepositorio;
-import com.chefdeluxe.app.repositorio.RolRepositorio;
-import com.chefdeluxe.app.repositorio.UsuarioRepositorio;
+import com.chefdeluxe.app.service.DisponibilidadService;
+import com.chefdeluxe.app.service.ReservaService;
+import com.chefdeluxe.app.service.RolService;
+import com.chefdeluxe.app.service.UsuarioService;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
-
+import com.chefdeluxe.app.service.DisponibilidadService;
+import com.chefdeluxe.app.service.ReservaService;
+import com.chefdeluxe.app.service.RolService;
+import com.chefdeluxe.app.service.UsuarioService;
+/**
+ * Clase GestionReservaController
+ *
+ * Controlador Gsetiona la Reserva, alta baixa modificació i consulta
+ */
 @RestController
 @RequestMapping("/api/client")
 public class GestionReservaController {
@@ -42,17 +52,17 @@ public class GestionReservaController {
 	
 	@Autowired
 	private
-	UsuarioRepositorio usuarioRepositorio;
+	UsuarioService usuarioService;
 	
 	@Autowired
 	private
-	ReservaRepositorio reservaRepositorio;		
+	ReservaService reservaService;		
 	
 	@Autowired
-	private DisponibilidadRepositorio disponibilidadRepositorio;	
+	private DisponibilidadService disponibilidadService;	
 	
 	@Autowired
-	private RolRepositorio rolRepositorio;
+	private RolService rolService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -63,21 +73,27 @@ public class GestionReservaController {
 	@PersistenceContext
 	EntityManager em;
 	
+	/**
+	 * End point altaReserva
+	 *
+	 * Registra una reserva a la base de dades.
+	 */
+	
 	@PostMapping("/reserva/post")
 	public ResponseEntity<?> altaReserva(@RequestBody ReservaDTO reservaDTO){
 		
 		  String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		  
-	      Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
-	      Rol rolcliente = rolRepositorio.findByRole("ROLE_CLIENT").get();
+	      Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+	      Rol rolcliente = rolService.findByRole("ROLE_CLIENT");
 	      
-	      if (!usuarioRepositorio.findByUsernameOrEmail(nameJWT,nameJWT).get().getRoles().contains(rolAdmin) && 
-	    	  !usuarioRepositorio.findByUsernameOrEmail(nameJWT,nameJWT).get().getRoles().contains(rolcliente)  ) {
+	      if (!usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolAdmin) && 
+	    	  !usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolcliente)  ) {
 	    	  return new ResponseEntity<>("token no valido, no es de cliente ni admin",HttpStatus.BAD_REQUEST);
 	      }
    	  
-        Long clientId = usuarioRepositorio.findByUsernameOrEmail(reservaDTO.getCliente(),reservaDTO.getCliente()).get().getId();
-        Long chefId = usuarioRepositorio.findByUsernameOrEmail(reservaDTO.getChef(),reservaDTO.getChef()).get().getId();
+        Long clientId = usuarioService.findByUsernameOrEmail(reservaDTO.getCliente(),reservaDTO.getCliente()).getId();
+        Long chefId = usuarioService.findByUsernameOrEmail(reservaDTO.getChef(),reservaDTO.getChef()).getId();
         Reserva reserva = new Reserva();
         reserva.setEstado(reservaDTO.getEstado());
         reserva.setIdClient(clientId);
@@ -85,42 +101,76 @@ public class GestionReservaController {
         reserva.setIncio(reservaDTO.getIncio());
         reserva.setFin(reservaDTO.getFin());
         reserva.setPrecio(reservaDTO.getPrecio());
-		reservaRepositorio.save(reserva);
+		reservaService.save(reserva);
 		return new ResponseEntity<>("Reserva dada de alta exitosamente",HttpStatus.OK);
 	}
-	
+	/**
+	 * End point deleteReserva
+	 *
+	 * Esborra una reserva a la base de dades.
+	 */
 	@DeleteMapping("/reserva/delete")
 	public ResponseEntity<?> deleteReserva(@RequestParam Long id) {
 
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
 
-		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
 
 
-		if (usuarioJWT.get().getRoles().contains(rolAdmin)) {
-			reservaRepositorio.deleteById(id);
+		if (usuarioJWT.getRoles().contains(rolAdmin)) {
+			reservaService.deleteById(id);
 			return new ResponseEntity<>(
 					"el registro de reserva con id <" +id +"> se ha eliminado exitosamente", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("Solo se permite delete para el usuario administrador ", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	/**
+	 * End point getListaReservaId
+	 *
+	 * retorna una reserva de la base de dades filtrada per id.
+	 */
+	
+	@GetMapping("/reserva/get/id")
+	public ResponseEntity<?> getListaReservaId(@RequestParam Long id ){	
+
+		Reserva reserva = reservaService.findById(id);
+		
+		ReservaDTO reservaDTO = new ReservaDTO();
+		reservaDTO.setId(reserva.getId());
+		reservaDTO.setEstado(reserva.getEstado());
+		reservaDTO.setCliente(usuarioService.findById(reserva.getIdClient()).getUsername());
+		reservaDTO.setChef(usuarioService.findById(reserva.getIdChef()).getUsername());
+		reservaDTO.setIncio(reserva.getInicio());
+		reservaDTO.setFin(reserva.getFin());
+		reservaDTO.setPrecio(reserva.getPrecio());
+		
+		
+		return new ResponseEntity<> (reservaDTO, HttpStatus.OK);
+	}
+	
+	/**
+	 * Clase getListaReserva
+	 *
+	 * retorna una llista de reserves.
+	 */
 	@GetMapping("/reserva/get/all")
 	public ResponseEntity<?> getListaReserva( ){
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
-		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
 		
-		if (!usuarioJWT.get().getRoles().contains(rolAdmin)  ) {
+		if (!usuarioJWT.getRoles().contains(rolAdmin)  ) {
 			return new ResponseEntity<>("Usuario <" +nameJWT +"> no es admin " , HttpStatus.BAD_REQUEST);
 		}	
 		
 
-	      List<Reserva> reservas = reservaRepositorio.findAll();
+	      List<Reserva> reservas = reservaService.findAll();
 	      
-	      List<ReservaDTO> ReservaListDTO = new ArrayList();
+	      List<ReservaDTO> reservaListDTO = new ArrayList();
 	      
 		  Iterator<Reserva> it = reservas.iterator();
 			
@@ -129,16 +179,163 @@ public class GestionReservaController {
 			      ReservaDTO reservaDTO = new ReservaDTO();
 			      reservaDTO.setEstado(reserva.getEstado());
 			      reservaDTO.setId(reserva.getId());
-			      Optional<Usuario> cliente = usuarioRepositorio.findById(reserva.getIdClient());
-			      reservaDTO.setCliente(cliente.get().getUsername());
-			      Optional<Usuario> chef = usuarioRepositorio.findById(reserva.getIdChef());
-			      reservaDTO.setChef(chef.get().getUsername());
+			      Usuario cliente = usuarioService.findById(reserva.getIdClient());
+			      reservaDTO.setCliente(cliente.getUsername());
+			      Usuario chef = usuarioService.findById(reserva.getIdChef());
+			      reservaDTO.setChef(chef.getUsername());
 			      reservaDTO.setIncio(reserva.getInicio());
 			      reservaDTO.setFin(reserva.getInicio());
 			      reservaDTO.setPrecio(reserva.getPrecio());
-			      ReservaListDTO.add(reservaDTO); 
+			      reservaListDTO.add(reservaDTO); 
 				};
 		
-		return new ResponseEntity<> (ReservaListDTO, HttpStatus.OK);
+		return new ResponseEntity<> (reservaListDTO, HttpStatus.OK);
+	}	
+	
+	/**
+	 * End point UpdateDisponibilidad
+	 *
+	 * Actualitza una reserva.
+	 */
+	@PutMapping("/reserva/update/estado")
+	public ResponseEntity<?> UpdateDisponibilidad(@RequestParam String usernameOrEmail,@RequestParam String estado, @RequestParam Long id){
+
+		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+	
+		if (!usuarioJWT.getRoles().contains(rolAdmin) && !nameJWT.equals(usuario.getEmail())) {
+			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar" , HttpStatus.BAD_REQUEST);
+		}
+
+		Reserva reserva = reservaService.findById(id);
+
+		reserva.setEstado(estado);		
+		reservaService.flush(id,estado);
+		
+		ReservaDTO reservaDTO = new ReservaDTO();
+		reservaDTO.setId(reserva.getId());
+		reservaDTO.setEstado(reserva.getEstado());
+		reservaDTO.setCliente(usuarioService.findById(reserva.getIdClient()).getUsername());
+		reservaDTO.setChef(usuarioService.findById(reserva.getIdChef()).getUsername());
+		reservaDTO.setIncio(reserva.getInicio());
+		reservaDTO.setFin(reserva.getFin());
+		reservaDTO.setPrecio(reserva.getPrecio());
+
+		
+		return new ResponseEntity<>(reservaDTO,HttpStatus.OK);		
+	
+	}	
+	/**
+	 * Clase getListaReserva
+	 *
+	 * retorna una llista de reserves d'un chef.
+	 */
+	@GetMapping("/reserva/get/chef")
+	public ResponseEntity<?> getListaReservaChef(long idchef ){
+		
+		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+		
+	      List<Reserva> reservas = reservaService.findByIdChef(idchef);
+	      
+	      List<ReservaDTO> reservaListDTO = new ArrayList();
+	      
+		  Iterator<Reserva> it = reservas.iterator();
+			
+			while(it.hasNext()) {
+				  Reserva reserva = it.next();
+			      ReservaDTO reservaDTO = new ReservaDTO();
+			      reservaDTO.setEstado(reserva.getEstado());
+			      reservaDTO.setId(reserva.getId());
+			      Usuario cliente = usuarioService.findById(reserva.getIdClient());
+			      reservaDTO.setCliente(cliente.getUsername());
+			      Usuario chef = usuarioService.findById(reserva.getIdChef());
+			      reservaDTO.setChef(chef.getUsername());
+			      reservaDTO.setIncio(reserva.getInicio());
+			      reservaDTO.setFin(reserva.getInicio());
+			      reservaDTO.setPrecio(reserva.getPrecio());
+			      reservaListDTO.add(reservaDTO); 
+				};
+		
+		return new ResponseEntity<> (reservaListDTO, HttpStatus.OK);
+	}	
+	
+	/**
+	 * Clase getListaReservaClient
+	 *
+	 * retorna una llista de reserves d'un client
+	 */
+	@GetMapping("/reserva/get/client/paginable")
+	public ResponseEntity<?> getListaReservaClient(String usernameOrEmail,int pageIndex, int pageSize ){
+		
+		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		
+		
+		List<Reserva> reservas = reservaService.findByIdClient(usuario.getId(), pageIndex, pageSize );
+
+	    List<ReservaDTO> reservaListDTO = new ArrayList();
+	      
+		  Iterator<Reserva> it = reservas.iterator(); 
+			
+			while(it.hasNext()) {
+				  Reserva reserva = it.next();
+			      ReservaDTO reservaDTO = new ReservaDTO();
+			      reservaDTO.setEstado(reserva.getEstado());
+			      reservaDTO.setId(reserva.getId());
+			      Usuario cliente = usuarioService.findById(reserva.getIdClient());
+			      reservaDTO.setCliente(cliente.getUsername());
+			      Usuario chef = usuarioService.findById(reserva.getIdChef());
+			      reservaDTO.setChef(chef.getUsername());
+			      reservaDTO.setIncio(reserva.getInicio());
+			      reservaDTO.setFin(reserva.getInicio());
+			      reservaDTO.setPrecio(reserva.getPrecio());
+			      reservaListDTO.add(reservaDTO); 
+				};
+		
+		return new ResponseEntity<> (reservaListDTO, HttpStatus.OK);
+	}	
+	
+	/**
+	 * Clase getListaReservaClient
+	 *
+	 * retorna una llista de reserves d'un client
+	 */
+	@GetMapping("/reserva/get/chef/paginable")
+	public ResponseEntity<?> getListaReservaChef(String usernameOrEmail,int pageIndex, int pageSize ){
+		
+		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		
+		
+		List<Reserva> reservas = reservaService.findByIdChef(usuario.getId(), pageIndex, pageSize );
+		
+	    List<ReservaDTO> reservaListDTO = new ArrayList();
+	      
+		  Iterator<Reserva> it = reservas.iterator(); 
+			
+			while(it.hasNext()) {
+				  Reserva reserva = it.next();
+			      ReservaDTO reservaDTO = new ReservaDTO();
+			      reservaDTO.setEstado(reserva.getEstado());
+			      reservaDTO.setId(reserva.getId());
+			      Usuario cliente = usuarioService.findById(reserva.getIdClient());
+			      reservaDTO.setCliente(cliente.getUsername());
+			      Usuario chef = usuarioService.findById(reserva.getIdChef());
+			      reservaDTO.setChef(chef.getUsername());
+			      reservaDTO.setIncio(reserva.getInicio());
+			      reservaDTO.setFin(reserva.getInicio());
+			      reservaDTO.setPrecio(reserva.getPrecio());
+			      reservaListDTO.add(reservaDTO); 
+				};
+		
+		return new ResponseEntity<> (reservaListDTO, HttpStatus.OK);
 	}	
 }

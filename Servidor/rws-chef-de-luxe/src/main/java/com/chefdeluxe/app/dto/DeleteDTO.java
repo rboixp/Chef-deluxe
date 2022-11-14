@@ -1,5 +1,6 @@
 package com.chefdeluxe.app.dto;
 
+
 public class DeleteDTO {
 
 	private String username;

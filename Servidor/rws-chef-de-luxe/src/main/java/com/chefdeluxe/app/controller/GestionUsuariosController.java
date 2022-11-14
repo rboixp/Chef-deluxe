@@ -38,10 +38,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chefdeluxe.app.dto.*;
 import com.chefdeluxe.app.entidades.Rol;
 import com.chefdeluxe.app.entidades.Usuario;
-import com.chefdeluxe.app.repositorio.RolRepositorio;
-import com.chefdeluxe.app.repositorio.UsuarioRepositorio;
+import com.chefdeluxe.app.service.RolService;
+import com.chefdeluxe.app.service.UsuarioService;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
-
+/**
+ * Clase GestionUsuariosController
+ *
+ * Controlador gestiona els usuaris, alta, baixa modificació i consulta
+ * 
+ */
 @RestController
 @RequestMapping("/api/users")
 public class GestionUsuariosController {
@@ -49,10 +54,10 @@ public class GestionUsuariosController {
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private UsuarioRepositorio usuarioRepositorio;	
+	private UsuarioService usuarioService;	
 	
 	@Autowired
-	private RolRepositorio rolRepositorio;
+	private RolService rolService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -64,23 +69,33 @@ public class GestionUsuariosController {
 	@PersistenceContext
 	EntityManager em;
 	
-
+	/**
+	 * End point altaUsuario
+	 *
+	 * Registra un usuari  a la base de dades.
+	 */
 	
 	@PostMapping("/create/user")
 	public ResponseEntity<?> altaUsuario(@RequestBody RegisterDTO registroDTO){
 		
+		if (registroDTO.getPassword() == null  ||
+				registroDTO.getUsername() == null  ||
+				registroDTO.getEmail() == null ) {
+				return new ResponseEntity<>("Usuario, mail y password obligatorios",HttpStatus.BAD_REQUEST);
+			}
+		
 		  String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-	      Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
+	      Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
 	      
-	      if(!usuarioRepositorio.findByUsernameOrEmail(nameJWT,nameJWT).get().getRoles().contains(rolAdmin)) {
+	      if(!usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolAdmin)) {
 	    	  return new ResponseEntity<>("Solo se permiten altas en usuarios administradores",HttpStatus.BAD_REQUEST);   
 	      }
 
-		if(usuarioRepositorio.existsByUsername(registroDTO.getUsername())) {
+		if(usuarioService.existsByUsername(registroDTO.getUsername())) {
 			return new ResponseEntity<>("Ese nombre de usuario ya existe",HttpStatus.BAD_REQUEST); 
 		}
 		
-		if(usuarioRepositorio.existsByEmail(registroDTO.getEmail())) {
+		if(usuarioService.existsByEmail(registroDTO.getEmail())) {
 			return new ResponseEntity<>("Ese email de usuario ya existe",HttpStatus.BAD_REQUEST);
 		}
 		
@@ -99,80 +114,92 @@ public class GestionUsuariosController {
 		usuario.setIban(registroDTO.getIban());
 		
 		
-		Rol roles = rolRepositorio.findByRole(registroDTO.getPerfil()).get();
+		Rol roles = rolService.findByRole(registroDTO.getPerfil());
 		usuario.setRoles(Collections.singleton(roles));	
-		usuarioRepositorio.save(usuario);
+		usuarioService.save(usuario);
 		return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
 	}
-	
+	/**
+	 * End point deleteUsuario
+	 *
+	 * esborra un usuari de la base de dades.
+	 */	
 	@DeleteMapping("/delete/user")
 	public ResponseEntity<?> deleteUsuario(@RequestParam String usernameOrEmail) {
 
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
 
-		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
 
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
 
 
-		if (nameJWT.equals(usuario.get().getEmail())) {
-			usuarioRepositorio.deleteById(usuario.get().getId());
+		if (nameJWT.equals(usuario.getEmail())) {
+			usuarioService.deleteById(usuario.getId());
 			return new ResponseEntity<>("Su usuarioa se ha eliminado exitosamente", HttpStatus.OK);
 		}
 
-		if (usuarioJWT.get().getRoles().contains(rolAdmin)) {
-			usuarioRepositorio.deleteById(usuario.get().getId());
+		if (usuarioJWT.getRoles().contains(rolAdmin)) {
+			usuarioService.deleteById(usuario.getId());
 			return new ResponseEntity<>(
 					"El usuario " + usernameOrEmail + "  se ha eliminado exitosamente", HttpStatus.OK);
 		}
 
 		return new ResponseEntity<>("Solo se permiten bajas del mismo usuario o usuario admin. Usuario " + nameJWT
-				+ " rol " + usuario.get().getRoles(), HttpStatus.BAD_REQUEST);
+				+ " rol " + usuario.getRoles(), HttpStatus.BAD_REQUEST);
 
 	}
 	
+	/**
+	 * End point getUsuario
+	 *
+	 * Retorna la informació d'un usuari
+	 */	
 	@GetMapping("/get/user")
 	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail){		
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
-		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
 		
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
-		 if (!usuario.isPresent()) {
-			 return new ResponseEntity<>("usuario <"  +usernameOrEmail +"> no encontrado" , HttpStatus.BAD_REQUEST);
-		 }
-		if (nameJWT.equals(usuario.get().getEmail())) {
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
+
+		if (nameJWT.equals(usuario.getEmail())) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO = convertDTO(usuario.get());
+			usuarioDTO = convertDTO(usuario);
 			return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
 			
 		}
 
-		if (usuarioJWT.get().getRoles().contains(rolAdmin)) {
+		if (usuarioJWT.getRoles().contains(rolAdmin)) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO = convertDTO(usuario.get());
+			usuarioDTO = convertDTO(usuario);
 			return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
 		}		
 
 		return new ResponseEntity<>("usuario logeado no es admin o es diferente del de la consulta" , HttpStatus.BAD_REQUEST);
 
 	}
+	/**
+	 * End point getUsuarios
+	 *
+	 * Retorna una llista amb la informació de tots els usuari
+	 */	
 	@GetMapping("/get/users")
 	public ResponseEntity<?> getUsuarios( ){
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
-		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
 		
-		if (!usuarioJWT.get().getRoles().contains(rolAdmin)) {
+		if (!usuarioJWT.getRoles().contains(rolAdmin)) {
 			return new ResponseEntity<>("Usuario no es admin " , HttpStatus.BAD_REQUEST);
 		}	
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		List<UsuarioDTO> usuarioDTOList = new ArrayList();
-		List<Usuario> usuarioList = usuarioRepositorio.findAll();
+		List<Usuario> usuarioList = usuarioService.findAll();
 		Iterator<Usuario> it = usuarioList.iterator();
 		
 		while(it.hasNext()) {
@@ -182,47 +209,57 @@ public class GestionUsuariosController {
 		
 		return new ResponseEntity<> (usuarioDTOList, HttpStatus.OK);
 	}	
+	/**
+	 * End point UpdateUsuario
+	 *
+	 * Actualiza un usuari.
+	 */	
 	@PutMapping("/update/user")
 	public ResponseEntity<?> UpdateUsuario(@RequestParam String usernameOrEmail,@RequestBody RegisterDTO registroDTO
 			){
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolRepositorio.findByRole("ROLE_ADMIN").get();
-		Optional<Usuario> usuarioJWT = usuarioRepositorio.findByUsernameOrEmail(nameJWT, nameJWT);
-		Optional<Usuario> usuarioModificar = usuarioRepositorio.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+		Usuario usuarioModificar = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
 			
 		LoginDTO loginDTO =  new LoginDTO();
 		loginDTO.setUsernameOrEmail(usernameOrEmail);
-		Optional<Usuario> usuario = usuarioRepositorio.findByUsernameOrEmail(usuarioModificar.get().getUsername(),usuarioModificar.get().getEmail());
-		usuario = usuarioRepositorio.findById(usuario.get().getId());
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usuarioModificar.getUsername(),usuarioModificar.getEmail());
+		usuario = usuarioService.findById(usuario.getId());
 		
-		if (!usuarioJWT.get().getRoles().contains(rolAdmin) && !nameJWT.equals(usuarioModificar.get().getEmail())) {
+		if (!usuarioJWT.getRoles().contains(rolAdmin) && !nameJWT.equals(usuarioModificar.getEmail())) {
 			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar" , HttpStatus.BAD_REQUEST);
 		}
 			
-		rolRepositorio.findByRole(registroDTO.getPerfil());
-		Optional <Rol> rol = rolRepositorio.findByRole(registroDTO.getPerfil());
+		rolService.findByRole(registroDTO.getPerfil());
+		Rol rol = rolService.findByRole(registroDTO.getPerfil());
 		Set <Rol> sRole = new HashSet();
-		sRole.add(rol.get());
-		usuario.get().setRoles(sRole);		
+		sRole.add(rol);
+		usuario.setRoles(sRole);		
 
-		usuario.get().setNombre(registroDTO.getNombre());
-		usuario.get().setUsername(registroDTO.getUsername());
-		usuario.get().setEmail(registroDTO.getEmail());
-		usuario.get().setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
-		usuario.get().setApellidos(registroDTO.getApellidos());
-		usuario.get().setDireccion(registroDTO.getDireccion());
-		usuario.get().setCodigoPostal(registroDTO.getCodigoPostal());
-		usuario.get().setPoblacion(registroDTO.getPoblacion());
-		usuario.get().setNacionalidad(registroDTO.getNacionalidad());
-		usuario.get().setEdad(registroDTO.getEdad());
-		usuario.get().setTelefono(registroDTO.getTelefono());
-		usuario.get().setIban(registroDTO.getIban());
+		usuario.setNombre(registroDTO.getNombre());
+		usuario.setUsername(registroDTO.getUsername());
+		usuario.setEmail(registroDTO.getEmail());
+		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
+		usuario.setApellidos(registroDTO.getApellidos());
+		usuario.setDireccion(registroDTO.getDireccion());
+		usuario.setCodigoPostal(registroDTO.getCodigoPostal());
+		usuario.setPoblacion(registroDTO.getPoblacion());
+		usuario.setNacionalidad(registroDTO.getNacionalidad());
+		usuario.setEdad(registroDTO.getEdad());
+		usuario.setTelefono(registroDTO.getTelefono());
+		usuario.setIban(registroDTO.getIban());
 		
-		usuarioRepositorio.flush();
-		return new ResponseEntity<>(convertDTO(usuario.get()),HttpStatus.OK);		
+		usuarioService.flush(usuario);
+		return new ResponseEntity<>(convertDTO(usuario),HttpStatus.OK);		
 	
 	}
+	/**
+	 * End point convertDTO
+	 *
+	 * Li entra dades en format Usuario i les transforma a format UsuarioDTO
+	 */	
 	public UsuarioDTO convertDTO (Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setNombre(usuario.getNombre());

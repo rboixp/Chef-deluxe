@@ -59,7 +59,7 @@ public class JwtTokenProvider {
 			throw new AppException(HttpStatus.BAD_REQUEST,"Token JWT no compatible");
 		}
 		catch (IllegalArgumentException ex) {
-			throw new AppException(HttpStatus.BAD_REQUEST,"La cadena claims JWT esta vacia");
+			throw new AppException(HttpStatus.BAD_REQUEST,"La cadena JWT esta vacia");
 		}
 	}
 }

@@ -16,9 +16,8 @@ import org.hibernate.type.DateType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "reserva", uniqueConstraints = { @UniqueConstraint(columnNames = { "idClient" }),
-		                                       @UniqueConstraint(columnNames = { "inicio" }),
-		                                       @UniqueConstraint(columnNames = { "fin" }) })
+@Table(name = "reserva", uniqueConstraints = { @UniqueConstraint(columnNames = { "idClient" , "inicio" , "fin"}) })
+
 public class Reserva {
 	
 	@Id
