@@ -222,7 +222,7 @@ public class GestionDisponibilidadController {
 	 */
 	
 	@GetMapping("/disponibilidad/get/all/paginable")
-	public ResponseEntity<?> getListaDisponibilidad(int pageIndex, int pageSize ){
+	public ResponseEntity<?> getListaDisponibilidad(@RequestParam int pageIndex, @RequestParam int pageSize ){
 		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
@@ -319,12 +319,12 @@ public class GestionDisponibilidadController {
 			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar" , HttpStatus.BAD_REQUEST);
 		}
 
-		Disponibilidad disponibilidad = disponibilidadService.findById(usuario.getId());
+		Disponibilidad disponibilidad = disponibilidadService.findByIdUserAndPoblacion(usuario.getId(),poblacion);
 
 
 		disponibilidad.setEstado(disponibilidadDTO.getEstado());		
 		disponibilidadService.flush(disponibilidad);
-		disponibilidadDTO.setId(usuario.getId());
+		disponibilidadDTO.setId(disponibilidad.getId());
 		disponibilidadDTO.setUsernameOrEmail(usernameOrEmail);
 		disponibilidadDTO.setPoblacion(poblacion);
 		

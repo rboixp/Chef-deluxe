@@ -1,5 +1,6 @@
 package com.chefdeluxe.app.repositorio;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,17 +12,28 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chefdeluxe.app.entidades.Usuario;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
+	
+	 Usuario save(Usuario usuario);
 
-	public Optional<Usuario> findByEmail(String email);
+	 Optional<Usuario> findByEmail(String email);
 	
-	public Optional<Usuario> findByUsernameOrEmail(String username,String email);
+	 Optional<Usuario> findByUsernameOrEmail(String username,String email);
 	
-	public Optional<Usuario> findByUsername(String username);
+	 Optional<Usuario> findByUsername(String username);
+	 
+	 Optional<Usuario>  findById(long id);
+	 
+	 List<Usuario> findAll();
+	 
+	 void deleteByUsername(String username);
 	
-	public Boolean existsByUsername(String username);
+	 Boolean existsByUsername(String username);
 	
-	public Boolean existsByEmail(String email);
+	 Boolean existsByEmail(String email);	 
+	 
+	 void deleteById (long id);
+	 
+//	 void flush (Usuario usuarioUpd); 
 	
-	public void deleteByUsername(String username);
 	
 }

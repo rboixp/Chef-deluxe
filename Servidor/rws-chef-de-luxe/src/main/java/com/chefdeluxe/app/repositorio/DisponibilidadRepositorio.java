@@ -12,10 +12,22 @@ import com.chefdeluxe.app.entidades.Usuario;
 
 public interface DisponibilidadRepositorio extends JpaRepository<Disponibilidad, Long>{
 	
-	public List<Disponibilidad> findByIdUser(Long id_user);
+	 List<Disponibilidad> findByIdUser(long id_user);
 	
-	public List<Disponibilidad> findByIdUser(Long id_user,Pageable pageable);
+	 List<Disponibilidad> findByIdUser(long id_user,Pageable pageable); 
 	
-	public Page<Disponibilidad> findAll (Pageable pageable);
+	 Page<Disponibilidad> findAll (Pageable pageable);
+	
+	 Disponibilidad  save(Disponibilidad disponibilidad);
+	
+	 Optional<Disponibilidad> findById(long id) ;
+	 
+	 Optional<Disponibilidad> findByIdUserAndPoblacion(long id, String poblacion);
+	
+	 List<Disponibilidad> findAll();
+	
+	 void deleteById(long Id);
+	
+	// void flush(Disponibilidad disponibilidadUpd);
 
 }

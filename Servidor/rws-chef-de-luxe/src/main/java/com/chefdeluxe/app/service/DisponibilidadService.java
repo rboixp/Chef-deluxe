@@ -37,6 +37,11 @@ public class DisponibilidadService {
 	public Disponibilidad findById(Long id) {
 		return disponibilidadRepositorio.findById(id).get();
 	}
+	
+	public Disponibilidad findByIdUserAndPoblacion(Long id, String poblacion) {
+		return disponibilidadRepositorio.findByIdUserAndPoblacion(id,poblacion).get();
+	}	
+	
 
 	public List<Disponibilidad> findAll() {
 		return disponibilidadRepositorio.findAll();
@@ -55,6 +60,8 @@ public class DisponibilidadService {
 		disponibilidad.setEstado(disponibilidadUpd.getEstado());
 		disponibilidadRepositorio.flush();
 	}
+	
+
 	
 	
 

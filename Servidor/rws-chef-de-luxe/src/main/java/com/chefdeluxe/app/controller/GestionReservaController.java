@@ -34,6 +34,7 @@ import com.chefdeluxe.app.service.DisponibilidadService;
 import com.chefdeluxe.app.service.ReservaService;
 import com.chefdeluxe.app.service.RolService;
 import com.chefdeluxe.app.service.UsuarioService;
+import com.chefdeluxe.app.utils.Utils;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
 import com.chefdeluxe.app.service.DisponibilidadService;
 import com.chefdeluxe.app.service.ReservaService;
@@ -70,6 +71,9 @@ public class GestionReservaController {
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;	
 	
+	@Autowired
+	private Utils utils;
+	
 	@PersistenceContext
 	EntityManager em;
 	
@@ -82,27 +86,22 @@ public class GestionReservaController {
 	@PostMapping("/reserva/post")
 	public ResponseEntity<?> altaReserva(@RequestBody ReservaDTO reservaDTO){
 		
-		  String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		  
-	      Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-	      Rol rolcliente = rolService.findByRole("ROLE_CLIENT");
-	      
-	      if (!usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolAdmin) && 
-	    	  !usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolcliente)  ) {
-	    	  return new ResponseEntity<>("token no valido, no es de cliente ni admin",HttpStatus.BAD_REQUEST);
-	      }
-   	  
-        Long clientId = usuarioService.findByUsernameOrEmail(reservaDTO.getCliente(),reservaDTO.getCliente()).getId();
-        Long chefId = usuarioService.findByUsernameOrEmail(reservaDTO.getChef(),reservaDTO.getChef()).getId();
-        Reserva reserva = new Reserva();
-        reserva.setEstado(reservaDTO.getEstado());
-        reserva.setIdClient(clientId);
-        reserva.setIdChef(chefId);
-        reserva.setIncio(reservaDTO.getIncio());
-        reserva.setFin(reservaDTO.getFin());
-        reserva.setPrecio(reservaDTO.getPrecio());
+		if (!utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())
+				&& !utils.usuarioEsDelRol("ROLE_CLIENT", SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("token no valido, no es de cliente ni admin", HttpStatus.BAD_REQUEST);
+		}
+
+		Long clientId = usuarioService.findByUsernameOrEmail(reservaDTO.getCliente(), reservaDTO.getCliente()).getId();
+		Long chefId = usuarioService.findByUsernameOrEmail(reservaDTO.getChef(), reservaDTO.getChef()).getId();
+		Reserva reserva = new Reserva();
+		reserva.setEstado(reservaDTO.getEstado());
+		reserva.setIdClient(clientId);
+		reserva.setIdChef(chefId);
+		reserva.setIncio(reservaDTO.getIncio());
+		reserva.setFin(reservaDTO.getFin());
+		reserva.setPrecio(reservaDTO.getPrecio());
 		reservaService.save(reserva);
-		return new ResponseEntity<>("Reserva dada de alta exitosamente",HttpStatus.OK);
+		return new ResponseEntity<>("Reserva dada de alta exitosamente", HttpStatus.OK);
 	}
 	/**
 	 * End point deleteReserva
@@ -111,20 +110,19 @@ public class GestionReservaController {
 	 */
 	@DeleteMapping("/reserva/delete")
 	public ResponseEntity<?> deleteReserva(@RequestParam Long id) {
+		
+	  String username = usuarioService.findById(reservaService.findById(id).getIdClient()).getUsername();
+	
 
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-
-
-		if (usuarioJWT.getRoles().contains(rolAdmin)) {
-			reservaService.deleteById(id);
-			return new ResponseEntity<>(
-					"el registro de reserva con id <" +id +"> se ha eliminado exitosamente", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("Solo se permite delete para el usuario administrador ", HttpStatus.BAD_REQUEST);
+		if (!utils.usuarioAutorizado(username, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Solo se permite delete para el usuario administrador o el cliente que dio de alta la reserva",
+					HttpStatus.BAD_REQUEST);
 		}
+
+		reservaService.deleteById(id);
+		return new ResponseEntity<>("el registro de reserva con id <" + id + "> se ha eliminado exitosamente",
+				HttpStatus.OK);
+
 	}
 	
 	/**
@@ -137,6 +135,16 @@ public class GestionReservaController {
 	public ResponseEntity<?> getListaReservaId(@RequestParam Long id ){	
 
 		Reserva reserva = reservaService.findById(id);
+		
+		String client = usuarioService.findById(reserva.getIdClient()).getUsername();
+		String chef   = usuarioService.findById(reserva.getIdChef()).getUsername();
+			
+
+			if (!utils.usuarioAutorizado(client, SecurityContextHolder.getContext().getAuthentication())&&
+				!utils.usuarioAutorizado(chef, SecurityContextHolder.getContext().getAuthentication())	) {
+				return new ResponseEntity<>("Solo se permite consultar la reserva al cliente que la realizó, al chef asignado o al admin",
+						HttpStatus.BAD_REQUEST);
+			}
 		
 		ReservaDTO reservaDTO = new ReservaDTO();
 		reservaDTO.setId(reserva.getId());
@@ -158,14 +166,11 @@ public class GestionReservaController {
 	 */
 	@GetMapping("/reserva/get/all")
 	public ResponseEntity<?> getListaReserva( ){
+			
 		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		
-		if (!usuarioJWT.getRoles().contains(rolAdmin)  ) {
-			return new ResponseEntity<>("Usuario <" +nameJWT +"> no es admin " , HttpStatus.BAD_REQUEST);
-		}	
+		if (!utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())){
+			return new ResponseEntity<>("Usuario no es admin " , HttpStatus.BAD_REQUEST);
+		}
 		
 
 	      List<Reserva> reservas = reservaService.findAll();
@@ -198,22 +203,19 @@ public class GestionReservaController {
 	 * Actualitza una reserva.
 	 */
 	@PutMapping("/reserva/update/estado")
-	public ResponseEntity<?> UpdateDisponibilidad(@RequestParam String usernameOrEmail,@RequestParam String estado, @RequestParam Long id){
-
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
-	
-		if (!usuarioJWT.getRoles().contains(rolAdmin) && !nameJWT.equals(usuario.getEmail())) {
-			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar" , HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<?> UpdateReserva(@RequestParam Long id, @RequestParam String estado) {
 
 		Reserva reserva = reservaService.findById(id);
 
-		reserva.setEstado(estado);		
-		reservaService.flush(id,estado);
-		
+		String chef = usuarioService.findById(reserva.getIdChef()).getUsername();
+
+		if (!utils.usuarioAutorizado(chef, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
+		}
+
+		reserva.setEstado(estado);
+		reservaService.flush(id, estado);
+
 		ReservaDTO reservaDTO = new ReservaDTO();
 		reservaDTO.setId(reserva.getId());
 		reservaDTO.setEstado(reserva.getEstado());
@@ -223,8 +225,7 @@ public class GestionReservaController {
 		reservaDTO.setFin(reserva.getFin());
 		reservaDTO.setPrecio(reserva.getPrecio());
 
-		
-		return new ResponseEntity<>(reservaDTO,HttpStatus.OK);		
+		return new ResponseEntity<>(reservaDTO, HttpStatus.OK);		
 	
 	}	
 	/**
@@ -233,12 +234,16 @@ public class GestionReservaController {
 	 * retorna una llista de reserves d'un chef.
 	 */
 	@GetMapping("/reserva/get/chef")
-	public ResponseEntity<?> getListaReservaChef(long idchef ){
+	public ResponseEntity<?> getListaReservaChef(String usernameOrEmail ){
 		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+		String chefUserName = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail).getUsername();
+
+		if (!utils.usuarioAutorizado(chefUserName, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
+		}
 		
+		  Long idchef = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail).getId();
+		  
 	      List<Reserva> reservas = reservaService.findByIdChef(idchef);
 	      
 	      List<ReservaDTO> reservaListDTO = new ArrayList();
@@ -271,10 +276,12 @@ public class GestionReservaController {
 	@GetMapping("/reserva/get/client/paginable")
 	public ResponseEntity<?> getListaReservaClient(String usernameOrEmail,int pageIndex, int pageSize ){
 		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
+		String clientUserName = usuario.getUsername();
+
+		if (!utils.usuarioAutorizado(clientUserName, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
+		}
 		
 		
 		List<Reserva> reservas = reservaService.findByIdClient(usuario.getId(), pageIndex, pageSize );
@@ -309,10 +316,12 @@ public class GestionReservaController {
 	@GetMapping("/reserva/get/chef/paginable")
 	public ResponseEntity<?> getListaReservaChef(String usernameOrEmail,int pageIndex, int pageSize ){
 		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
+		String chefUserName = usuario.getUsername();
+
+		if (!utils.usuarioAutorizado(chefUserName, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
+		}
 		
 		
 		List<Reserva> reservas = reservaService.findByIdChef(usuario.getId(), pageIndex, pageSize );

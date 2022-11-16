@@ -14,12 +14,22 @@ import com.chefdeluxe.app.entidades.Rol;
 
 public interface ReservaRepositorio extends JpaRepository<Reserva, Long>{
 
-	List<Reserva> findByIdChef(Long id);
+	Reserva save(Reserva reserva); //ok
+	
+	Optional<Reserva> findById(long id);
+	
+	List<Reserva> findAll();
+	
+	//void flush(long id, String estado); //ok
+	
+	void deleteById(long id);
+	
+	List<Reserva> findByIdChef(long id);
 
-	List<Reserva> findByIdClient(Long id);
+	List<Reserva> findByIdClient(long id);
 	
-	List<Reserva> findByIdClient(Long idClient, Pageable pageable);
+	List<Reserva> findByIdClient(long idClient, Pageable pageable);
 	
-	List<Reserva> findByIdChef(Long idChef, Pageable pageable);
+	List<Reserva> findByIdChef(long idChef, Pageable pageable);
 }
 

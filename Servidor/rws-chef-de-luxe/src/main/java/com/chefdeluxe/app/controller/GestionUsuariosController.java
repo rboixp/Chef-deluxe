@@ -126,7 +126,7 @@ public class GestionUsuariosController {
 	 */	
 	@DeleteMapping("/delete/user")
 	public ResponseEntity<?> deleteUsuario(@RequestParam String usernameOrEmail) {
-
+		
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
 
