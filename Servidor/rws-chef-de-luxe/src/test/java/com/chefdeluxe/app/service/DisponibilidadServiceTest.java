@@ -1,6 +1,7 @@
 package com.chefdeluxe.app.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,7 +26,7 @@ public class DisponibilidadServiceTest {
 
 	
 	@Mock
-	private DisponibilidadRepositorio disponibilidRepositorio;
+	private DisponibilidadRepositorio dispoRepo;
 	
 	@InjectMocks
 	private DisponibilidadService disponibilidService;
@@ -36,52 +37,50 @@ public class DisponibilidadServiceTest {
 	
 	@BeforeEach
 	void setUp() {
-		MockitoAnnotations.openMocks(this);  
 		disponibilidad = new Disponibilidad();
+		MockitoAnnotations.openMocks(this);  
 		disponibilidad.setId(1);
 		disponibilidad.setIdUser(2);	
 		disponibilidad.setPoblacion("Barcelona");
 		disponibilidad.setEstado("Pendiente");
 		opDisponibilidad =Optional.of(disponibilidad);
 		disponibilidadList = new ArrayList<Disponibilidad>();
-		disponibilidadList.add(disponibilidad);
-		
-		
+		disponibilidadList.add(disponibilidad);		
 	}
 	
 	@Test
 	public void save() {
-		when(disponibilidRepositorio.save(any(Disponibilidad.class))).thenReturn(disponibilidad);
+		when(dispoRepo.save(any(Disponibilidad.class))).thenReturn(disponibilidad);
 		disponibilidService.save(opDisponibilidad.get());
-		verify(disponibilidRepositorio).save(opDisponibilidad.get());
+		verify(dispoRepo).save(opDisponibilidad.get());
 	}
 	
 	@Test
 	public void findByIdUser() {
-		when(disponibilidRepositorio.findByIdUser(disponibilidad.getIduser())).thenReturn(disponibilidadList);
+		when(dispoRepo.findByIdUser(any(Long.class))).thenReturn(disponibilidadList);
 		Assertions.assertNotNull(disponibilidService.findByIdUser(disponibilidad.getIduser()));
 	}
 	@Test
 	public void findById() {
-		when(disponibilidRepositorio.findById(disponibilidad.getId())).thenReturn(opDisponibilidad);
+		when(dispoRepo.findById(any(Long.class))).thenReturn(opDisponibilidad);
 		Assertions.assertNotNull(disponibilidService.findById(disponibilidad.getId()));
 	}
 	@Test
 	public void findAll() {
-		when(disponibilidRepositorio.findAll()).thenReturn(disponibilidadList);
+		when(dispoRepo.findAll()).thenReturn(disponibilidadList);
 		Assertions.assertNotNull(disponibilidService.findAll());
 	}
 	@Test
 	public void deleteById() {
-		when(disponibilidRepositorio.findById(disponibilidad.getId())).thenReturn(opDisponibilidad);
-		disponibilidService.deleteById(disponibilidad.getId());
-		verify(disponibilidRepositorio).deleteById(disponibilidad.getId());
+		Long uno = 1L;
+	 	disponibilidService.deleteById(uno);
+		verify(dispoRepo, times(1)).deleteById(uno);
 	}
 	@Test
 	public void flush() {
-		when(disponibilidRepositorio.findById(disponibilidad.getId())).thenReturn(opDisponibilidad);
-		disponibilidService.flush(opDisponibilidad.get());
-		verify(disponibilidRepositorio).flush();
+		when(dispoRepo.save(any(Disponibilidad.class))).thenReturn(disponibilidad);
+		disponibilidService.save(opDisponibilidad.get());
+		verify(dispoRepo).save(opDisponibilidad.get());
 		
 	}
 	

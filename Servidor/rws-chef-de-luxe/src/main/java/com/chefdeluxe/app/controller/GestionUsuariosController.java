@@ -34,13 +34,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.chefdeluxe.app.dto.*;
 import com.chefdeluxe.app.entidades.Rol;
 import com.chefdeluxe.app.entidades.Usuario;
 import com.chefdeluxe.app.service.RolService;
 import com.chefdeluxe.app.service.UsuarioService;
+import com.chefdeluxe.app.utils.Utils;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
+
 /**
  * Clase GestionUsuariosController
  *
@@ -52,58 +53,58 @@ import com.chefdeluxe.app.seguridad.JwtTokenProvider;
 public class GestionUsuariosController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@Autowired
-	private UsuarioService usuarioService;	
-	
+	private UsuarioService usuarioService;
+
 	@Autowired
 	private RolService rolService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-		
+
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;	
-	
+	private JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	private Utils utils;
 
 	@PersistenceContext
 	EntityManager em;
-	
+
 	/**
 	 * End point altaUsuario
 	 *
-	 * Registra un usuari  a la base de dades.
+	 * Registra un usuari a la base de dades.
 	 */
-	
-	@PostMapping("/create/user")
-	public ResponseEntity<?> altaUsuario(@RequestBody RegisterDTO registroDTO){
-		
-		if (registroDTO.getPassword() == null  ||
-				registroDTO.getUsername() == null  ||
-				registroDTO.getEmail() == null ) {
-				return new ResponseEntity<>("Usuario, mail y password obligatorios",HttpStatus.BAD_REQUEST);
-			}
-		
-		  String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-	      Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-	      
-	      if(!usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolAdmin)) {
-	    	  return new ResponseEntity<>("Solo se permiten altas en usuarios administradores",HttpStatus.BAD_REQUEST);   
-	      }
 
-		if(usuarioService.existsByUsername(registroDTO.getUsername())) {
-			return new ResponseEntity<>("Ese nombre de usuario ya existe",HttpStatus.BAD_REQUEST); 
-		}
+	@PostMapping("/create/user")
+	public ResponseEntity<?> altaUsuario(@RequestBody RegisterDTO registroDTO) {
 		
-		if(usuarioService.existsByEmail(registroDTO.getEmail())) {
-			return new ResponseEntity<>("Ese email de usuario ya existe",HttpStatus.BAD_REQUEST);
+		String msg = validarDTO(registroDTO, SecurityContextHolder.getContext().getAuthentication());
+		
+		if (!msg.equals("ok")){
+			return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
 		}
+
+		if (!utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Solo se permiten altas en usuarios administradores", HttpStatus.BAD_REQUEST);
+		}
+
+		if (usuarioService.existsByUsername(registroDTO.getUsername())) {
+			return new ResponseEntity<>("Ese nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
+		}
+
+		if (usuarioService.existsByEmail(registroDTO.getEmail())) {
+			return new ResponseEntity<>("Ese email de usuario ya existe", HttpStatus.BAD_REQUEST);
+		}
+
 		
 		Usuario usuario = new Usuario();
 		usuario.setNombre(registroDTO.getNombre());
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
-		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
+		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
 		usuario.setApellidos(registroDTO.getApellidos());
 		usuario.setDireccion(registroDTO.getDireccion());
 		usuario.setCodigoPostal(registroDTO.getCodigoPostal());
@@ -112,136 +113,105 @@ public class GestionUsuariosController {
 		usuario.setEdad(registroDTO.getEdad());
 		usuario.setTelefono(registroDTO.getTelefono());
 		usuario.setIban(registroDTO.getIban());
-		
-		
+
 		Rol roles = rolService.findByRole(registroDTO.getPerfil());
-		usuario.setRoles(Collections.singleton(roles));	
+		usuario.setRoles(Collections.singleton(roles));
 		usuarioService.save(usuario);
-		return new ResponseEntity<>("Usuario registrado exitosamente",HttpStatus.OK);
+		return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.OK);
 	}
+
 	/**
 	 * End point deleteUsuario
 	 *
 	 * esborra un usuari de la base de dades.
-	 */	
+	 */
 	@DeleteMapping("/delete/user")
 	public ResponseEntity<?> deleteUsuario(@RequestParam String usernameOrEmail) {
-		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
 
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
 
-		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
-
-
-		if (nameJWT.equals(usuario.getEmail())) {
+		if (utils.usuarioAutorizado(usernameOrEmail, SecurityContextHolder.getContext().getAuthentication())) {
 			usuarioService.deleteById(usuario.getId());
 			return new ResponseEntity<>("Su usuarioa se ha eliminado exitosamente", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("Solo se permiten bajas del mismo usuario o usuario admin.",
+					HttpStatus.BAD_REQUEST);
 		}
-
-		if (usuarioJWT.getRoles().contains(rolAdmin)) {
-			usuarioService.deleteById(usuario.getId());
-			return new ResponseEntity<>(
-					"El usuario " + usernameOrEmail + "  se ha eliminado exitosamente", HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>("Solo se permiten bajas del mismo usuario o usuario admin. Usuario " + nameJWT
-				+ " rol " + usuario.getRoles(), HttpStatus.BAD_REQUEST);
-
 	}
-	
+
 	/**
 	 * End point getUsuario
 	 *
 	 * Retorna la informació d'un usuari
-	 */	
+	 */
 	@GetMapping("/get/user")
-	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail){		
-		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		
-		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
+	public ResponseEntity<?> getUsuario(@RequestParam String usernameOrEmail) {
 
-		if (nameJWT.equals(usuario.getEmail())) {
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO = convertDTO(usuario);
-			return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
-			
+		if (!utils.usuarioAutorizado(usernameOrEmail, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Solo se permiten consultas  del mismo usuario o usuario admin.",
+					HttpStatus.BAD_REQUEST);
 		}
 
-		if (usuarioJWT.getRoles().contains(rolAdmin)) {
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			usuarioDTO = convertDTO(usuario);
-			return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
-		}		
-
-		return new ResponseEntity<>("usuario logeado no es admin o es diferente del de la consulta" , HttpStatus.BAD_REQUEST);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO = convertDTO(usuario);
+		return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
 
 	}
+
 	/**
 	 * End point getUsuarios
 	 *
 	 * Retorna una llista amb la informació de tots els usuari
-	 */	
+	 */
 	@GetMapping("/get/users")
-	public ResponseEntity<?> getUsuarios( ){
-		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		
-		if (!usuarioJWT.getRoles().contains(rolAdmin)) {
-			return new ResponseEntity<>("Usuario no es admin " , HttpStatus.BAD_REQUEST);
-		}	
-		
+	public ResponseEntity<?> getUsuarios() {
+
+		if (!utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Usuario no es admin ", HttpStatus.BAD_REQUEST);
+		}
+
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		List<UsuarioDTO> usuarioDTOList = new ArrayList();
 		List<Usuario> usuarioList = usuarioService.findAll();
 		Iterator<Usuario> it = usuarioList.iterator();
-		
-		while(it.hasNext()) {
+
+		while (it.hasNext()) {
 			usuarioDTO = convertDTO(it.next());
 			usuarioDTOList.add(usuarioDTO);
-			};
-		
-		return new ResponseEntity<> (usuarioDTOList, HttpStatus.OK);
-	}	
+		}
+		;
+
+		return new ResponseEntity<>(usuarioDTOList, HttpStatus.OK);
+	}
+
 	/**
 	 * End point UpdateUsuario
 	 *
 	 * Actualiza un usuari.
-	 */	
+	 */
 	@PutMapping("/update/user")
-	public ResponseEntity<?> UpdateUsuario(@RequestParam String usernameOrEmail,@RequestBody RegisterDTO registroDTO
-			){
-		
-		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
+	public ResponseEntity<?> UpdateUsuario(@RequestParam String usernameOrEmail, @RequestBody RegisterDTO registroDTO) {
+
 		Usuario usuarioModificar = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
-			
-		LoginDTO loginDTO =  new LoginDTO();
-		loginDTO.setUsernameOrEmail(usernameOrEmail);
-		Usuario usuario = usuarioService.findByUsernameOrEmail(usuarioModificar.getUsername(),usuarioModificar.getEmail());
-		usuario = usuarioService.findById(usuario.getId());
+
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usuarioModificar.getUsername(),
+				usuarioModificar.getEmail());		
 		
-		if (!usuarioJWT.getRoles().contains(rolAdmin) && !nameJWT.equals(usuarioModificar.getEmail())) {
-			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar" , HttpStatus.BAD_REQUEST);
+		if (!utils.usuarioAutorizado(usernameOrEmail, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Solo se permiten actualizaciones de datos del mismo usuario o usuario admin.",
+					HttpStatus.BAD_REQUEST);
 		}
-			
+
 		rolService.findByRole(registroDTO.getPerfil());
 		Rol rol = rolService.findByRole(registroDTO.getPerfil());
-		Set <Rol> sRole = new HashSet();
+		Set<Rol> sRole = new HashSet();
 		sRole.add(rol);
-		usuario.setRoles(sRole);		
-
+		usuario.setRoles(sRole);
 		usuario.setNombre(registroDTO.getNombre());
 		usuario.setUsername(registroDTO.getUsername());
 		usuario.setEmail(registroDTO.getEmail());
-		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));	
+		usuario.setPassword(passwordEncoder.encode(registroDTO.getPassword()));
 		usuario.setApellidos(registroDTO.getApellidos());
 		usuario.setDireccion(registroDTO.getDireccion());
 		usuario.setCodigoPostal(registroDTO.getCodigoPostal());
@@ -250,17 +220,16 @@ public class GestionUsuariosController {
 		usuario.setEdad(registroDTO.getEdad());
 		usuario.setTelefono(registroDTO.getTelefono());
 		usuario.setIban(registroDTO.getIban());
-		
 		usuarioService.flush(usuario);
-		return new ResponseEntity<>(convertDTO(usuario),HttpStatus.OK);		
-	
+		return new ResponseEntity<>(convertDTO(usuario), HttpStatus.OK);
 	}
+
 	/**
 	 * End point convertDTO
 	 *
 	 * Li entra dades en format Usuario i les transforma a format UsuarioDTO
-	 */	
-	public UsuarioDTO convertDTO (Usuario usuario) {
+	 */
+	public UsuarioDTO convertDTO(Usuario usuario) {
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		usuarioDTO.setNombre(usuario.getNombre());
 		usuarioDTO.setUsername(usuario.getUsername());
@@ -279,5 +248,75 @@ public class GestionUsuariosController {
 		return usuarioDTO;
 	}
 	
+	public String validarDTO (RegisterDTO registroDTO, Authentication authentication) {
+		
+		if (registroDTO.getPassword() == null) {
+			return "Password requerida";
+		}		
+		if (registroDTO.getUsername() == null) {
+			return "Nombre de usuario requerido";
+		}	
+		if (registroDTO.getEmail() == null) {
+			return "Email requerido";
+		}	
+		
+		if (registroDTO.getApellidos().length() > 128 ) {
+			return "Maxima longitud apellidos es 128";
+		}
+
+		if (registroDTO.getApellidos().length() > 128 ) {
+			return "Maxima longitud apellidos es 128";
+		}
+		
+		if (registroDTO.getCodigoPostal().length() > 10 ) {
+			return "Maxima longitud codigo postal es 10";
+		}
+		
+		if (registroDTO.getDireccion().length() > 10 ) {
+			return "Maxima longitud direccion es 128";
+		}
+		
+		if (registroDTO.getEdad() > 150 ) {
+			return "Edad máxima es 150";
+		}
+		
+		if (registroDTO.getEdad() < 18 ) {
+			return "Edad mínima es 18";
+		}
+		
+		if (registroDTO.getDireccion().length() > 128 ) {
+			return "Maxima longitud email es 60";
+		}
+		
+		if (registroDTO.getIban().length() > 60 ) {
+			return "Maxima longitud Iban es 60";
+		}
+		
+		if (registroDTO.getNacionalidad().length() > 128 ) {
+			return "Maxima longitud nacionalidad es 128";
+		}
+		
+		if (registroDTO.getNombre().length() > 60 ) {
+			return "Maxima longitud nombre es 60";
+		}
+		
+		if (registroDTO.getPassword().length() > 128 ) {
+			return "Maxima longitud password es 128";
+		}
+		
+		if (registroDTO.getPoblacion().length() > 128 ) {
+			return "Maxima longitud poblacion es 128";
+		}
+		
+		if (registroDTO.getUsername().length() > 60 ) {
+			return "Maxima longitud nombre de usuario es 60";
+		}	
+		
+		if (registroDTO.getTelefono() == 0 ) {
+			return "Telefono obligatorio";
+		}
+		
+		 return "ok" ;
+	}
 
 }

@@ -1,6 +1,8 @@
 package com.chefdeluxe.app.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -63,26 +65,26 @@ public class UsuarioServiceTest {
 	}
 	@Test
 	void findByEmail() {
-		when(usuarioRepositorio.findByEmail(usuarioTest.getEmail())).thenReturn(opUser);
+		when(usuarioRepositorio.findByEmail(any(String.class))).thenReturn(opUser);
 		Assertions.assertNotNull(usuarioService.findByEmail(usuarioTest.getEmail()));
 	}
 	@Test
 	void	
 	findByUsernameOrEmail() {
-		when(usuarioRepositorio.findByUsernameOrEmail(usuarioTest.getEmail(),usuarioTest.getUsername())).thenReturn(opUser);
+		when(usuarioRepositorio.findByUsernameOrEmail(any(String.class),any(String.class))).thenReturn(opUser);
 		Assertions.assertNotNull(usuarioService.findByUsernameOrEmail(usuarioTest.getEmail(),usuarioTest.getUsername()));
 		
 	}
 	@Test
 	void
 	findByUsername() {
-		when(usuarioRepositorio.findByUsername(usuarioTest.getUsername())).thenReturn(opUser);
+		when(usuarioRepositorio.findByUsername(any(String.class))).thenReturn(opUser);
 		Assertions.assertNotNull(usuarioService.findByUsername(usuarioTest.getUsername()));
 	}
 	@Test
 	void
 	findById() {
-		when(usuarioRepositorio.findById(usuarioTest.getId())).thenReturn(opUser);
+		when(usuarioRepositorio.findById(any(Long.class))).thenReturn(opUser);
 		Assertions.assertNotNull(usuarioService.findById(usuarioTest.getId()));
 		
 	}
@@ -96,7 +98,7 @@ public class UsuarioServiceTest {
 	@Test
 	void
 	deleteByUsername() {	
-		when(usuarioRepositorio.findByUsername(usuarioTest.getUsername())).thenReturn(opUser);
+		when(usuarioRepositorio.findByUsername(any(String.class))).thenReturn(opUser);
 		usuarioService.deleteByUsername(usuarioTest.getUsername());
 		verify(usuarioRepositorio).deleteByUsername(usuarioTest.getUsername());	
 		
@@ -104,14 +106,14 @@ public class UsuarioServiceTest {
 	@Test
 	void
 	existsByUsername() {
-		when(usuarioRepositorio.existsByUsername(usuarioTest.getUsername())).thenReturn(true);
+		when(usuarioRepositorio.existsByUsername(any(String.class))).thenReturn(true);
 		Assertions.assertNotNull(usuarioService.existsByUsername(usuarioTest.getUsername()));
 
 	}
 	@Test
 	void
 	existsByEmail() {
-		when(usuarioRepositorio.existsByEmail(usuarioTest.getUsername())).thenReturn(true);
+		when(usuarioRepositorio.existsByEmail(any(String.class))).thenReturn(true);
 		Assertions.assertNotNull(usuarioService.existsByEmail(usuarioTest.getEmail()));
 
 		
@@ -119,16 +121,17 @@ public class UsuarioServiceTest {
 	@Test
 	void
 	deleteById() {
-		when(usuarioRepositorio.findById(usuarioTest.getId())).thenReturn(opUser);
-		usuarioService.deleteById(usuarioTest.getId());
-		verify(usuarioRepositorio).deleteById(usuarioTest.getId());		
+		when(usuarioRepositorio.findById(any(Long.class))).thenReturn(opUser); 
+		Long uno = 1L;
+		usuarioService.deleteById(uno);
+		verify(usuarioRepositorio, times(1)).deleteById(uno);
 		
 	}
 	
 	@Test
 	void flush(){
-		when(usuarioRepositorio.findById(usuarioTest.getId())).thenReturn(opUser);
-		usuarioService.flush(usuarioTest);
-		verify(usuarioRepositorio).flush();
+		when(usuarioRepositorio.save(any(Usuario.class))).thenReturn(usuarioTest);
+		usuarioService.save(usuarioTest);
+		verify(usuarioRepositorio).save(usuarioTest);
 	}
 }

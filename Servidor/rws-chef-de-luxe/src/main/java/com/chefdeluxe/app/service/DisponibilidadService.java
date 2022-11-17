@@ -51,8 +51,8 @@ public class DisponibilidadService {
 		Pageable pageable = PageRequest.of(pageIndex, pageSize, sort);
 		return disponibilidadRepositorio.findAll(pageable).getContent();
 	}
-	public void deleteById(Long Id) {
-		disponibilidadRepositorio.deleteById(Id);
+	public void deleteById(Long id) {
+		disponibilidadRepositorio.deleteById(id);
 	}
 
 	public void flush(Disponibilidad disponibilidadUpd) {

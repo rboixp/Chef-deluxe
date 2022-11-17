@@ -57,8 +57,9 @@ public class UsuarioService {
 		 return usuarioRepositorio.existsByEmail(email);	
 		}
 	
-	public void deleteById (long id) {
+	public boolean deleteById (Long id) {
 		usuarioRepositorio.deleteById(id);
+		return true;
 		
 	}
 	
@@ -77,7 +78,7 @@ public class UsuarioService {
 		usuario.setEdad(usuarioUpd.getEdad());
 		usuario.setTelefono(usuarioUpd.getTelefono());
 		usuario.setIban(usuarioUpd.getIban());		
-		usuarioRepositorio.flush();
+		usuarioRepositorio.save(usuario);
 		
 	}
 

@@ -1,6 +1,7 @@
 package com.chefdeluxe.app.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -65,7 +66,7 @@ public class ReservaServiceTest {
 	}
 	@Test
 	public void findById() {
-		when(reservaRepositorio.findById(reserva.getId())).thenReturn(opReserva);
+		when(reservaRepositorio.findById(any(Long.class))).thenReturn(opReserva);
 		Assertions.assertNotNull(reservaService.findById(reserva.getId()));
 	}
 	@Test
@@ -75,7 +76,7 @@ public class ReservaServiceTest {
 	}
 	@Test
 	public void flush() {
-		when(reservaRepositorio.findById(reserva.getId())).thenReturn(opReserva);
+		when(reservaRepositorio.findById(any(Long.class))).thenReturn(opReserva);
 		reservaService.flush(reserva.getId(),reserva.getEstado());
 		verify(reservaRepositorio).flush();		
 
@@ -83,9 +84,10 @@ public class ReservaServiceTest {
 	}
 	@Test
 	public void deleteById() {
-		when(reservaRepositorio.findById(reserva.getId())).thenReturn(opReserva);
-		reservaService.deleteById(reserva.getId());
-		verify(reservaRepositorio).deleteById(reserva.getId());
+		when(reservaRepositorio.findById(any(Long.class))).thenReturn(opReserva);
+		Long uno = 1L;
+		reservaService.deleteById(uno);
+		verify(reservaRepositorio, times(1)).deleteById(uno);
 
 	}
 	
