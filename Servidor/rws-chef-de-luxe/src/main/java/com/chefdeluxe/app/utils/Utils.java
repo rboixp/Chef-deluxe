@@ -32,9 +32,11 @@ public class Utils {
 	}
 	
 	public Boolean usuarioAutorizado(String usernameOrEmail , Authentication token) {
+		System.out.println("token.getName() " +token.getName());
 		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(token.getName(),token.getName());
-		Rol rol = rolService.findByRole("ROL_ADMIN");
-		Usuario usuario = usuarioService.findByUsernameOrEmail(token.getName(),token.getName());
+		Rol rol = rolService.findByRole("ROLE_ADMIN");
+		System.out.println("usernameOrEmail " +usernameOrEmail);
+		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
 		return usuarioJWT.getRoles().contains(rol) || usuario.getUsername().equals(usuarioJWT.getUsername());
 	}
 

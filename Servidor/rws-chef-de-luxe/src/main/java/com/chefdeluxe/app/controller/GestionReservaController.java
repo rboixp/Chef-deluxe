@@ -186,7 +186,7 @@ public class GestionReservaController {
 			Usuario chef = usuarioService.findById(reserva.getIdChef());
 			reservaDTO.setChef(chef.getUsername());
 			reservaDTO.setIncio(reserva.getInicio());
-			reservaDTO.setFin(reserva.getInicio());
+			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaListDTO.add(reservaDTO);
 		}
@@ -259,7 +259,7 @@ public class GestionReservaController {
 			Usuario chef = usuarioService.findById(reserva.getIdChef());
 			reservaDTO.setChef(chef.getUsername());
 			reservaDTO.setIncio(reserva.getInicio());
-			reservaDTO.setFin(reserva.getInicio());
+			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaListDTO.add(reservaDTO);
 		}
@@ -271,7 +271,7 @@ public class GestionReservaController {
 	/**
 	 * Clase getListaReservaClient
 	 *
-	 * retorna una llista de reserves d'un client
+	 * retorna una llista de reserves d'un client amb paginació 
 	 */
 	@GetMapping("/reserva/get/client/paginable")
 	public ResponseEntity<?> getListaReservaClient(String usernameOrEmail, int pageIndex, int pageSize) {
@@ -299,7 +299,7 @@ public class GestionReservaController {
 			Usuario chef = usuarioService.findById(reserva.getIdChef());
 			reservaDTO.setChef(chef.getUsername());
 			reservaDTO.setIncio(reserva.getInicio());
-			reservaDTO.setFin(reserva.getInicio());
+			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaListDTO.add(reservaDTO);
 		}
@@ -309,9 +309,9 @@ public class GestionReservaController {
 	}
 
 	/**
-	 * Clase getListaReservaClient
+	 * Clase getListaReservaChef
 	 *
-	 * retorna una llista de reserves d'un client
+	 * retorna una llista de reserves d'un chef amb paginació
 	 */
 	@GetMapping("/reserva/get/chef/paginable")
 	public ResponseEntity<?> getListaReservaChef(String usernameOrEmail, int pageIndex, int pageSize) {
@@ -339,7 +339,7 @@ public class GestionReservaController {
 			Usuario chef = usuarioService.findById(reserva.getIdChef());
 			reservaDTO.setChef(chef.getUsername());
 			reservaDTO.setIncio(reserva.getInicio());
-			reservaDTO.setFin(reserva.getInicio());
+			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaListDTO.add(reservaDTO);
 		}

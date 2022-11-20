@@ -2,7 +2,6 @@ package com.chefdeluxe.app.controller;
 
 import java.util.ArrayList;
 
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,6 +38,7 @@ import com.chefdeluxe.app.entidades.Usuario;
 import com.chefdeluxe.app.service.DisponibilidadService;
 import com.chefdeluxe.app.service.RolService;
 import com.chefdeluxe.app.service.UsuarioService;
+import com.chefdeluxe.app.utils.Utils;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
 
 /**
@@ -52,240 +52,264 @@ import com.chefdeluxe.app.seguridad.JwtTokenProvider;
 public class GestionDisponibilidadController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@Autowired
-	private
-	UsuarioService usuarioService;
-	
+	private UsuarioService usuarioService;
+
 	@Autowired
-	private DisponibilidadService disponibilidadService;	
-	
+	private DisponibilidadService disponibilidadService;
+
 	@Autowired
 	private RolService rolService;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-		
+
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;	
-	
+	private JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	private Utils utils;
+
 	@PersistenceContext
 	EntityManager em;
-	
+
 	/**
 	 * End point altaDisponibilidad
 	 *
 	 * Registra una disponibilitat a la base de dades.
 	 */
-	
+
 	@PostMapping("/disponibilidad/post")
-	public ResponseEntity<?> altaDisponibilidad(@RequestBody DisponibilidadDTO disponibilidadDTO){
-		
-		  String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		  
-	      Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-	      Rol rolChef = rolService.findByRole("ROLE_CHEF");
-	      
-	      if (!usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolAdmin)) {
-	    	  if (!usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getRoles().contains(rolChef)) {
-	    		  return new ResponseEntity<>("token no valido, no es de chef",HttpStatus.BAD_REQUEST);
-	    	  } else {
-	    		  if (!usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getUsername().equals(usuarioService.findByUsernameOrEmail(disponibilidadDTO.getUsernameOrEmail(),disponibilidadDTO.getUsernameOrEmail()).getUsername())) 
-	    				  return new ResponseEntity<>("Usuario del token <" 
-	    		                  + usuarioService.findByUsernameOrEmail(nameJWT,nameJWT).getUsername()
-	    						  + "> no coincide con usuario del Body <"
-	    						  + usuarioService.findByUsernameOrEmail(disponibilidadDTO.getUsernameOrEmail(),disponibilidadDTO.getUsernameOrEmail()).getUsername()
-	    						  +">",HttpStatus.BAD_REQUEST);  
-	    			  }
-	      }
-	      
-        Long userId = usuarioService.findByUsernameOrEmail(disponibilidadDTO.getUsernameOrEmail(),disponibilidadDTO.getUsernameOrEmail()).getId();
+	public ResponseEntity<?> altaDisponibilidad(@RequestBody DisponibilidadDTO disponibilidadDTO) {
+
+		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Rol rolChef = rolService.findByRole("ROLE_CHEF");
+
+		Boolean esOK = false;
+
+		if (utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
+			esOK = true;
+		}
+
+		if (utils.usuarioEsDelRol("ROLE_CHEF", SecurityContextHolder.getContext().getAuthentication())
+				&& usuarioService.findByUsernameOrEmail(nameJWT, nameJWT).getEmail()
+						.equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+			esOK = true;
+		}
+
+		if (!esOK) {
+			return new ResponseEntity<>("Usuario no tiene permisos", HttpStatus.BAD_REQUEST);
+		}
+
+		Long userId = usuarioService
+				.findByUsernameOrEmail(disponibilidadDTO.getUsernameOrEmail(), disponibilidadDTO.getUsernameOrEmail())
+				.getId();
 		Disponibilidad disponibilidad = new Disponibilidad();
 		disponibilidad.setIdUser(userId);
 		disponibilidad.setPoblacion(disponibilidadDTO.getPoblacion());
 		disponibilidad.setEstado(disponibilidadDTO.getEstado());
 		try {
-		disponibilidadService.save(disponibilidad);
+			disponibilidadService.save(disponibilidad);
 		} catch (Exception e) {
-			return new ResponseEntity<>("Error insertando registro: \n" +e.getMessage(),HttpStatus.BAD_REQUEST);
-			
+			return new ResponseEntity<>("Error insertando registro: \n" + e.getMessage(), HttpStatus.BAD_REQUEST);
+
 		}
-		return new ResponseEntity<>("Disponibilidad dada de alta exitosamente",HttpStatus.OK);
+		return new ResponseEntity<>("Disponibilidad dada de alta exitosamente", HttpStatus.OK);
 	}
-	
+
 	/**
 	 * End point getUsuario
 	 *
 	 * Retorna les disponibilitats d'un usuari.
 	 */
 	@GetMapping("/disponibilidad/get/username")
-	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail){		
-		
-		  String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		  
-	      Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-	      Rol rolChef = rolService.findByRole("ROLE_CHEF"); 
+	public ResponseEntity<?> getUsuario(@RequestParam String usernameOrEmail) {
 
-	      Long userId = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail).getId();
-	      System.out.println("userId " +userId);
-	      List<Disponibilidad> diponibilidades = disponibilidadService.findByIdUser(userId); 
-	      
-	      List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
-	      
-		 Iterator<Disponibilidad> it = diponibilidades.iterator();
-			
-			while(it.hasNext()) {
-				  Disponibilidad dispo = it.next();
-			      DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
-			      disponibilidadDTO.setEstado(dispo.getEstado());
-			      disponibilidadDTO.setPoblacion(dispo.getPoblacion());
-			      disponibilidadDTO.setUsernameOrEmail(usernameOrEmail);
-			      disponibilidadDTO.setId(dispo.getId());
-			      disponibilidadListDTO.add(disponibilidadDTO);
-				};
-				
-		 return new ResponseEntity<> (disponibilidadListDTO, HttpStatus.OK);			
+		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Rol rolChef = rolService.findByRole("ROLE_CHEF");
+
+		if (!utils.usuarioAutorizado(usernameOrEmail, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
+		}
+
+		Long userId = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail).getId();
+		System.out.println("userId " + userId);
+		List<Disponibilidad> diponibilidades = disponibilidadService.findByIdUser(userId);
+
+		List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
+
+		Iterator<Disponibilidad> it = diponibilidades.iterator();
+
+		while (it.hasNext()) {
+			Disponibilidad dispo = it.next();
+			DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
+			disponibilidadDTO.setEstado(dispo.getEstado());
+			disponibilidadDTO.setPoblacion(dispo.getPoblacion());
+			disponibilidadDTO.setUsernameOrEmail(usernameOrEmail);
+			disponibilidadDTO.setId(dispo.getId());
+			disponibilidadListDTO.add(disponibilidadDTO);
+		}
+		;
+
+		return new ResponseEntity<>(disponibilidadListDTO, HttpStatus.OK);
 
 	}
+
 	/**
 	 * End point getUsuario
 	 *
 	 * Retorna les disponibilitats d'un usuari amb paginacio
 	 */
 	@GetMapping("/disponibilidad/get/username/paginable")
-	public ResponseEntity<?>  getUsuario(@RequestParam String usernameOrEmail, @RequestParam int pageIndex, @RequestParam int pageSize){		
-		
-		  String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
-		  
-	      Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
-	      Rol rolChef = rolService.findByRole("ROLE_CHEF"); 
+	public ResponseEntity<?> getUsuario(@RequestParam String usernameOrEmail, @RequestParam int pageIndex,
+			@RequestParam int pageSize) {
 
-	      Long userId = usuarioService.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail).getId();
-	      System.out.println("userId " +userId);
-	      List<Disponibilidad> diponibilidades = disponibilidadService.findByIdUser(userId, pageIndex, pageSize); 
-	      
-	      List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
-	      
-		 Iterator<Disponibilidad> it = diponibilidades.iterator();
-			
-			while(it.hasNext()) {
-				  Disponibilidad dispo = it.next();
-			      DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
-			      disponibilidadDTO.setEstado(dispo.getEstado());
-			      disponibilidadDTO.setPoblacion(dispo.getPoblacion());
-			      disponibilidadDTO.setUsernameOrEmail(usernameOrEmail);
-			      disponibilidadDTO.setId(dispo.getId());
-			      disponibilidadListDTO.add(disponibilidadDTO);
-				};
-				
-		 return new ResponseEntity<> (disponibilidadListDTO, HttpStatus.OK);			
+		if (!utils.usuarioAutorizado(usernameOrEmail, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
+		}
+
+		Long userId = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail).getId();
+		List<Disponibilidad> diponibilidades = disponibilidadService.findByIdUser(userId, pageIndex, pageSize);
+
+		List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
+
+		Iterator<Disponibilidad> it = diponibilidades.iterator();
+
+		while (it.hasNext()) {
+			Disponibilidad dispo = it.next();
+			DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
+			disponibilidadDTO.setEstado(dispo.getEstado());
+			disponibilidadDTO.setPoblacion(dispo.getPoblacion());
+			disponibilidadDTO.setUsernameOrEmail(usernameOrEmail);
+			disponibilidadDTO.setId(dispo.getId());
+			disponibilidadListDTO.add(disponibilidadDTO);
+		}
+		;
+
+		return new ResponseEntity<>(disponibilidadListDTO, HttpStatus.OK);
 
 	}
+
 	/**
 	 * End point getListaDisponibilidad
 	 *
 	 * Retorna la llista de disponibilitats.
 	 */
 	@GetMapping("/disponibilidad/get/all")
-	public ResponseEntity<?> getListaDisponibilidad( ){
-		
+	public ResponseEntity<?> getListaDisponibilidad() {
+
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Rol rolClient = rolService.findByRole("ROLE_CLIENT");
 		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		
-		if (!usuarioJWT.getRoles().contains(rolAdmin)) {
-			return new ResponseEntity<>("Usuario <" +nameJWT +"> no es admin " , HttpStatus.BAD_REQUEST);
-		}	
-		
-	      List<Disponibilidad> diponibilidades = disponibilidadService.findAll();
-	      
-	      List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
-	      
-			Iterator<Disponibilidad> it = diponibilidades.iterator();
-			
-			while(it.hasNext()) {
-				  Disponibilidad dispo = it.next();
-			      DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
-			      disponibilidadDTO.setEstado(dispo.getEstado());
-			      disponibilidadDTO.setPoblacion(dispo.getPoblacion());
-			      disponibilidadDTO.setUsernameOrEmail(usuarioService.findById(dispo.getIduser()).getUsername());
-			      disponibilidadDTO.setId(dispo.getId());
-			      disponibilidadListDTO.add(disponibilidadDTO); 
-				};
-		
-		return new ResponseEntity<> (disponibilidadListDTO, HttpStatus.OK);
-	}	
+
+		if (!usuarioJWT.getRoles().contains(rolAdmin) && !usuarioJWT.getRoles().contains(rolClient)) {
+			return new ResponseEntity<>("Usuario <" + nameJWT + "> no es admin ni cliente", HttpStatus.BAD_REQUEST);
+		}
+
+		List<Disponibilidad> diponibilidades = disponibilidadService.findAll();
+
+		List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
+
+		Iterator<Disponibilidad> it = diponibilidades.iterator();
+
+		while (it.hasNext()) {
+			Disponibilidad dispo = it.next();
+			DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
+			disponibilidadDTO.setEstado(dispo.getEstado());
+			disponibilidadDTO.setPoblacion(dispo.getPoblacion());
+			disponibilidadDTO.setUsernameOrEmail(usuarioService.findById(dispo.getIduser()).getUsername());
+			disponibilidadDTO.setId(dispo.getId());
+			disponibilidadListDTO.add(disponibilidadDTO);
+		}
+		;
+
+		return new ResponseEntity<>(disponibilidadListDTO, HttpStatus.OK);
+	}
+
 	/**
 	 * End point getListaDisponibilidad
 	 *
 	 * Retorna la llista de disponibilitats amb paginacio.
 	 */
-	
+
 	@GetMapping("/disponibilidad/get/all/paginable")
-	public ResponseEntity<?> getListaDisponibilidad(@RequestParam int pageIndex, @RequestParam int pageSize ){
-		
+	public ResponseEntity<?> getListaDisponibilidad(@RequestParam int pageIndex, @RequestParam int pageSize) {
+
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
+		Rol rolClient = rolService.findByRole("ROLE_CLIENT");
 		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
-		
-		if (!usuarioJWT.getRoles().contains(rolAdmin)) {
-			return new ResponseEntity<>("Usuario <" +nameJWT +"> no es admin " , HttpStatus.BAD_REQUEST);
-		}	
-		
-	      List<Disponibilidad> diponibilidades = disponibilidadService.findAll(pageIndex,pageSize);
-	      
-	      List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
-	      
-			Iterator<Disponibilidad> it = diponibilidades.iterator();
-			
-			while(it.hasNext()) {
-				  Disponibilidad dispo = it.next();
-			      DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
-			      disponibilidadDTO.setEstado(dispo.getEstado());
-			      disponibilidadDTO.setPoblacion(dispo.getPoblacion());
-			      disponibilidadDTO.setUsernameOrEmail(usuarioService.findById(dispo.getIduser()).getUsername());
-			      disponibilidadDTO.setId(dispo.getId());
-			      disponibilidadListDTO.add(disponibilidadDTO); 
-				};
-		
-		return new ResponseEntity<> (disponibilidadListDTO, HttpStatus.OK);
-	}	
+
+		if (!usuarioJWT.getRoles().contains(rolAdmin) && !usuarioJWT.getRoles().contains(rolClient)) {
+			return new ResponseEntity<>("Usuario <" + nameJWT + "> no es admin ni cliente", HttpStatus.BAD_REQUEST);
+		}
+
+		List<Disponibilidad> diponibilidades = disponibilidadService.findAll(pageIndex, pageSize);
+
+		List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
+
+		Iterator<Disponibilidad> it = diponibilidades.iterator();
+
+		while (it.hasNext()) {
+			Disponibilidad dispo = it.next();
+			DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
+			disponibilidadDTO.setEstado(dispo.getEstado());
+			disponibilidadDTO.setPoblacion(dispo.getPoblacion());
+			disponibilidadDTO.setUsernameOrEmail(usuarioService.findById(dispo.getIduser()).getUsername());
+			disponibilidadDTO.setId(dispo.getId());
+			disponibilidadListDTO.add(disponibilidadDTO);
+		}
+		;
+
+		return new ResponseEntity<>(disponibilidadListDTO, HttpStatus.OK);
+	}
+
 	/**
 	 * End point getListaDisponibilidadEstado
 	 *
 	 * Retorna lla llista de disponibilitats filtrada per estats i poblacio
 	 */
 	@GetMapping("/disponibilidad/get/filtrado")
-	public ResponseEntity<?> getListaDisponibilidadEstado( @RequestParam String estado ,@RequestParam String poblacion){	
-		
-	      List<Disponibilidad> diponibilidades = disponibilidadService.findAll();
-	      
-	      List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
-	      
-			Iterator<Disponibilidad> it = diponibilidades.iterator();
-			
-			while(it.hasNext()) {
-				  Disponibilidad dispo = it.next();
-			      DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
-			      disponibilidadDTO.setEstado(dispo.getEstado());
-			      disponibilidadDTO.setPoblacion(dispo.getPoblacion());
-			      disponibilidadDTO.setUsernameOrEmail(usuarioService.findById(dispo.getIduser()).getUsername());
-			      disponibilidadDTO.setId(dispo.getId());
-			      Boolean filtro = (estado.equalsIgnoreCase("todos")    || estado.equalsIgnoreCase   (dispo.getEstado()) ) &&
-			    		            (poblacion.equalsIgnoreCase("todos") || poblacion.equalsIgnoreCase(dispo.getPoblacion()) );
-			      
-			      if (filtro) {disponibilidadListDTO.add(disponibilidadDTO); }
+	public ResponseEntity<?> getListaDisponibilidadEstado(@RequestParam String estado, @RequestParam String poblacion) {
 
-				};
-		
-		return new ResponseEntity<> (disponibilidadListDTO, HttpStatus.OK);
-	}		
+		List<Disponibilidad> diponibilidades = disponibilidadService.findAll();
+
+		List<DisponibilidadDTO> disponibilidadListDTO = new ArrayList();
+
+		Iterator<Disponibilidad> it = diponibilidades.iterator();
+
+		while (it.hasNext()) {
+			Disponibilidad dispo = it.next();
+			DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO();
+			disponibilidadDTO.setEstado(dispo.getEstado());
+			disponibilidadDTO.setPoblacion(dispo.getPoblacion());
+			disponibilidadDTO.setUsernameOrEmail(usuarioService.findById(dispo.getIduser()).getUsername());
+			disponibilidadDTO.setId(dispo.getId());
+			Boolean filtro = (estado.equalsIgnoreCase("todos") || estado.equalsIgnoreCase(dispo.getEstado()))
+					&& (poblacion.equalsIgnoreCase("todos") || poblacion.equalsIgnoreCase(dispo.getPoblacion()));
+
+			if (filtro) {
+				disponibilidadListDTO.add(disponibilidadDTO);
+			}
+
+		}
+		;
+
+		return new ResponseEntity<>(disponibilidadListDTO, HttpStatus.OK);
+	}
+
 	/**
 	 * End point deleteDisponibilidad
 	 *
 	 * Esborra un registre de disponibilitat
 	 */
-	@DeleteMapping("/disponibilidad/delete") 
+	@DeleteMapping("/disponibilidad/delete")
 	public ResponseEntity<?> deleteDisponibilidad(@RequestParam Long id) {
 
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -293,42 +317,44 @@ public class GestionDisponibilidadController {
 
 		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
 
-
 		if (usuarioJWT.getRoles().contains(rolAdmin)) {
 			disponibilidadService.deleteById(id);
 			return new ResponseEntity<>(
-					"el registro de disponibilidad con id <" +id +"> se ha eliminado exitosamente", HttpStatus.OK);
+					"el registro de disponibilidad con id <" + id + "> se ha eliminado exitosamente", HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("Solo se permite delete para el usuario administrador ", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Solo se permite delete para el usuario administrador ",
+					HttpStatus.BAD_REQUEST);
 		}
 	}
+
 	/**
 	 * End point UpdateDisponibilidad
 	 *
 	 * Actualitza un registre de disponibilitat
 	 */
 	@PutMapping("/disponibilidad/update/estado")
-	public ResponseEntity<?> UpdateDisponibilidad(@RequestParam String usernameOrEmail,@RequestParam String poblacion, @RequestBody DisponibilidadDTO disponibilidadDTO){
+	public ResponseEntity<?> UpdateDisponibilidad(@RequestParam String usernameOrEmail, @RequestParam String poblacion,
+			@RequestBody DisponibilidadDTO disponibilidadDTO) {
 
 		String nameJWT = SecurityContextHolder.getContext().getAuthentication().getName();
 		Rol rolAdmin = rolService.findByRole("ROLE_ADMIN");
 		Usuario usuarioJWT = usuarioService.findByUsernameOrEmail(nameJWT, nameJWT);
 		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
-	
+
 		if (!usuarioJWT.getRoles().contains(rolAdmin) && !nameJWT.equals(usuario.getEmail())) {
-			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar" , HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Usuario no es admin o el usuario del jtw es difrente del usuario a actualziar",
+					HttpStatus.BAD_REQUEST);
 		}
 
-		Disponibilidad disponibilidad = disponibilidadService.findByIdUserAndPoblacion(usuario.getId(),poblacion);
+		Disponibilidad disponibilidad = disponibilidadService.findByIdUserAndPoblacion(usuario.getId(), poblacion);
 
-
-		disponibilidad.setEstado(disponibilidadDTO.getEstado());		
+		disponibilidad.setEstado(disponibilidadDTO.getEstado());
 		disponibilidadService.flush(disponibilidad);
 		disponibilidadDTO.setId(disponibilidad.getId());
 		disponibilidadDTO.setUsernameOrEmail(usernameOrEmail);
 		disponibilidadDTO.setPoblacion(poblacion);
-		
-		return new ResponseEntity<>(disponibilidadDTO,HttpStatus.OK);		
-	
-	}	
+
+		return new ResponseEntity<>(disponibilidadDTO, HttpStatus.OK);
+
+	}
 }
