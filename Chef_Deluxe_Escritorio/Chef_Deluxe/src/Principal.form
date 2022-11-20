@@ -110,6 +110,9 @@
                   <Group type="103" rootIndex="10" groupAlignment="0" attributes="0">
                       <Component id="jPanel_listaChefsDisponibles" alignment="0" pref="930" max="32767" attributes="0"/>
                   </Group>
+                  <Group type="103" rootIndex="11" groupAlignment="0" attributes="0">
+                      <Component id="jPanel_eliminarPropiaCuenta" alignment="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -147,6 +150,9 @@
                   </Group>
                   <Group type="103" rootIndex="10" groupAlignment="0" attributes="0">
                       <Component id="jPanel_listaChefsDisponibles" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="103" rootIndex="11" groupAlignment="0" attributes="0">
+                      <Component id="jPanel_eliminarPropiaCuenta" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -319,12 +325,7 @@
                                           <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="0" pref="53" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel_poblacion1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel_poblacionUsuario" min="-2" pref="585" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -353,6 +354,7 @@
                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                               <Component id="jLabel_edadUsuario" alignment="0" min="-2" pref="99" max="-2" attributes="0"/>
                                                               <Component id="jLabel_edad1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jLabel_poblacion1" alignment="0" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                           <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -360,6 +362,7 @@
                                                               <Component id="jLabel_tipoUsuarioUsuario" min="-2" pref="189" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
+                                                      <Component id="jLabel_poblacionUsuario" alignment="0" min="-2" pref="585" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
@@ -371,7 +374,7 @@
                                                   </Group>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -773,7 +776,7 @@
                                   <Component id="jTextField_direccion" alignment="1" min="-2" pref="831" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="45" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1197,76 +1200,77 @@
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="103" alignment="1" groupAlignment="1" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="jTextField_editarNacionalidad" pref="152" max="32767" attributes="0"/>
-                                                  <Component id="jTextField_editarCodigoPostal" max="32767" attributes="0"/>
-                                              </Group>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <EmptySpace min="74" pref="74" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Group type="102" attributes="0">
-                                                              <Component id="jLabel_poblacion2" min="-2" max="-2" attributes="0"/>
-                                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                          </Group>
-                                                          <Component id="jTextField_editarPoblacion" max="32767" attributes="0"/>
-                                                          <Group type="102" alignment="1" attributes="0">
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="jLabel_edad2" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="jTextField_editarEdad" min="-2" pref="50" max="-2" attributes="0"/>
-                                                              </Group>
-                                                              <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="jLabel_tipoUsuario2" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="jComboBox_editarTipoUsuario" min="-2" pref="160" max="-2" attributes="0"/>
-                                                              </Group>
-                                                              <EmptySpace max="32767" attributes="0"/>
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                                      <Component id="jTextField_editarTelefono" pref="172" max="32767" attributes="0"/>
-                                                                      <Component id="jLabel_telefono1" min="-2" max="-2" attributes="0"/>
-                                                                      <Component id="jTextField_editarUsername" alignment="0" max="32767" attributes="0"/>
-                                                                  </Group>
-                                                              </Group>
-                                                          </Group>
-                                                      </Group>
-                                                  </Group>
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <EmptySpace max="32767" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jTextField_editarIBAN" min="-2" pref="330" max="-2" attributes="0"/>
-                                                          </Group>
-                                                          <Group type="102" alignment="1" attributes="0">
-                                                              <Component id="jButton_editarCuenta" min="-2" pref="157" max="-2" attributes="0"/>
-                                                              <EmptySpace min="-2" pref="303" max="-2" attributes="0"/>
-                                                              <Component id="jButton_exit1" min="-2" max="-2" attributes="0"/>
-                                                          </Group>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel_nombre2" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jTextField_editarNombre" min="-2" pref="246" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jLabel_nacionalidad2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel_codigoPostal2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel_direccion2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jTextField_editarApellidos" min="-2" pref="597" max="-2" attributes="0"/>
+                                              <Component id="jLabel_apellidos2" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jTextField_editarDireccion" alignment="0" max="32767" attributes="0"/>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jTextField_editarNombre" alignment="0" min="-2" pref="227" max="-2" attributes="0"/>
-                                                  <Component id="jLabel_nombre2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTextField_editarDireccion" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jTextField_editarNacionalidad" pref="152" max="32767" attributes="0"/>
+                                              <Component id="jTextField_editarCodigoPostal" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="74" pref="74" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <Component id="jLabel_poblacion2" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <Component id="jTextField_editarPoblacion" max="32767" attributes="0"/>
+                                                      <Group type="102" alignment="1" attributes="0">
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="jLabel_edad2" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jTextField_editarEdad" min="-2" pref="50" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="jLabel_tipoUsuario2" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jComboBox_editarTipoUsuario" min="-2" pref="160" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace max="32767" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                                  <Component id="jTextField_editarTelefono" pref="172" max="32767" attributes="0"/>
+                                                                  <Component id="jLabel_telefono1" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="jTextField_editarUsername" alignment="0" max="32767" attributes="0"/>
+                                                              </Group>
+                                                          </Group>
+                                                      </Group>
+                                                  </Group>
                                               </Group>
-                                              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabel_apellidos2" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jTextField_editarApellidos" min="-2" pref="526" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <EmptySpace pref="209" max="32767" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="jTextField_editarIBAN" min="-2" pref="330" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="1" attributes="0">
+                                                          <Component id="jButton_editarCuenta" min="-2" pref="157" max="-2" attributes="0"/>
+                                                          <EmptySpace min="-2" pref="303" max="-2" attributes="0"/>
+                                                          <Component id="jButton_exit1" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
                                               </Group>
                                           </Group>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jLabel_nacionalidad2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel_codigoPostal2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel_direccion2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
@@ -1361,6 +1365,9 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField_editarApellidos">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_editarApellidosActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField_editarDireccion">
                 </Component>
@@ -1534,7 +1541,7 @@
                               <Component id="jToggleButton_editarDatosAdmin" min="-2" pref="322" max="-2" attributes="0"/>
                               <Component id="jToggleButton_verDatosAdmin" min="-2" pref="322" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="311" max="32767" attributes="0"/>
+                          <EmptySpace pref="306" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1549,7 +1556,7 @@
                           <Component id="jToggleButton_verListaAdmin" min="-2" pref="32" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Component id="jToggleButton_borrarUsuarioAdmin" min="-2" pref="32" max="-2" attributes="0"/>
-                          <EmptySpace pref="268" max="32767" attributes="0"/>
+                          <EmptySpace pref="245" max="32767" attributes="0"/>
                           <Component id="jToggleButton_salirOpcionesAdmin" min="-2" pref="31" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       </Group>
@@ -1699,7 +1706,7 @@
                               <Component id="jToggleButton_verDatosChef" max="32767" attributes="0"/>
                               <Component id="jToggleButton_editarDatosChef" alignment="0" max="32767" attributes="0"/>
                               <Component id="jToggleButton_disponibilidadChef" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jToggleButton16" alignment="0" pref="253" max="32767" attributes="0"/>
+                              <Component id="jToggleButton_bajaChef" alignment="0" pref="253" max="32767" attributes="0"/>
                               <Component id="jToggleButton_salirOpcionesChef" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace pref="110" max="32767" attributes="0"/>
@@ -1716,7 +1723,7 @@
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jToggleButton_disponibilidadChef" min="-2" pref="32" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="jToggleButton16" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="jToggleButton_bajaChef" min="-2" pref="32" max="-2" attributes="0"/>
                           <EmptySpace pref="219" max="32767" attributes="0"/>
                           <Component id="jToggleButton_salirOpcionesChef" min="-2" pref="31" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
@@ -1749,10 +1756,13 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton_disponibilidadChefActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JToggleButton" name="jToggleButton16">
+                <Component class="javax.swing.JToggleButton" name="jToggleButton_bajaChef">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Dar de baja mi cuenta"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton_bajaChefActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton_editarDatosChef">
                   <Properties>
@@ -2240,6 +2250,80 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton_filtradoListaChefsActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel_eliminarPropiaCuenta">
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="159" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="191" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="254" max="-2" attributes="0"/>
+                          <Component id="jButton_eliminarEliminarCuenta" min="-2" pref="105" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="173" max="-2" attributes="0"/>
+                          <Component id="jButton_volverEliminarCuenta" min="-2" pref="92" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                          <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jButton_eliminarEliminarCuenta" pref="41" max="32767" attributes="0"/>
+                              <Component id="jButton_volverEliminarCuenta" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="267" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabel25">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="2"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Si desea eliminar definitivamente su cuenta, pulse el bot&#xf3;n &quot;Eliminar&quot;, en caso contrario pulse &quot;Volver&quot;."/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel26">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="12" style="2"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="La eliminaci&#xf3;n de la cuenta es una acci&#xf3;n irreversible. Deber&#xe1; crear otra para volver a acceder al programa."/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton_eliminarEliminarCuenta">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Eliminar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_eliminarEliminarCuentaActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton_volverEliminarCuenta">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Volver"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_volverEliminarCuentaActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
