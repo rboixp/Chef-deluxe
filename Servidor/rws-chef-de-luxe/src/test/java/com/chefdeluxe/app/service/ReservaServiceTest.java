@@ -59,7 +59,7 @@ public class ReservaServiceTest {
 		
 	}
 	@Test
-	public void save() {
+	public void alta_reserva() {
 		when(reservaRepositorio.save(any(Reserva.class))).thenReturn(reserva);
 		reservaService.save(reserva);
 		verify(reservaRepositorio).save(reserva);
@@ -75,7 +75,7 @@ public class ReservaServiceTest {
 		Assertions.assertNotNull(reservaService.findAll());
 	}
 	@Test
-	public void flush() {
+	public void update() {
 		when(reservaRepositorio.findById(any(Long.class))).thenReturn(opReserva);
 		reservaService.flush(reserva.getId(),reserva.getEstado());
 		verify(reservaRepositorio).flush();		

@@ -19,6 +19,7 @@ public interface DisponibilidadRepositorio extends JpaRepository<Disponibilidad,
 	 Page<Disponibilidad> findAll (Pageable pageable);
 	
 	 Disponibilidad  save(Disponibilidad disponibilidad);
+	 
 	
 	 Optional<Disponibilidad> findById(long id) ;
 	 

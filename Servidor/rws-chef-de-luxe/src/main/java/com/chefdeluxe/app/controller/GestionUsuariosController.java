@@ -272,7 +272,7 @@ public class GestionUsuariosController {
 			return "Maxima longitud codigo postal es 10";
 		}
 		
-		if (registroDTO.getDireccion().length() > 10 ) {
+		if (registroDTO.getDireccion().length() > 128 ) {
 			return "Maxima longitud direccion es 128";
 		}
 		
@@ -284,7 +284,7 @@ public class GestionUsuariosController {
 			return "Edad mínima es 18";
 		}
 		
-		if (registroDTO.getDireccion().length() > 128 ) {
+		if (registroDTO.getEmail().length() > 60 ) {
 			return "Maxima longitud email es 60";
 		}
 		

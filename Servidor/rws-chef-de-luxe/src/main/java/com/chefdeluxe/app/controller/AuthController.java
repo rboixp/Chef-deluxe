@@ -19,7 +19,6 @@ import com.chefdeluxe.app.entidades.Usuario;
 import com.chefdeluxe.app.dto.LoginDTO;
 import com.chefdeluxe.app.dto.RegisterDTO;
 import com.chefdeluxe.app.entidades.Rol;
-import com.chefdeluxe.app.entidades.Traza;
 import com.chefdeluxe.app.service.RolService;
 import com.chefdeluxe.app.service.UsuarioService;
 import com.chefdeluxe.app.seguridad.JWTAuthResonseDTO;

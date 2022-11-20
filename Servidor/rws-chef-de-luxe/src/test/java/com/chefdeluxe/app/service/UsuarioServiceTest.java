@@ -58,7 +58,7 @@ public class UsuarioServiceTest {
 		
 	}
 	@Test
-	void save(){
+	void alta_usuari(){
 		when(usuarioRepositorio.save(any(Usuario.class))).thenReturn(usuarioTest);
 		usuarioService.save(usuarioTest);
 		verify(usuarioRepositorio).save(usuarioTest);
@@ -129,7 +129,7 @@ public class UsuarioServiceTest {
 	}
 	
 	@Test
-	void flush(){
+	void update(){
 		when(usuarioRepositorio.save(any(Usuario.class))).thenReturn(usuarioTest);
 		usuarioService.save(usuarioTest);
 		verify(usuarioRepositorio).save(usuarioTest);

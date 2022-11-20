@@ -35,7 +35,7 @@ public class RolServiceTest {
 		
 	}
 	@Test
-	void save(){
+	void alta_rol(){
 		when(rolRepositorio.save(any(Rol.class))).thenReturn(rol);
 		rolService.save(rol);
 		verify(rolRepositorio).save(rol);

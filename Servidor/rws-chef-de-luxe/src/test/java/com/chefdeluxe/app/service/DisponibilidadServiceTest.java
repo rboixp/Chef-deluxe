@@ -49,7 +49,7 @@ public class DisponibilidadServiceTest {
 	}
 	
 	@Test
-	public void save() {
+	public void alta_disponibilitat() {
 		when(dispoRepo.save(any(Disponibilidad.class))).thenReturn(disponibilidad);
 		disponibilidService.save(opDisponibilidad.get());
 		verify(dispoRepo).save(opDisponibilidad.get());
@@ -77,7 +77,7 @@ public class DisponibilidadServiceTest {
 		verify(dispoRepo, times(1)).deleteById(uno);
 	}
 	@Test
-	public void flush() {
+	public void update() {
 		when(dispoRepo.save(any(Disponibilidad.class))).thenReturn(disponibilidad);
 		disponibilidService.save(opDisponibilidad.get());
 		verify(dispoRepo).save(opDisponibilidad.get());
