@@ -193,7 +193,7 @@ public class Principal extends javax.swing.JFrame {
         jToggleButton_salirOpcionesChef = new javax.swing.JToggleButton();
         jToggleButton_verDatosChef = new javax.swing.JToggleButton();
         jToggleButton_disponibilidadChef = new javax.swing.JToggleButton();
-        jToggleButton16 = new javax.swing.JToggleButton();
+        jToggleButton_bajaChef = new javax.swing.JToggleButton();
         jToggleButton_editarDatosChef = new javax.swing.JToggleButton();
         jPanel_borrarUsuario = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
@@ -224,6 +224,11 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_listaChefsEstado = new javax.swing.JTable();
         jRadioButton_filtradoListaChefs = new javax.swing.JRadioButton();
+        jPanel_eliminarPropiaCuenta = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jButton_eliminarEliminarCuenta = new javax.swing.JButton();
+        jButton_volverEliminarCuenta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chef Deluxe");
@@ -428,11 +433,7 @@ public class Principal extends javax.swing.JFrame {
                                     .addComponent(jLabel_codigoPostal1)
                                     .addComponent(jLabel_codigoPostalUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(71, 71, 71)))
-                        .addGap(0, 53, Short.MAX_VALUE)
-                        .addGroup(jPanel_UsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_poblacion1)
-                            .addComponent(jLabel_poblacionUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel_UsuarioLayout.createSequentialGroup()
                         .addGroup(jPanel_UsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel_direccionUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -456,18 +457,20 @@ public class Principal extends javax.swing.JFrame {
                                             .addGroup(jPanel_UsuarioLayout.createSequentialGroup()
                                                 .addGroup(jPanel_UsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel_edadUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel_edad1))
+                                                    .addComponent(jLabel_edad1)
+                                                    .addComponent(jLabel_poblacion1))
                                                 .addGap(135, 135, 135)
                                                 .addGroup(jPanel_UsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel_tipoUsuario1)
-                                                    .addComponent(jLabel_tipoUsuarioUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                    .addComponent(jLabel_tipoUsuarioUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jLabel_poblacionUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel_UsuarioLayout.createSequentialGroup()
                                         .addComponent(jLabel_nombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(52, 52, 52)
                                         .addGroup(jPanel_UsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel_apellidos1)
                                             .addComponent(jLabel_apellidosUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 15, Short.MAX_VALUE)))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_UsuarioLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -664,7 +667,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jLabel_apellidos)
                                 .addComponent(jTextField_apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addComponent(jTextField_direccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 831, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 45, Short.MAX_VALUE))
+                .addGap(0, 50, Short.MAX_VALUE))
         );
         jPanel_crearCuentaLayout.setVerticalGroup(
             jPanel_crearCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -795,6 +798,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jTextField_editarApellidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_editarApellidosActionPerformed(evt);
+            }
+        });
+
         jComboBox_editarTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Cliente", "Chef", "Administrador" }));
         jComboBox_editarTipoUsuario.setToolTipText("");
         jComboBox_editarTipoUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -865,57 +874,58 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createSequentialGroup()
                         .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_editarCuentaLayout.createSequentialGroup()
-                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTextField_editarNacionalidad, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                                        .addComponent(jTextField_editarCodigoPostal))
-                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel_editarCuentaLayout.createSequentialGroup()
-                                            .addGap(74, 74, 74)
-                                            .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel_editarCuentaLayout.createSequentialGroup()
-                                                    .addComponent(jLabel_poblacion2)
-                                                    .addGap(0, 0, Short.MAX_VALUE))
-                                                .addComponent(jTextField_editarPoblacion)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createSequentialGroup()
-                                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel_edad2)
-                                                        .addComponent(jTextField_editarEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGap(126, 126, 126)
-                                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel_tipoUsuario2)
-                                                        .addComponent(jComboBox_editarTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel9)
-                                                        .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                            .addComponent(jTextField_editarTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                                                            .addComponent(jLabel_telefono1)
-                                                            .addComponent(jTextField_editarUsername))))))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel11)
-                                                    .addComponent(jTextField_editarIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createSequentialGroup()
-                                                    .addComponent(jButton_editarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(303, 303, 303)
-                                                    .addComponent(jButton_exit1))))))
-                                .addComponent(jLabel_nacionalidad2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel_codigoPostal2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel_direccion2, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextField_editarDireccion, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel_editarCuentaLayout.createSequentialGroup()
-                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField_editarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel_nombre2))
-                                    .addGap(88, 88, 88)
-                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel_apellidos2)
-                                        .addComponent(jTextField_editarApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel_editarCuentaLayout.createSequentialGroup()
+                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel_nombre2)
+                                    .addComponent(jTextField_editarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField_editarApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_apellidos2)))
+                            .addComponent(jTextField_editarDireccion, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_editarCuentaLayout.createSequentialGroup()
+                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField_editarNacionalidad, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                    .addComponent(jTextField_editarCodigoPostal))
+                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel_editarCuentaLayout.createSequentialGroup()
+                                        .addGap(74, 74, 74)
+                                        .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel_editarCuentaLayout.createSequentialGroup()
+                                                .addComponent(jLabel_poblacion2)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(jTextField_editarPoblacion)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createSequentialGroup()
+                                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel_edad2)
+                                                    .addComponent(jTextField_editarEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(126, 126, 126)
+                                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel_tipoUsuario2)
+                                                    .addComponent(jComboBox_editarTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel9)
+                                                    .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(jTextField_editarTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                                                        .addComponent(jLabel_telefono1)
+                                                        .addComponent(jTextField_editarUsername))))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                                        .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel11)
+                                                .addComponent(jTextField_editarIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_editarCuentaLayout.createSequentialGroup()
+                                                .addComponent(jButton_editarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(303, 303, 303)
+                                                .addComponent(jButton_exit1))))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel_editarCuentaLayout.createSequentialGroup()
+                                .addGroup(jPanel_editarCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel_nacionalidad2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel_codigoPostal2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel_direccion2, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(43, 43, 43))))
         );
         jPanel_editarCuentaLayout.setVerticalGroup(
@@ -1025,7 +1035,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jToggleButton_verListaAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToggleButton_editarDatosAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToggleButton_verDatosAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(311, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
         jPanel_opcionesAdminLayout.setVerticalGroup(
             jPanel_opcionesAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1038,7 +1048,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jToggleButton_verListaAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jToggleButton_borrarUsuarioAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
                 .addComponent(jToggleButton_salirOpcionesAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
@@ -1133,7 +1143,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton16.setText("Dar de baja mi cuenta");
+        jToggleButton_bajaChef.setText("Dar de baja mi cuenta");
+        jToggleButton_bajaChef.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton_bajaChefActionPerformed(evt);
+            }
+        });
 
         jToggleButton_editarDatosChef.setText("Editar tus datos");
         jToggleButton_editarDatosChef.addActionListener(new java.awt.event.ActionListener() {
@@ -1152,7 +1167,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jToggleButton_verDatosChef, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToggleButton_editarDatosChef, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToggleButton_disponibilidadChef, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton16, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                    .addComponent(jToggleButton_bajaChef, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                     .addComponent(jToggleButton_salirOpcionesChef, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(110, Short.MAX_VALUE))
         );
@@ -1166,7 +1181,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jToggleButton_disponibilidadChef, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jToggleButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton_bajaChef, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
                 .addComponent(jToggleButton_salirOpcionesChef, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
@@ -1461,6 +1476,57 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel25.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        jLabel25.setText("Si desea eliminar definitivamente su cuenta, pulse el botón \"Eliminar\", en caso contrario pulse \"Volver\".");
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        jLabel26.setText("La eliminación de la cuenta es una acción irreversible. Deberá crear otra para volver a acceder al programa.");
+
+        jButton_eliminarEliminarCuenta.setText("Eliminar");
+        jButton_eliminarEliminarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_eliminarEliminarCuentaActionPerformed(evt);
+            }
+        });
+
+        jButton_volverEliminarCuenta.setText("Volver");
+        jButton_volverEliminarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_volverEliminarCuentaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel_eliminarPropiaCuentaLayout = new javax.swing.GroupLayout(jPanel_eliminarPropiaCuenta);
+        jPanel_eliminarPropiaCuenta.setLayout(jPanel_eliminarPropiaCuentaLayout);
+        jPanel_eliminarPropiaCuentaLayout.setHorizontalGroup(
+            jPanel_eliminarPropiaCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_eliminarPropiaCuentaLayout.createSequentialGroup()
+                .addContainerGap(159, Short.MAX_VALUE)
+                .addGroup(jPanel_eliminarPropiaCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel25))
+                .addGap(191, 191, 191))
+            .addGroup(jPanel_eliminarPropiaCuentaLayout.createSequentialGroup()
+                .addGap(254, 254, 254)
+                .addComponent(jButton_eliminarEliminarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(173, 173, 173)
+                .addComponent(jButton_volverEliminarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel_eliminarPropiaCuentaLayout.setVerticalGroup(
+            jPanel_eliminarPropiaCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_eliminarPropiaCuentaLayout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(jLabel25)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel26)
+                .addGap(132, 132, 132)
+                .addGroup(jPanel_eliminarPropiaCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton_eliminarEliminarCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(jButton_volverEliminarCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(267, Short.MAX_VALUE))
+        );
+
         jLayeredPane_contenedor.setLayer(jPanel_login, javax.swing.JLayeredPane.PALETTE_LAYER);
         jLayeredPane_contenedor.setLayer(jPanel_Usuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane_contenedor.setLayer(jPanel_crearCuenta, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -1472,6 +1538,7 @@ public class Principal extends javax.swing.JFrame {
         jLayeredPane_contenedor.setLayer(jPanel_borrarUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane_contenedor.setLayer(jPanel_disponibilidad, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane_contenedor.setLayer(jPanel_listaChefsDisponibles, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane_contenedor.setLayer(jPanel_eliminarPropiaCuenta, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane_contenedorLayout = new javax.swing.GroupLayout(jLayeredPane_contenedor);
         jLayeredPane_contenedor.setLayout(jLayeredPane_contenedorLayout);
@@ -1489,7 +1556,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jPanel_listarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 5, Short.MAX_VALUE)))
             .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel_editarCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))
+                .addComponent(jPanel_editarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 930, Short.MAX_VALUE))
             .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel_opcionesAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))
             .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1501,7 +1568,9 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel_disponibilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel_listaChefsDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 930, Short.MAX_VALUE))
+                .addComponent(jPanel_listaChefsDisponibles, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))
+            .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel_eliminarPropiaCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jLayeredPane_contenedorLayout.setVerticalGroup(
             jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1528,6 +1597,8 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jPanel_disponibilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel_listaChefsDisponibles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jLayeredPane_contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel_eliminarPropiaCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel_backgroundLayout = new javax.swing.GroupLayout(jPanel_background);
@@ -1903,7 +1974,7 @@ public class Principal extends javax.swing.JFrame {
             switchPanels(jPanel_opcionesCliente);
         }
         //Se borra la tabla
-        dtm.setRowCount(1);
+        dtm.setRowCount(0);
     }//GEN-LAST:event_jButton_volverListarUsuariosActionPerformed
 
     private void jToggleButton_verListaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_verListaClienteActionPerformed
@@ -1939,6 +2010,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jToggleButton_bajaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_bajaClienteActionPerformed
         // TODO add your handling code here:
+        jToggleButton_bajaCliente.setSelected(false); //Se reinicia el botón
+        switchPanels(jPanel_eliminarPropiaCuenta); //Se cambia de panel
     }//GEN-LAST:event_jToggleButton_bajaClienteActionPerformed
 
     private void jToggleButton_borrarUsuarioAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_borrarUsuarioAdminActionPerformed
@@ -2078,9 +2151,6 @@ public class Principal extends javax.swing.JFrame {
                 }
 
             } else {
-
-                InputStream response = connection.getInputStream();
-
                 //Leyendo la respuesta de la API
                 StringBuilder sb = new StringBuilder();
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -2094,8 +2164,7 @@ public class Principal extends javax.swing.JFrame {
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 token = jsonObject.getString("tokenDeAcceso");
                 //Se limpia un label de error de contraseña y se cambia al panel Usuario
-                jLabel_mensajeLogin.setText("");
-
+                jLabel_mensajeLogin.setText("");                
                 // Se realiza una solicitud GET para recibir los datos del usuario
                 obtenerDatosUsuario();
             }
@@ -2256,6 +2325,71 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_jCheckBox_disponibleActionPerformed
+
+    private void jButton_volverEliminarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_volverEliminarCuentaActionPerformed
+        // TODO add your handling code here:
+        if (tipoUsuario==1){
+            switchPanels(jPanel_opcionesAdmin);
+        } else if (tipoUsuario==2){
+            switchPanels(jPanel_opcionesChef);
+        } else if (tipoUsuario==3){
+            switchPanels(jPanel_opcionesCliente);
+        }
+    }//GEN-LAST:event_jButton_volverEliminarCuentaActionPerformed
+
+    private void jButton_eliminarEliminarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminarEliminarCuentaActionPerformed
+        // TODO add your handling code here:
+         HttpURLConnection connection = null;
+        try {
+                    String urlString = "http://localhost:8080/api/users/delete/user";
+                    urlString = urlString + "?usernameOrEmail=" + jTextField_usuario.getText();
+                      //      + "&password=password"; //+jPasswordField_password.getPassword().toString();
+                    String apiUrl = urlString; //api/http link                                    
+                    URL url = new URL(apiUrl);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("DELETE");
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Accept", "application/json");
+                    connection.setRequestProperty("Authorization", "Bearer " + token); 
+
+                    if (connection.getResponseCode() != 200) {
+                        if (connection.getResponseCode() == 500){
+                            JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Fallo de conexión con el servidor. Error "+ connection.getResponseCode());
+                        }                                                                      
+                        
+                    } else {   
+                            //Leyendo la respuesta de la API
+                            StringBuilder sb = new StringBuilder();
+                            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            String linea;
+                            while ((linea = in.readLine()) != null) {
+                            sb.append(linea).append("\n");
+                            }
+                            in.close();
+                            JOptionPane.showMessageDialog(null, sb.toString());                        
+                                               
+                    }
+                    connection.disconnect(); 
+
+                } catch (MalformedURLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: " + ex);
+                    
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: " + ex); 
+                } 
+    }//GEN-LAST:event_jButton_eliminarEliminarCuentaActionPerformed
+
+    private void jToggleButton_bajaChefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_bajaChefActionPerformed
+        // TODO add your handling code here:
+        jToggleButton_bajaChef.setSelected(false); //Se reinicia el botón
+        switchPanels(jPanel_eliminarPropiaCuenta); //Se cambia de panel
+    }//GEN-LAST:event_jToggleButton_bajaChefActionPerformed
+
+    private void jTextField_editarApellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_editarApellidosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_editarApellidosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2542,12 +2676,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton_crearCuenta;
     private javax.swing.JButton jButton_editarCuenta;
     private javax.swing.JButton jButton_eliminarBorrarUsuario;
+    private javax.swing.JButton jButton_eliminarEliminarCuenta;
     private javax.swing.JButton jButton_exit;
     private javax.swing.JButton jButton_exit1;
     private javax.swing.JButton jButton_login;
     private javax.swing.JButton jButton_nuevaCuenta;
     private javax.swing.JButton jButton_usuario;
     private javax.swing.JButton jButton_volverBorrarUsuario;
+    private javax.swing.JButton jButton_volverEliminarCuenta;
     private javax.swing.JButton jButton_volverListadoChefsDisponibles;
     private javax.swing.JButton jButton_volverListarUsuarios;
     private javax.swing.JCheckBox jCheckBox_disponible;
@@ -2574,6 +2710,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2630,6 +2768,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_crearCuenta;
     private javax.swing.JPanel jPanel_disponibilidad;
     private javax.swing.JPanel jPanel_editarCuenta;
+    private javax.swing.JPanel jPanel_eliminarPropiaCuenta;
     private javax.swing.JPanel jPanel_listaChefsDisponibles;
     private javax.swing.JPanel jPanel_listarUsuarios;
     private javax.swing.JPanel jPanel_login;
@@ -2668,7 +2807,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_username;
     private javax.swing.JTextField jTextField_usuario;
     private javax.swing.JTextField jTextField_usuarioBorrar;
-    private javax.swing.JToggleButton jToggleButton16;
+    private javax.swing.JToggleButton jToggleButton_bajaChef;
     private javax.swing.JToggleButton jToggleButton_bajaCliente;
     private javax.swing.JToggleButton jToggleButton_borrarUsuarioAdmin;
     private javax.swing.JToggleButton jToggleButton_disponibilidadChef;
