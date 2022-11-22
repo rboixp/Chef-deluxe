@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="cornerRadius">7dp</dimen>
+
+    <!--Cardview-->
+    <dimen name="margin">5dp</dimen>
+    <dimen name="txt_14">14sp</dimen>
+    <dimen name="txt_info">16sp</dimen>
+    <dimen name="txt_blood">18sp</dimen>
+    <dimen name="txt_toolbar">20sp</dimen>
+
+
+
+
+</resources>
