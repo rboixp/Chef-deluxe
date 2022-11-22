@@ -3,6 +3,12 @@ package masjuan.ioc.chefdeluxe.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model Role.
+ * Perfil d'usuari: Admin, Chef, Client
+ *
+ * @author Eduard Masjuan
+ */
 public class Role {
 
     @SerializedName("id")
