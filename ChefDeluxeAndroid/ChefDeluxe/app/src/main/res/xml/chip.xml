@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chip
+    style="@style/Widget.MaterialComponents.Chip.Entry"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:checkable="false"
+    app:chipIcon="@drawable/ic_new_booking"
+    app:iconStartPadding="5dp"/>

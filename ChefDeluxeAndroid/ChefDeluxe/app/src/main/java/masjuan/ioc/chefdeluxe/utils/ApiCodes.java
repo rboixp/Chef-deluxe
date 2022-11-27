@@ -2,6 +2,11 @@ package masjuan.ioc.chefdeluxe.utils;
 
 import android.util.Log;
 
+/**
+ * Classe que retorna codis d'error
+ *
+ * @author Eduard Masjuan
+ */
 public class ApiCodes {
 
     public ApiCodes() {

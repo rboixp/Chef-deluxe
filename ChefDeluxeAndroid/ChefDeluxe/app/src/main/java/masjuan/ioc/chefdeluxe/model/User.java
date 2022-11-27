@@ -5,6 +5,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Set;
 
+/**
+ * Model User
+ *
+ * @author Eduard Masjuan
+ */
 public class User {
 
     @SerializedName("nombre")
@@ -37,7 +42,7 @@ public class User {
 
     @SerializedName("codigoPostal")
     @Expose
-    private int codigoPostal;
+    private String codigoPostal;
 
     @SerializedName("poblacion")
     @Expose
@@ -120,11 +125,11 @@ public class User {
         this.direccion = direccion;
     }
 
-    public int getCodigoPostal() {
+    public String getCodigoPostal() {
         return codigoPostal;
     }
 
-    public void setCodigoPostal(int codigoPostal) {
+    public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
 
@@ -175,4 +180,5 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }

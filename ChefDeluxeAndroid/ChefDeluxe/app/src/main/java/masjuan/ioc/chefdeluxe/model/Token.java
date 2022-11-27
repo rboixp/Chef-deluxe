@@ -3,6 +3,11 @@ package masjuan.ioc.chefdeluxe.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model Token
+ *
+ * @author Eduard Masjuan
+ */
 public class Token {
 
     @SerializedName("tokenDeAcceso")

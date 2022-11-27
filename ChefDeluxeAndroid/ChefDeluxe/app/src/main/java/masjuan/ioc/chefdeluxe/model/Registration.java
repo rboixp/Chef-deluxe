@@ -3,45 +3,62 @@ package masjuan.ioc.chefdeluxe.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model Registration
+ * Registre de nou usuari
+ *
+ * @author Eduard Masjuan
+ */
 public class Registration {
-
 
     @SerializedName("nombre")
     @Expose
     private String nombre;
+
     @SerializedName("email")
     @Expose
     private String email;
+
     @SerializedName("username")
     @Expose
     private String username;
+
     @SerializedName("password")
     @Expose
     private String password;
+
     @SerializedName("perfil")
     @Expose
     private String perfil;
+
     @SerializedName("apellidos")
     @Expose
     private String apellidos;
+
     @SerializedName("direccion")
     @Expose
     private String direccion;
+
     @SerializedName("codigoPostal")
     @Expose
-    private int codigoPostal;
+    private String codigoPostal;
+
     @SerializedName("poblacion")
     @Expose
     private String poblacion;
+
     @SerializedName("nacionalidad")
     @Expose
     private String nacionalidad;
+
     @SerializedName("edad")
     @Expose
     private int edad;
+
     @SerializedName("telefono")
     @Expose
     private long telefono;
+
     @SerializedName("iban")
     @Expose
     private String iban;
@@ -102,11 +119,11 @@ public class Registration {
         this.direccion = direccion;
     }
 
-    public int getCodigoPostal() {
+    public String getCodigoPostal() {
         return codigoPostal;
     }
 
-    public void setCodigoPostal(int codigoPostal) {
+    public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
 
@@ -149,6 +166,5 @@ public class Registration {
     public void setIban(String iban) {
         this.iban = iban;
     }
-
 
 }
