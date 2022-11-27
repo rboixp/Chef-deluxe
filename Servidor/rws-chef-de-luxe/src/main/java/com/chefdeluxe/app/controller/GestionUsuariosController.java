@@ -184,6 +184,30 @@ public class GestionUsuariosController {
 
 		return new ResponseEntity<>(usuarioDTOList, HttpStatus.OK);
 	}
+	
+	/**
+	 * End point UpdateUsuario
+	 *
+	 * Actualiza la password d'un usuari.
+	 */
+	@PutMapping("/password/user")
+	public ResponseEntity<?> cambioPassword(@RequestParam String usernameOrEmail, @RequestParam String newPassword) {
+
+		System.out.println ("/pasword/user");
+		System.out.println ("usuari " +usernameOrEmail);
+		System.out.println ("newPassword " +newPassword);
+		
+		Usuario usuarioModificar = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);	
+		
+//		if (!utils.usuarioAutorizado(usernameOrEmail, SecurityContextHolder.getContext().getAuthentication())) {
+//			return new ResponseEntity<>("Solo se permiten actualizaciones de datos del mismo usuario o usuario admin.",
+//					HttpStatus.BAD_REQUEST);
+//		}
+
+		usuarioModificar.setPassword(passwordEncoder.encode(newPassword));
+		usuarioService.flush(usuarioModificar);
+		return new ResponseEntity<>(convertDTO(usuarioModificar), HttpStatus.OK);
+	}
 
 	/**
 	 * End point UpdateUsuario

@@ -274,6 +274,7 @@ public class GestionReservaController {
 	 * retorna una llista de reserves d'un client amb paginació 
 	 */
 	@GetMapping("/reserva/get/client/paginable")
+	
 	public ResponseEntity<?> getListaReservaClient(String usernameOrEmail, int pageIndex, int pageSize) {
 
 		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
