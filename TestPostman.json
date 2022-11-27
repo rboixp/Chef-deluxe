@@ -1275,7 +1275,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxQG1haWwuY29tIiwiaWF0IjoxNjY4OTc4ODg2LCJleHAiOjE2Njk1ODM2ODZ9.vRfy_OUVLyoIKqzpSEFcWiYAu_NiwJHJlkHceNugtewGC7MHvSECe5olmaQBGznugqt7i6AMYWBrChzOWNs1QA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnRAbWFpbC5jb20iLCJpYXQiOjE2Njk1ODU1NDUsImV4cCI6MTY3MDE5MDM0NX0.2iLsGFFqQg6XUkIaHwuYdJDaqD6g8QCXFsUWA8BcJT-RFwuGfunks345zbR6CUUczly-vhcHtHkIkGBPKSlanA",
 											"type": "string"
 										}
 									]
@@ -1290,7 +1290,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"estado\": \"pendent\",\r\n    \"cliente\": \"client1\",\r\n    \"chef\": \"chef1\",\r\n    \"incio\": \"2022-11-28T13:00:00.00000\",\r\n    \"fin\": \"2022-11-28T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
+									"raw": "{\r\n    \"estado\": \"pendent\",\r\n    \"cliente\": \"client\",\r\n    \"chef\": \"chef\",\r\n    \"incio\": \"2022-11-30T13:00:00.00000\",\r\n    \"fin\": \"2022-11-30T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1378,7 +1378,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3Njk4NCwiZXhwIjoxNjY5NTgxNzg0fQ.ZSl4UWiduT8e7UFQaTIXbC0RXka3JvK6MJnLQrjr6ebafR6UBFgUxSQ1z_OaNhpLps8ug_WtyzWjs7wZC3hxCA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTYwMSwiZXhwIjoxNjcwMTkwNDAxfQ.mZabtBzuwX0or4Zvhv8o5UddgNArWydh8dzzsjn-gkKVOJYPjVK93QKtNNOG7F6CDlxY_bxS5neBcJlqT5RNkA",
 											"type": "string"
 										}
 									]
@@ -1386,7 +1386,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/get/chef/paginable?usernameOrEmail=chef1&pageIndex=0&pageSize=5",
+									"raw": "{{base_url}}/api/client/reserva/get/chef/paginable?usernameOrEmail=chef&pageIndex=0&pageSize=5",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1401,7 +1401,7 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "chef1"
+											"value": "chef"
 										},
 										{
 											"key": "pageIndex",
@@ -1427,7 +1427,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk3MDM4NCwiZXhwIjoxNjY5NTc1MTg0fQ.rQbXHXp-kVU7LXHz3KtHWlW1qFNQsk69z0Sdy88lmrYkod-54FQQ7de37Vm7v8eqb3Hw_mRqos-iGHLfPcgtTA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTYwMSwiZXhwIjoxNjcwMTkwNDAxfQ.mZabtBzuwX0or4Zvhv8o5UddgNArWydh8dzzsjn-gkKVOJYPjVK93QKtNNOG7F6CDlxY_bxS5neBcJlqT5RNkA",
 											"type": "string"
 										}
 									]
@@ -1471,7 +1471,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY4NDQ3MDY5LCJleHAiOjE2NjkwNTE4Njl9.vRoa3y9OoGF9UEqCJqg9gMCmqqx8ba5Kx-OsWfTTR5hwwwfNXNaM2CoeLLqucqAESwXSzaiF4Pez0v9dXYdMlg",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTYwMSwiZXhwIjoxNjcwMTkwNDAxfQ.mZabtBzuwX0or4Zvhv8o5UddgNArWydh8dzzsjn-gkKVOJYPjVK93QKtNNOG7F6CDlxY_bxS5neBcJlqT5RNkA",
 											"type": "string"
 										}
 									]
@@ -1516,7 +1516,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTAxNjgwNSwiZXhwIjoxNjY5NjIxNjA1fQ.crywNJpRlX-ZyBbE9CAreIw3cX0EmEezm-pwhVQ_YR-4t9ZB9PV4lF9nNjhgxhkiKf6-TiFoNjqXOWdScYIJ8A",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTYwMSwiZXhwIjoxNjcwMTkwNDAxfQ.mZabtBzuwX0or4Zvhv8o5UddgNArWydh8dzzsjn-gkKVOJYPjVK93QKtNNOG7F6CDlxY_bxS5neBcJlqT5RNkA",
 											"type": "string"
 										}
 									]
@@ -1524,7 +1524,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/get/id?id=1",
+									"raw": "{{base_url}}/api/client/reserva/get/id?id=2",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1538,7 +1538,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "1"
+											"value": "2"
 										}
 									]
 								}
@@ -1650,7 +1650,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NzI0NCwiZXhwIjoxNjY5NTgyMDQ0fQ.NLgAE8WLvyrCwuI2bqKRIOxYOf0hwQ-rAyAUn5VedCSMf7-DmnDXB0IvAF6PALhSO-yWUahxv2m7HcqJxi_TqQ",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTQzMiwiZXhwIjoxNjcwMTkwMjMyfQ.Q2xr4UpkqFMeM41Wm3zQ2GOZjEadPf2cuMUruAazyz0AKfurkGUVNuWhz707OzzX6T6z9ZpUdExLJ9Fij5pw1Q",
 											"type": "string"
 										}
 									]
@@ -1889,7 +1889,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"chef\",\r\n    \"password\": \"123456\"\r\n}"
+									"raw": "{\r\n    \"usernameOrEmail\": \"admin\",\r\n    \"password\": \"password\"\r\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/api/auth/iniciarSesion",
@@ -1922,7 +1922,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk3ODc2MywiZXhwIjoxNjY5NTgzNTYzfQ.9uFIrSXIaDcKaZVtfrKACCxFiiq4UqOzfI4fFx0vkRpZqvnJKPeFm8QhRq3couf2yVVsO9xi8sipBVFxZA-CIw",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTM2NSwiZXhwIjoxNjcwMTkwMTY1fQ.IZBm8QkbVzM4c_-s1W_ZjdS5HQoSm9FuGIP7nnUBwffE_V8tO2k1ryNHkcU5dUnd-YSHyHA1ICEh3mmhjNI9hA",
 											"type": "string"
 										}
 									]
@@ -1937,7 +1937,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"chef1\",\r\n    \"estado\": \"Activo\",\r\n    \"poblacion\": \"Sevilla\"\r\n}"
+									"raw": "{\r\n    \"usernameOrEmail\": \"chef\",\r\n    \"estado\": \"Activo\",\r\n    \"poblacion\": \"Paris1\"\r\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/api/chef/disponibilidad/post",
@@ -1965,7 +1965,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NjE1NSwiZXhwIjoxNjY5NTgwOTU1fQ.Xgo0w9URAru2RwnqPChrJhcwljlw6yn5yGpvX0AcX3sHUR9fERha96t7eLk4MBmpTuIRCv0HCMQnncMhYG6aiA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTM2NSwiZXhwIjoxNjcwMTkwMTY1fQ.IZBm8QkbVzM4c_-s1W_ZjdS5HQoSm9FuGIP7nnUBwffE_V8tO2k1ryNHkcU5dUnd-YSHyHA1ICEh3mmhjNI9hA",
 											"type": "string"
 										}
 									]
@@ -1973,7 +1973,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/chef/disponibilidad/get/username?usernameOrEmail=chef1",
+									"raw": "{{base_url}}/api/chef/disponibilidad/get/username?usernameOrEmail=chef",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1987,7 +1987,7 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "chef1"
+											"value": "chef"
 										}
 									]
 								}
@@ -2005,7 +2005,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NzI0NCwiZXhwIjoxNjY5NTgyMDQ0fQ.NLgAE8WLvyrCwuI2bqKRIOxYOf0hwQ-rAyAUn5VedCSMf7-DmnDXB0IvAF6PALhSO-yWUahxv2m7HcqJxi_TqQ",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTQzMiwiZXhwIjoxNjcwMTkwMjMyfQ.Q2xr4UpkqFMeM41Wm3zQ2GOZjEadPf2cuMUruAazyz0AKfurkGUVNuWhz707OzzX6T6z9ZpUdExLJ9Fij5pw1Q",
 											"type": "string"
 										}
 									]
@@ -2056,7 +2056,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NjIwMiwiZXhwIjoxNjY5NTgxMDAyfQ.KOg1N_gA6XNhIAd5pvOtYQzU6Gp9RcuRM4GtC2tRZnT8iueybzDCNtLBDstlD9dJO48OyYD6R9Noc1BSOJpv_A",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTQzMiwiZXhwIjoxNjcwMTkwMjMyfQ.Q2xr4UpkqFMeM41Wm3zQ2GOZjEadPf2cuMUruAazyz0AKfurkGUVNuWhz707OzzX6T6z9ZpUdExLJ9Fij5pw1Q",
 											"type": "string"
 										}
 									]
@@ -2100,7 +2100,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk2OTY0MiwiZXhwIjoxNjY5NTc0NDQyfQ.fd5sCmf3QeGJKjCbhZFM-x1lJL7YC5_8CMSZekst9g5U2W-C_sb2zYM9dhA8-KtBgZ4_xIPtXYouqaubceh94w",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTQzMiwiZXhwIjoxNjcwMTkwMjMyfQ.Q2xr4UpkqFMeM41Wm3zQ2GOZjEadPf2cuMUruAazyz0AKfurkGUVNuWhz707OzzX6T6z9ZpUdExLJ9Fij5pw1Q",
 											"type": "string"
 										}
 									]
@@ -2117,7 +2117,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/api/chef/disponibilidad/update/estado?usernameOrEmail=chef1&poblacion=Alp",
+									"raw": "{{base_url}}/api/chef/disponibilidad/update/estado?usernameOrEmail=chef&poblacion=Paris",
 									"host": [
 										"{{base_url}}"
 									],
@@ -2131,11 +2131,11 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "chef1"
+											"value": "chef"
 										},
 										{
 											"key": "poblacion",
-											"value": "Alp"
+											"value": "Paris"
 										}
 									]
 								}
@@ -2153,7 +2153,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTQzMiwiZXhwIjoxNjcwMTkwMjMyfQ.Q2xr4UpkqFMeM41Wm3zQ2GOZjEadPf2cuMUruAazyz0AKfurkGUVNuWhz707OzzX6T6z9ZpUdExLJ9Fij5pw1Q",
 											"type": "string"
 										}
 									]
@@ -2161,7 +2161,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/chef/disponibilidad/delete?id=2",
+									"raw": "{{base_url}}/api/chef/disponibilidad/delete?id=4",
 									"host": [
 										"{{base_url}}"
 									],
@@ -2174,7 +2174,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "2"
+											"value": "4"
 										}
 									]
 								}
