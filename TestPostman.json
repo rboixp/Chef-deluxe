@@ -19,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"pepe\",\r\n    \"email\": \"pepe@mail.com\",\r\n    \"username\": \"pepe\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+									"raw": "{\r\n    \"nombre\": \"Antoni\",\r\n    \"email\": \"toni01@mail.com\",\r\n    \"username\": \"toni\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"lopez perez\",\r\n\t\"direccion\": \"Barcelona 15\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"30\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -112,7 +112,7 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/user?usernameOrEmail=joanjo",
+									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/user?usernameOrEmail=toni",
 									"protocol": "http",
 									"host": [
 										"awschefdeluxe-env",
@@ -130,7 +130,7 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "joanjo"
+											"value": "toni"
 										},
 										{
 											"key": "password",
@@ -459,7 +459,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY4NDQ3MDY5LCJleHAiOjE2NjkwNTE4Njl9.vRoa3y9OoGF9UEqCJqg9gMCmqqx8ba5Kx-OsWfTTR5hwwwfNXNaM2CoeLLqucqAESwXSzaiF4Pez0v9dXYdMlg",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NTUxMTQyLCJleHAiOjE2NjkxNTU5NDJ9.Ggbi_LvBflTsdwCsmXBg1FOjeY-y2xNQADoNCPpYHey90F0EQ4OkgA3NW5ZmNQpmEPNlt96YquA3_tiVEhzBDQ",
 											"type": "string"
 										}
 									]
@@ -474,7 +474,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"estado\": \"pendiente\",\r\n    \"cliente\": \"cliente\",\r\n    \"chef\": \"chef2\",\r\n    \"incio\": \"2022-01-17T13:00:00.00000\",\r\n    \"fin\": \"2022-01-17T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
+									"raw": "{\r\n    \"estado\": \"pendiente\",\r\n    \"cliente\": \"jaumet01\",\r\n    \"chef\": \"chef\",\r\n    \"incio\": \"2022-01-18T13:00:00.00000\",\r\n    \"fin\": \"2022-01-18T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -506,7 +506,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY4NDQ3MDY5LCJleHAiOjE2NjkwNTE4Njl9.vRoa3y9OoGF9UEqCJqg9gMCmqqx8ba5Kx-OsWfTTR5hwwwfNXNaM2CoeLLqucqAESwXSzaiF4Pez0v9dXYdMlg",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NTUxMTQyLCJleHAiOjE2NjkxNTU5NDJ9.Ggbi_LvBflTsdwCsmXBg1FOjeY-y2xNQADoNCPpYHey90F0EQ4OkgA3NW5ZmNQpmEPNlt96YquA3_tiVEhzBDQ",
 											"type": "string"
 										}
 									]
@@ -520,7 +520,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8080/api/client/reserva/get/client/paginable?usernameOrEmail=cliente&pageIndex=2&pageSize=5",
+									"raw": "http://localhost:8080/api/client/reserva/get/client/paginable?usernameOrEmail=jaumet01&pageIndex=0&pageSize=2",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -537,15 +537,15 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "cliente"
+											"value": "jaumet01"
 										},
 										{
 											"key": "pageIndex",
-											"value": "2"
+											"value": "0"
 										},
 										{
 											"key": "pageSize",
-											"value": "5"
+											"value": "2"
 										}
 									]
 								}
@@ -704,7 +704,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2NjE5OTY1NCwiZXhwIjoxNjY2ODA0NDU0fQ.ByOeX7buvcSrnb02EsIQ_fCiA_NfFvqmxO1z1jA9_KvE1cypi-gKtyCKz2axEiCVJMYysPgFdZsXeZWrTzon2Q",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZUBtYWlsLmNvbSIsImlhdCI6MTY2ODUzMjgwNiwiZXhwIjoxNjY5MTM3NjA2fQ.wh7J-_yF6xcO7AToebDBYEMsZZ_0-e1IjknDFIwHswJ8iU8LgfoXgnAERun6oiq5j4LBV_MZFu4iM8pAPXwN8w",
 											"type": "string"
 										}
 									]
@@ -718,7 +718,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8080/api/users/get/user?usernameOrEmail=\"maria\"&password=\"password\"",
+									"raw": "http://localhost:8080/api/users/get/user?usernameOrEmail=jaumet01",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -733,11 +733,12 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "\"maria\""
+											"value": "jaumet01"
 										},
 										{
-											"key": "password",
-											"value": "\"password\""
+											"key": "",
+											"value": "",
+											"disabled": true
 										}
 									]
 								}
@@ -941,7 +942,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"chef2\",\r\n    \"email\": \"chef2@mail.com\",\r\n    \"username\": \"chef2\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
+									"raw": "{\r\n    \"nombre\": \"jaumeAdmin\",\r\n    \"email\": \"jaumeadmin@mail.com\",\r\n    \"username\": \"jaumetadmin\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"chef chef\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
 								},
 								"url": {
 									"raw": "http://localhost:8080/api/auth/registrar",
@@ -976,7 +977,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"cliente\",\r\n    \"password\": \"password\"\r\n}"
+									"raw": "{\r\n    \"usernameOrEmail\": \"jaumetadmin\",\r\n    \"password\": \"password\"\r\n}"
 								},
 								"url": {
 									"raw": "http://localhost:8080/api/auth/iniciarSesion",
@@ -1050,7 +1051,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NTMzMjAzLCJleHAiOjE2NjkxMzgwMDN9.B6120zpGAr1OxRltf11z8ZuPKblZQVMrWMqrimcOhVgI3YLiEZsW_Gz9TDJbRdWBAGVTc9GkTckQIHQXXOPKtg",
 											"type": "string"
 										}
 									]
@@ -1089,7 +1090,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NjIzMTgxLCJleHAiOjE2NjkyMjc5ODF9.bPZDNHf6XVspbhnMFI89phjAF7diRii_284qI3ti5mezFWX1rzU3Ood13aWVwcWLs_MNYenjwI938z8cU11KzA",
 											"type": "string"
 										}
 									]
@@ -1171,7 +1172,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NjIzMTgxLCJleHAiOjE2NjkyMjc5ODF9.bPZDNHf6XVspbhnMFI89phjAF7diRii_284qI3ti5mezFWX1rzU3Ood13aWVwcWLs_MNYenjwI938z8cU11KzA",
 											"type": "string"
 										}
 									]
@@ -1180,7 +1181,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"estado\": \"Activo\"\r\n}",
+									"raw": "{\r\n    \"estado\": \"NF\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1188,7 +1189,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/chef/disponibilidad/update/estado?usernameOrEmail=chef&poblacion=Barcelona",
+									"raw": "http://localhost:8080/api/chef/disponibilidad/update/estado?usernameOrEmail=chef&poblacion=Santpedor",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1208,7 +1209,7 @@
 										},
 										{
 											"key": "poblacion",
-											"value": "Barcelona"
+											"value": "Santpedor"
 										}
 									]
 								}
@@ -1237,6 +1238,933 @@
 										"localhost"
 									],
 									"port": "8080",
+									"path": [
+										"api",
+										"chef",
+										"disponibilidad",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Casos de prova per entorn",
+			"item": [
+				{
+					"name": "Reserva",
+					"item": [
+						{
+							"name": "Alta reserva",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxQG1haWwuY29tIiwiaWF0IjoxNjY4OTc4ODg2LCJleHAiOjE2Njk1ODM2ODZ9.vRfy_OUVLyoIKqzpSEFcWiYAu_NiwJHJlkHceNugtewGC7MHvSECe5olmaQBGznugqt7i6AMYWBrChzOWNs1QA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"estado\": \"pendent\",\r\n    \"cliente\": \"client1\",\r\n    \"chef\": \"chef1\",\r\n    \"incio\": \"2022-11-28T13:00:00.00000\",\r\n    \"fin\": \"2022-11-28T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/client/reserva/post",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"reserva",
+										"post"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Llista de reserves per client",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxQG1haWwuY29tIiwiaWF0IjoxNjY4OTY5ODA3LCJleHAiOjE2Njk1NzQ2MDd9.mRiZlbh8fWnhOxL1TafnFlc_PLrQfcFSinDwBlBmhF8Wb-lBsU4ZVmMgBXeVwxy5bJu0ZcdUSjuro_KIfhS6lg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/client/reserva/get/client/paginable?usernameOrEmail=client1&pageIndex=1&pageSize=2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"reserva",
+										"get",
+										"client",
+										"paginable"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "client1"
+										},
+										{
+											"key": "pageIndex",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Llista de reserves per chef",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3Njk4NCwiZXhwIjoxNjY5NTgxNzg0fQ.ZSl4UWiduT8e7UFQaTIXbC0RXka3JvK6MJnLQrjr6ebafR6UBFgUxSQ1z_OaNhpLps8ug_WtyzWjs7wZC3hxCA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/client/reserva/get/chef/paginable?usernameOrEmail=chef1&pageIndex=0&pageSize=5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"reserva",
+										"get",
+										"chef",
+										"paginable"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef1"
+										},
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Confirmació reserva",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk3MDM4NCwiZXhwIjoxNjY5NTc1MTg0fQ.rQbXHXp-kVU7LXHz3KtHWlW1qFNQsk69z0Sdy88lmrYkod-54FQQ7de37Vm7v8eqb3Hw_mRqos-iGHLfPcgtTA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/client/reserva/update/estado?id=1&estado=confirmado",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"reserva",
+										"update",
+										"estado"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										},
+										{
+											"key": "estado",
+											"value": "confirmado"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete reserva",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY4NDQ3MDY5LCJleHAiOjE2NjkwNTE4Njl9.vRoa3y9OoGF9UEqCJqg9gMCmqqx8ba5Kx-OsWfTTR5hwwwfNXNaM2CoeLLqucqAESwXSzaiF4Pez0v9dXYdMlg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/client/reserva/delete?id=1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"reserva",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reserva per ID",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTAxNjgwNSwiZXhwIjoxNjY5NjIxNjA1fQ.crywNJpRlX-ZyBbE9CAreIw3cX0EmEezm-pwhVQ_YR-4t9ZB9PV4lF9nNjhgxhkiKf6-TiFoNjqXOWdScYIJ8A",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/client/reserva/get/id?id=1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"client",
+										"reserva",
+										"get",
+										"id"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Crud usuari",
+					"item": [
+						{
+							"name": "Dades d'un usuari",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTE4NywiZXhwIjoxNjcwMTg5OTg3fQ.CHJT-u7yamCPZjuf2ut8jNTOpEGiN5v7iigUh3NlDGmJ4_Ad2HyaNGy17EMjOD0vctzhfSWfFlbzxRCc8T6p-Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/users/get/user?usernameOrEmail=chef",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"get",
+										"user"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef"
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Esborrar usuari",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpYUBtYWlsLmNvbSIsImlhdCI6MTY2NjUxMDY1MywiZXhwIjoxNjY3MTE1NDUzfQ.LfSa2hAOpzaNjGaXsIm9JE1o58vguHUZ5KALvT-_bdw0SdoC_zt8Ji-9q1jXfcFCA9VCbsg4PssUxFpmr5vWWw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/users/delete/user?usernameOrEmail=pereName",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"delete",
+										"user"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "pereName"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Llista d'usuaris",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NzI0NCwiZXhwIjoxNjY5NTgyMDQ0fQ.NLgAE8WLvyrCwuI2bqKRIOxYOf0hwQ-rAyAUn5VedCSMf7-DmnDXB0IvAF6PALhSO-yWUahxv2m7HcqJxi_TqQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/users/get/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"get",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update dades usuari",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY5NTg0NDIyLCJleHAiOjE2NzAxODkyMjJ9.8sIHnY7iOhR2kQPiUF5Nu35QK2qB0gdv4Z2w9VZHAD7fCWWl1ngpb43y0ZR1DTSCPHxe6512rssv128ca_vM6A",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"chef1\",\r\n    \"email\": \"chef1@mail.com\",\r\n    \"username\": \"chef\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"chef chef\",\r\n\t\"direccion\": \"llibertat 12\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent de llobregat\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"99\",\r\n\t\"telefono\": \"666566667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/users/update/user?usernameOrEmail=chef",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"update",
+										"user"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Canvi password",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTAwNSwiZXhwIjoxNjcwMTg5ODA1fQ.S5Z5Lfkgkuq1wYtE6_dvioWUEirnwGTa1lNeopXzLq1UtrZfFjroeCPWFwhI_s8kllpAqvlLk131Q-yCxQFyig",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/users/password/user?usernameOrEmail=chef&newPassword=123456",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"password",
+										"user"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef"
+										},
+										{
+											"key": "newPassword",
+											"value": "123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alta usuari",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2NjE5OTY1NCwiZXhwIjoxNjY2ODA0NDU0fQ.ByOeX7buvcSrnb02EsIQ_fCiA_NfFvqmxO1z1jA9_KvE1cypi-gKtyCKz2axEiCVJMYysPgFdZsXeZWrTzon2Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"joanjo\",\r\n    \"email\": \"joanjo@mail.com\",\r\n    \"username\": \"joanjo\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"666566668\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/users/create/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"create",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Registre i inici sessió",
+					"item": [
+						{
+							"name": "Registre",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"client\",\r\n    \"email\": \"client@mail.com\",\r\n    \"username\": \"client\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"lopez perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/registrar",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"registrar"
+									]
+								},
+								"description": "Registre d'un usuari.\n\nCamps obligatoris:\n\nusername o email\n\npassword"
+							},
+							"response": []
+						},
+						{
+							"name": "Inici sessió",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.api+json",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"usernameOrEmail\": \"chef\",\r\n    \"password\": \"123456\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/auth/iniciarSesion",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"iniciarSesion"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "**Opcions de registrar i iniciar sessió.**"
+				},
+				{
+					"name": "Disponibilitat",
+					"item": [
+						{
+							"name": "Alta disponibilitat",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk3ODc2MywiZXhwIjoxNjY5NTgzNTYzfQ.9uFIrSXIaDcKaZVtfrKACCxFiiq4UqOzfI4fFx0vkRpZqvnJKPeFm8QhRq3couf2yVVsO9xi8sipBVFxZA-CIw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"usernameOrEmail\": \"chef1\",\r\n    \"estado\": \"Activo\",\r\n    \"poblacion\": \"Sevilla\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chef/disponibilidad/post",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"disponibilidad",
+										"post"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Llista per usuari",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NjE1NSwiZXhwIjoxNjY5NTgwOTU1fQ.Xgo0w9URAru2RwnqPChrJhcwljlw6yn5yGpvX0AcX3sHUR9fERha96t7eLk4MBmpTuIRCv0HCMQnncMhYG6aiA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/disponibilidad/get/username?usernameOrEmail=chef1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"disponibilidad",
+										"get",
+										"username"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Llista all",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NzI0NCwiZXhwIjoxNjY5NTgyMDQ0fQ.NLgAE8WLvyrCwuI2bqKRIOxYOf0hwQ-rAyAUn5VedCSMf7-DmnDXB0IvAF6PALhSO-yWUahxv2m7HcqJxi_TqQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/chef/disponibilidad/get/all/paginable?pageIndex=0&pageSize=3",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"disponibilidad",
+										"get",
+										"all",
+										"paginable"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Llista amb filtres",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2ODk3NjIwMiwiZXhwIjoxNjY5NTgxMDAyfQ.KOg1N_gA6XNhIAd5pvOtYQzU6Gp9RcuRM4GtC2tRZnT8iueybzDCNtLBDstlD9dJO48OyYD6R9Noc1BSOJpv_A",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/disponibilidad/get/filtrado?estado=todos&poblacion=todos",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"disponibilidad",
+										"get",
+										"filtrado"
+									],
+									"query": [
+										{
+											"key": "estado",
+											"value": "todos"
+										},
+										{
+											"key": "poblacion",
+											"value": "todos"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update estat",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2ODk2OTY0MiwiZXhwIjoxNjY5NTc0NDQyfQ.fd5sCmf3QeGJKjCbhZFM-x1lJL7YC5_8CMSZekst9g5U2W-C_sb2zYM9dhA8-KtBgZ4_xIPtXYouqaubceh94w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"estado\": \"No actiu\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chef/disponibilidad/update/estado?usernameOrEmail=chef1&poblacion=Alp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"disponibilidad",
+										"update",
+										"estado"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef1"
+										},
+										{
+											"key": "poblacion",
+											"value": "Alp"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/disponibilidad/delete?id=2",
+									"host": [
+										"{{base_url}}"
+									],
 									"path": [
 										"api",
 										"chef",
