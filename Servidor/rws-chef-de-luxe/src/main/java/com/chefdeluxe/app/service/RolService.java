@@ -1,5 +1,7 @@
 package com.chefdeluxe.app.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,14 @@ public class RolService {
 	}
 
 	public Rol findByRole(String rolName) {
+		
+		Optional roleOptional = rolRepositorio.findByRole(rolName);
+		if (roleOptional.isEmpty()) {
+			Rol rol = new Rol();
+			rol.setRole(rolName);
+			rolRepositorio.save(rol);
+		}
+
 		return rolRepositorio.findByRole(rolName).get();
 
 	}
