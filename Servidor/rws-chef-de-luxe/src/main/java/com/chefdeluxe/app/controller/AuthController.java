@@ -32,7 +32,7 @@ import com.chefdeluxe.app.seguridad.JwtTokenProvider;
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
-
+ 
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
