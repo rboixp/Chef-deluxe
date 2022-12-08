@@ -205,10 +205,28 @@ public class GestionReservaController {
 
 		Reserva reserva = reservaService.findById(id);
 
-		String chef = usuarioService.findById(reserva.getIdChef()).getUsername();
+		String usuarioReserva = usuarioService.findById(reserva.getIdChef()).getUsername();
 
-		if (!utils.usuarioAutorizado(chef, SecurityContextHolder.getContext().getAuthentication())) {
-			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
+		switch (estado) {
+		case "pendiente":
+		case "pagado":
+			if (!utils.usuarioEsDelRol("ROLE_CLIENT", SecurityContextHolder.getContext().getAuthentication())
+					&& !utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
+				return new ResponseEntity<>("Usuario no es cliente ni admin", HttpStatus.BAD_REQUEST);
+			}
+			;
+			break;
+		case "rechazado":
+		case "confirmado":
+		case "conciliado":
+			if (!utils.usuarioEsDelRol("ROLE_CHEF", SecurityContextHolder.getContext().getAuthentication())
+					&& !utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
+				return new ResponseEntity<>("Usuario no es chef ni admin", HttpStatus.BAD_REQUEST);
+			}
+			;
+			break;
+		default:
+			return new ResponseEntity<>("Estado de reserva no válido " + estado, HttpStatus.BAD_REQUEST);
 		}
 
 		reserva.setEstado(estado);
@@ -271,10 +289,10 @@ public class GestionReservaController {
 	/**
 	 * Clase getListaReservaClient
 	 *
-	 * retorna una llista de reserves d'un client amb paginació 
+	 * retorna una llista de reserves d'un client amb paginació
 	 */
 	@GetMapping("/reserva/get/client/paginable")
-	
+
 	public ResponseEntity<?> getListaReservaClient(String usernameOrEmail, int pageIndex, int pageSize) {
 
 		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
