@@ -12,6 +12,7 @@ public class ReservaDTO {
 	private Timestamp incio;
 	private Timestamp fin;
 	private BigDecimal precio;
+	private long comensales;
 	
 	public long getId() {
 		return id;
@@ -54,6 +55,12 @@ public class ReservaDTO {
 	}
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
+	}
+	public long getComensales() {
+		return comensales;
+	}
+	public void setComensales(long comensales) {
+		this.comensales = comensales;
 	}
 	
 

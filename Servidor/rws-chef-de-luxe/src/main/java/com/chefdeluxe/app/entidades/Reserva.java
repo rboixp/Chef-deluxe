@@ -33,6 +33,9 @@ public class Reserva {
 	@Column
 	private long idChef;
 	
+	@Column
+	private long comensales;
+	
 	@Column 
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
 	private Timestamp inicio;
@@ -98,6 +101,14 @@ public class Reserva {
 
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
+	}
+
+	public long getComensales() {
+		return comensales;
+	}
+
+	public void setComensales(long comensales) {
+		this.comensales = comensales;
 	}
 	
 	

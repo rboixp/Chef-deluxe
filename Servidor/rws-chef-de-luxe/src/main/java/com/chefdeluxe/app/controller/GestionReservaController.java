@@ -48,7 +48,7 @@ import com.chefdeluxe.app.service.UsuarioService;
  */
 @RestController
 @RequestMapping("/api/client")
-public class GestionReservaController {
+public class GestionReservaController { 
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -99,6 +99,7 @@ public class GestionReservaController {
 		reserva.setIncio(reservaDTO.getIncio());
 		reserva.setFin(reservaDTO.getFin());
 		reserva.setPrecio(reservaDTO.getPrecio());
+		reserva.setComensales(reservaDTO.getComensales());
 		reservaService.save(reserva);
 		return new ResponseEntity<>("Reserva dada de alta exitosamente", HttpStatus.OK);
 	}
@@ -153,6 +154,7 @@ public class GestionReservaController {
 		reservaDTO.setChef(usuarioService.findById(reserva.getIdChef()).getUsername());
 		reservaDTO.setIncio(reserva.getInicio());
 		reservaDTO.setFin(reserva.getFin());
+		reservaDTO.setComensales(reserva.getComensales());
 		reservaDTO.setPrecio(reserva.getPrecio());
 
 		return new ResponseEntity<>(reservaDTO, HttpStatus.OK);
@@ -188,6 +190,7 @@ public class GestionReservaController {
 			reservaDTO.setIncio(reserva.getInicio());
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
+			reservaDTO.setComensales(reserva.getComensales());
 			reservaListDTO.add(reservaDTO);
 		}
 		;
@@ -240,6 +243,7 @@ public class GestionReservaController {
 		reservaDTO.setIncio(reserva.getInicio());
 		reservaDTO.setFin(reserva.getFin());
 		reservaDTO.setPrecio(reserva.getPrecio());
+		reservaDTO.setComensales(reserva.getComensales());
 
 		return new ResponseEntity<>(reservaDTO, HttpStatus.OK);
 
@@ -279,6 +283,7 @@ public class GestionReservaController {
 			reservaDTO.setIncio(reserva.getInicio());
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
+			reservaDTO.setComensales(reserva.getComensales());
 			reservaListDTO.add(reservaDTO);
 		}
 		;
@@ -320,6 +325,7 @@ public class GestionReservaController {
 			reservaDTO.setIncio(reserva.getInicio());
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
+			reservaDTO.setComensales(reserva.getComensales());
 			reservaListDTO.add(reservaDTO);
 		}
 		;
@@ -360,6 +366,7 @@ public class GestionReservaController {
 			reservaDTO.setIncio(reserva.getInicio());
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
+			reservaDTO.setComensales(reserva.getComensales());
 			reservaListDTO.add(reservaDTO);
 		}
 		;
