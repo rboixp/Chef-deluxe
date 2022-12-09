@@ -39,5 +39,10 @@ public class TarifaService {
 		return tarifaRepositorio.findAll(pageable).getContent();
 		
 	}
+	
+	public List<Tarifa> findAll(  ){
+		return tarifaRepositorio.findAll();
+		
+	}
 
 }

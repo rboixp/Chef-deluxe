@@ -74,8 +74,8 @@ public class TarifaServiceTest {
 	}
 	@Test
 	public void findAll() {
-		when(tarifaRepositorio.findAll(pageable)).thenReturn(pageT);
-		Assertions.assertNotNull(tarifaService.findAll(1,1));
+		when(tarifaRepositorio.findAll()).thenReturn(tarifaList);
+		Assertions.assertNotNull(tarifaService.findAll());
 	}
 	@Test
 	public void update() {
