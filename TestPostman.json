@@ -7,1258 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "Casos de prova al cloud",
-			"item": [
-				{
-					"name": "Registre i inici de sessió",
-					"item": [
-						{
-							"name": "Registre",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"Antoni\",\r\n    \"email\": \"toni01@mail.com\",\r\n    \"username\": \"toni\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"lopez perez\",\r\n\t\"direccion\": \"Barcelona 15\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"30\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/auth/registrar",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"auth",
-										"registrar"
-									]
-								},
-								"description": "username , email, password, i perfil obligatoris\n\nRetorn ok:\n\nHttpStatus= 200\n\nRetorn KO:\n\nHttpStatus= 400 (bad request)"
-							},
-							"response": []
-						},
-						{
-							"name": "Inici sessió",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/vnd.api+json",
-										"type": "default"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"kike\",\r\n    \"password\": \"password\"\r\n\r\n}"
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/auth/iniciarSesion",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"auth",
-										"iniciarSesion"
-									]
-								},
-								"description": "Camps `usernameOrEmail i password obligatoris.`\n\nRetorn ok:\n\nHttpStatus= 200\n\nRetorn KO:\n\nHttpStatus= 500 (bad credentials)"
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Crud usuari",
-					"item": [
-						{
-							"name": "Dades d'un usuari",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDYwNzU2LCJleHAiOjE2NjcwNjU1NTZ9.qjPciwuHzhI54TcwkwlEK5rTDKjXIom3bZ_YqJ6Ss-Wmj4MTZd5w0Gt96anCSaTRdRIL48bpQPgSlgYdjrhlug",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": []
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/user?usernameOrEmail=toni",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"users",
-										"get",
-										"user"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "toni"
-										},
-										{
-											"key": "password",
-											"value": " ",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista d'usuaris",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2Fuam9AbWFpbC5jb20iLCJpYXQiOjE2NjcwMzM1NjIsImV4cCI6MTY2NzYzODM2Mn0.IpjywbxO7M_GNnX9LykB5O7mSt3u8qSFMTgT2AD46C3wwnxU17ppvfvh1vdiyDKlnTUDKq7xgoNTL-P7p7WMCg",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": []
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/get/users",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"users",
-										"get",
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update dades usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NDYwNzU2LCJleHAiOjE2NjcwNjU1NTZ9.qjPciwuHzhI54TcwkwlEK5rTDKjXIom3bZ_YqJ6Ss-Wmj4MTZd5w0Gt96anCSaTRdRIL48bpQPgSlgYdjrhlug",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "default"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"joanjo\",\r\n    \"email\": \"joanjo@mail.com\",\r\n    \"username\": \"joanjo\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 14\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"666566668\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/update/user?usernameOrEmail=joanjo",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"users",
-										"update",
-										"user"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "joanjo"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Esborrar usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2Fuam9AbWFpbC5jb20iLCJpYXQiOjE2NjcwMzM1NjIsImV4cCI6MTY2NzYzODM2Mn0.IpjywbxO7M_GNnX9LykB5O7mSt3u8qSFMTgT2AD46C3wwnxU17ppvfvh1vdiyDKlnTUDKq7xgoNTL-P7p7WMCg",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": []
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/delete/user?usernameOrEmail=joanjo",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"users",
-										"delete",
-										"user"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "joanjo"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Alta usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hNzg5QG1haWwuY29tIiwiaWF0IjoxNjY2NTIwNDYzLCJleHAiOjE2NjcxMjUyNjN9.-23_v0l2Rfi2in9JETmgvg8mqLEV4Tv0yGiS4-ucCuFWiNKak0ZyjqMIo7087JBYYKxI3LNxxI2Bs_-mjtVmKw",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"Maria\",\r\n    \"email\": \"maria789@mail.com\",\r\n    \"username\": \"maria\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"Apellidos\": \"Perez Lopez\",\r\n\t\"Direccion\": \"Europoa 23 3 1\",\r\n\t\"CodigoPostal\": \"08242\",\r\n\t\"Poblacion\": \"Manresa\",\r\n\t\"Nacionalidad\": \"Española\",\r\n\t\"Edad\": \"25\",\r\n\t\"Telefono\": \"689898989\",\r\n    \"Iban\": \"ES2114650100722030876293\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/users/create/user",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"users",
-										"create",
-										"user"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Disponibilitat",
-					"item": [
-						{
-							"name": "Alta disponibilitat",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWtlQG1haWwuY29tIiwiaWF0IjoxNjY3NzYxNTcyLCJleHAiOjE2NjgzNjYzNzJ9.eFmcN4B5GL4Ngz0_vNAehzWU9xMcInrK-IrIaouwvDl3PWsVR2jJvQ6MlpuTZkI6mG-1OHlzJzvSCdOcOBnU9w",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"kike\",\r\n    \"estado\": \"No Activo\",\r\n    \"poblacion\": \"Sabadell\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/chef/disponibilidad/post",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"post"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista amb filtres",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWtlQG1haWwuY29tIiwiaWF0IjoxNjY3NzYxNTcyLCJleHAiOjE2NjgzNjYzNzJ9.eFmcN4B5GL4Ngz0_vNAehzWU9xMcInrK-IrIaouwvDl3PWsVR2jJvQ6MlpuTZkI6mG-1OHlzJzvSCdOcOBnU9w",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Transfer-Encoding",
-										"value": "",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com/api/chef/disponibilidad/get/filtrado?estado=todos&poblacion=todos",
-									"protocol": "http",
-									"host": [
-										"awschefdeluxe-env",
-										"eba-ygfvtvek",
-										"us-east-1",
-										"elasticbeanstalk",
-										"com"
-									],
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"get",
-										"filtrado"
-									],
-									"query": [
-										{
-											"key": "estado",
-											"value": "todos"
-										},
-										{
-											"key": "poblacion",
-											"value": "todos"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Casos de prova en local",
-			"item": [
-				{
-					"name": "Reserva",
-					"item": [
-						{
-							"name": "Alta reserva",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NTUxMTQyLCJleHAiOjE2NjkxNTU5NDJ9.Ggbi_LvBflTsdwCsmXBg1FOjeY-y2xNQADoNCPpYHey90F0EQ4OkgA3NW5ZmNQpmEPNlt96YquA3_tiVEhzBDQ",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"estado\": \"pendiente\",\r\n    \"cliente\": \"jaumet01\",\r\n    \"chef\": \"chef\",\r\n    \"incio\": \"2022-01-18T13:00:00.00000\",\r\n    \"fin\": \"2022-01-18T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/client/reserva/post",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"client",
-										"reserva",
-										"post"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista de reserves per client",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NTUxMTQyLCJleHAiOjE2NjkxNTU5NDJ9.Ggbi_LvBflTsdwCsmXBg1FOjeY-y2xNQADoNCPpYHey90F0EQ4OkgA3NW5ZmNQpmEPNlt96YquA3_tiVEhzBDQ",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:8080/api/client/reserva/get/client/paginable?usernameOrEmail=jaumet01&pageIndex=0&pageSize=2",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"client",
-										"reserva",
-										"get",
-										"client",
-										"paginable"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "jaumet01"
-										},
-										{
-											"key": "pageIndex",
-											"value": "0"
-										},
-										{
-											"key": "pageSize",
-											"value": "2"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista de reserves per chef",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY4NDQ3MDY5LCJleHAiOjE2NjkwNTE4Njl9.vRoa3y9OoGF9UEqCJqg9gMCmqqx8ba5Kx-OsWfTTR5hwwwfNXNaM2CoeLLqucqAESwXSzaiF4Pez0v9dXYdMlg",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/client/reserva/get/chef/paginable?usernameOrEmail=chef2&pageIndex=0&pageSize=5",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"client",
-										"reserva",
-										"get",
-										"chef",
-										"paginable"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "chef2"
-										},
-										{
-											"key": "pageIndex",
-											"value": "0"
-										},
-										{
-											"key": "pageSize",
-											"value": "5"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Confirmació reserva",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY4NDQ3MDY5LCJleHAiOjE2NjkwNTE4Njl9.vRoa3y9OoGF9UEqCJqg9gMCmqqx8ba5Kx-OsWfTTR5hwwwfNXNaM2CoeLLqucqAESwXSzaiF4Pez0v9dXYdMlg",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/client/reserva/update/estado?usernameOrEmail=cliente&estado=CONfirmado&id=16",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"client",
-										"reserva",
-										"update",
-										"estado"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "cliente"
-										},
-										{
-											"key": "estado",
-											"value": "CONfirmado"
-										},
-										{
-											"key": "id",
-											"value": "16"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete reserva",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY4NDQ3MDY5LCJleHAiOjE2NjkwNTE4Njl9.vRoa3y9OoGF9UEqCJqg9gMCmqqx8ba5Kx-OsWfTTR5hwwwfNXNaM2CoeLLqucqAESwXSzaiF4Pez0v9dXYdMlg",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:8080/api/client/reserva/delete?id=1",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"client",
-										"reserva",
-										"delete"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Crud usuari",
-					"item": [
-						{
-							"name": "Dades d'un usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZUBtYWlsLmNvbSIsImlhdCI6MTY2ODUzMjgwNiwiZXhwIjoxNjY5MTM3NjA2fQ.wh7J-_yF6xcO7AToebDBYEMsZZ_0-e1IjknDFIwHswJ8iU8LgfoXgnAERun6oiq5j4LBV_MZFu4iM8pAPXwN8w",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "default"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:8080/api/users/get/user?usernameOrEmail=jaumet01",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"users",
-										"get",
-										"user"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "jaumet01"
-										},
-										{
-											"key": "",
-											"value": "",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Esborrar usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpYUBtYWlsLmNvbSIsImlhdCI6MTY2NjUxMDY1MywiZXhwIjoxNjY3MTE1NDUzfQ.LfSa2hAOpzaNjGaXsIm9JE1o58vguHUZ5KALvT-_bdw0SdoC_zt8Ji-9q1jXfcFCA9VCbsg4PssUxFpmr5vWWw",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/users/delete/user?usernameOrEmail=pereName",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"users",
-										"delete",
-										"user"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "pereName"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista d'usuaris",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJraWtlQG1haWwuY29tIiwiaWF0IjoxNjY3NjM4MzQ1LCJleHAiOjE2NjgyNDMxNDV9.vDWZfvn7-uUV4sw8pwMwaDQtcfAoC1cRk8LRc9L__ZdHgcRkVZqzowPVPcm1VUKTgj2AWpzBsyTrWG_IK75ScA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:8080/api/users/get/users",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"users",
-										"get",
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update dades usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXJlQG1haWwuY29tIiwiaWF0IjoxNjY2Nzk3NDk3LCJleHAiOjE2Njc0MDIyOTd9.US0-4THjuepVmzi424Mtwe_pccBjBu4oQBl4gmqS9T0zblo7cjTdn8YUMv8ZYlmakZWSvsZ9sYZPFaXmU9k0Nw",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "default"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"pere\",\r\n    \"email\": \"pere@mail.com\",\r\n    \"username\": \"pereName2\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"perez perez\",\r\n\t\"direccion\": \"llibertat 12\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Sallent de llobregat\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"99\",\r\n\t\"telefono\": \"666566667\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/users/update/user?usernameOrEmail=pereName",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"users",
-										"update",
-										"user"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "pereName"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Alta usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2NjE5OTY1NCwiZXhwIjoxNjY2ODA0NDU0fQ.ByOeX7buvcSrnb02EsIQ_fCiA_NfFvqmxO1z1jA9_KvE1cypi-gKtyCKz2axEiCVJMYysPgFdZsXeZWrTzon2Q",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"joanjo\",\r\n    \"email\": \"joanjo@mail.com\",\r\n    \"username\": \"joanjo\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"marti perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"666566668\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/users/create/user",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"users",
-										"create",
-										"user"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Registre i inici sessió",
-					"item": [
-						{
-							"name": "Registre",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "default"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"jaumeAdmin\",\r\n    \"email\": \"jaumeadmin@mail.com\",\r\n    \"username\": \"jaumetadmin\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_ADMIN\",\r\n    \"apellidos\": \"chef chef\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/auth/registrar",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"auth",
-										"registrar"
-									]
-								},
-								"description": "Registre d'un usuari.\n\nCamps obligatoris:\n\nusername o email\n\npassword"
-							},
-							"response": []
-						},
-						{
-							"name": "Inici sessió",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/vnd.api+json",
-										"type": "default"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"jaumetadmin\",\r\n    \"password\": \"password\"\r\n}"
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/auth/iniciarSesion",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"auth",
-										"iniciarSesion"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"description": "**Opcions de registrar i iniciar sessió.**"
-				},
-				{
-					"name": "Disponibilitat",
-					"item": [
-						{
-							"name": "Alta disponibilitat",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"chef\",\r\n    \"estado\": \"Activo\",\r\n    \"poblacion\": \"Tokio\"\r\n}"
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/chef/disponibilidad/post",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"post"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista per usuari",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NTMzMjAzLCJleHAiOjE2NjkxMzgwMDN9.B6120zpGAr1OxRltf11z8ZuPKblZQVMrWMqrimcOhVgI3YLiEZsW_Gz9TDJbRdWBAGVTc9GkTckQIHQXXOPKtg",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/chef/disponibilidad/get/username?usernameOrEmail=chef",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"get",
-										"username"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "chef"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista all",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NjIzMTgxLCJleHAiOjE2NjkyMjc5ODF9.bPZDNHf6XVspbhnMFI89phjAF7diRii_284qI3ti5mezFWX1rzU3Ood13aWVwcWLs_MNYenjwI938z8cU11KzA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:8080/api/chef/disponibilidad/get/all",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"get",
-										"all"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Llista amb filtres",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/chef/disponibilidad/get/filtrado?estado=todos&poblacion=todos",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"get",
-										"filtrado"
-									],
-									"query": [
-										{
-											"key": "estado",
-											"value": "todos"
-										},
-										{
-											"key": "poblacion",
-											"value": "todos"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "update estat",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYXVtZWFkbWluQG1haWwuY29tIiwiaWF0IjoxNjY4NjIzMTgxLCJleHAiOjE2NjkyMjc5ODF9.bPZDNHf6XVspbhnMFI89phjAF7diRii_284qI3ti5mezFWX1rzU3Ood13aWVwcWLs_MNYenjwI938z8cU11KzA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"estado\": \"NF\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/chef/disponibilidad/update/estado?usernameOrEmail=chef&poblacion=Santpedor",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"update",
-										"estado"
-									],
-									"query": [
-										{
-											"key": "usernameOrEmail",
-											"value": "chef"
-										},
-										{
-											"key": "poblacion",
-											"value": "Santpedor"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "delete",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjY3ODU1NjkxLCJleHAiOjE2Njg0NjA0OTF9._3sJaoS-qE1JVD_9RuWyZzsggnmQxhk0c38s1ZRDWRroNfr72w3LmRL0RDuJhxPXr9jIqKaeyk0gFk9UDtKYQA",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/chef/disponibilidad/delete?id=2",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"chef",
-										"disponibilidad",
-										"delete"
-									],
-									"query": [
-										{
-											"key": "id",
-											"value": "2"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Casos de prova per entorn",
 			"item": [
 				{
@@ -1275,7 +23,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnRAbWFpbC5jb20iLCJpYXQiOjE2Njk1ODU1NDUsImV4cCI6MTY3MDE5MDM0NX0.2iLsGFFqQg6XUkIaHwuYdJDaqD6g8QCXFsUWA8BcJT-RFwuGfunks345zbR6CUUczly-vhcHtHkIkGBPKSlanA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnRAbWFpbC5jb20iLCJpYXQiOjE2NzA2NjMyNzUsImV4cCI6MTY3MTI2ODA3NX0.eN1A9SCwGh9ZFkgzhoUBtsWPmq4g_6ezRFfbP2LgPvINcHr3e-uEakToO3lqQwcx3p2YV4rEqujXkhRhAZB1gg",
 											"type": "string"
 										}
 									]
@@ -1290,7 +38,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"estado\": \"pendent\",\r\n    \"cliente\": \"client\",\r\n    \"chef\": \"chef\",\r\n    \"incio\": \"2022-11-30T13:00:00.00000\",\r\n    \"fin\": \"2022-11-30T16:00:00.00000\",\r\n    \"precio\": \"50\"\r\n}",
+									"raw": "{\r\n    \"estado\": \"pendent\",\r\n    \"cliente\": \"client\",\r\n    \"chef\": \"chef1\",\r\n    \"incio\": \"2022-12-29T13:00:00.00000\",\r\n    \"fin\": \"2022-12-29T16:00:00.00000\",\r\n    \"precio\": \"50\",\r\n    \"comensales\": \"4\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1561,7 +309,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTE4NywiZXhwIjoxNjcwMTg5OTg3fQ.CHJT-u7yamCPZjuf2ut8jNTOpEGiN5v7iigUh3NlDGmJ4_Ad2HyaNGy17EMjOD0vctzhfSWfFlbzxRCc8T6p-Q",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjcwNjMxMDI5LCJleHAiOjE2NzEyMzU4Mjl9.-dCi0vOfRvbroL-KuwkmVBrIvPPdJoX06ZQXj-hy5oNb8SuIuXRK53BxfWiUtNGD5YqoBRo6-yg5DkyYQv_j9Q",
 											"type": "string"
 										}
 									]
@@ -1853,7 +601,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"client\",\r\n    \"email\": \"client@mail.com\",\r\n    \"username\": \"client\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"lopez perez\",\r\n\t\"direccion\": \"Barcelona 13\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
+									"raw": "{\r\n    \"nombre\": \"client\",\r\n    \"email\": \"client@mail.com\",\r\n    \"username\": \"client\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"lopez perez\",\r\n\t\"direccion\": \"Barcelona 14\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/api/auth/registrar",
@@ -1965,7 +713,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTM2NSwiZXhwIjoxNjcwMTkwMTY1fQ.IZBm8QkbVzM4c_-s1W_ZjdS5HQoSm9FuGIP7nnUBwffE_V8tO2k1ryNHkcU5dUnd-YSHyHA1ICEh3mmhjNI9hA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY3MDY2Mjc5NSwiZXhwIjoxNjcxMjY3NTk1fQ.zZTEf9HVQdMooY1VSsdYNNEdO9aYaEk2-jERKswM7u85tKyTjwV5SLS0832sMUUy3AyrJqc_A1w65DMNq-3ZVA",
 											"type": "string"
 										}
 									]
@@ -1973,7 +721,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/chef/disponibilidad/get/username?usernameOrEmail=chef",
+									"raw": "{{base_url}}/api/chef/disponibilidad/get/username?usernameOrEmail=chef1",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1987,7 +735,7 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "chef"
+											"value": "chef1"
 										}
 									]
 								}
@@ -2176,6 +924,218 @@
 											"key": "id",
 											"value": "4"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tarifa",
+					"item": [
+						{
+							"name": "alta tarifa",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjcwNjYzNDkyLCJleHAiOjE2NzEyNjgyOTJ9.XhCXxbTixerK4igRhTycbmADzo27koZgYrlvQHoMenCaE4SH-a5T_X_PYDeDR01IzGBT_5aTGQh0C8hdbAq8Mg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"idchef\": \"3\",\r\n    \"precioHora\": \"50.00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chef/tarifa/post",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"tarifa",
+										"post"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjcwNjMxMDI5LCJleHAiOjE2NzEyMzU4Mjl9.-dCi0vOfRvbroL-KuwkmVBrIvPPdJoX06ZQXj-hy5oNb8SuIuXRK53BxfWiUtNGD5YqoBRo6-yg5DkyYQv_j9Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/tarifa/delete?id=7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"tarifa",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get id",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjcwNjY1MTE2LCJleHAiOjE2NzEyNjk5MTZ9.LI1Zi1sN7adDeMAF4dkFHIpFGwubjWMi0h_OUSiWyeQe7kucVrJbVsIXEvFkCf3r8oJJUhb6aY2ZRvmz80TBmg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/tarifa/get/id?id=8",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"tarifa",
+										"get",
+										"id"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDY2NTE1NCwiZXhwIjoxNjcxMjY5OTU0fQ.CqRJhtx90N7-1i4FSmKnJXfjO8WwuHxZRi2h17prG19kK9HG06HpD0e5GDqoVxW-aNr39yTBgzGZi7021GyR6Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/tarifa/get/all?pageIndex=0&pageSize=5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"tarifa",
+										"get",
+										"all"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDY2NTE1NCwiZXhwIjoxNjcxMjY5OTU0fQ.CqRJhtx90N7-1i4FSmKnJXfjO8WwuHxZRi2h17prG19kK9HG06HpD0e5GDqoVxW-aNr39yTBgzGZi7021GyR6Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"8\",\r\n    \"idchef\": \"3\",\r\n    \"precioHora\": \"59.02\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chef/tarifa/update",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"tarifa",
+										"update"
 									]
 								}
 							},
