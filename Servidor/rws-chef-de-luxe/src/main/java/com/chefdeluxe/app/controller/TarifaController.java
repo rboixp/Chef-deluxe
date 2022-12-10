@@ -73,6 +73,12 @@ public class TarifaController {
 			return new ResponseEntity<>("Falta informar el precio hora", HttpStatus.BAD_REQUEST);
 		}
 		
+		Tarifa tarduplicada = tarifaService.findByIdChef(tarifaDTO.getIdchef());
+		
+		if (tarduplicada.getIdChef()== tarifaDTO.getIdchef()) {
+			return new ResponseEntity<>("No se puede dar de alta. Chef ya tiene tarifa ", HttpStatus.BAD_REQUEST);
+		}
+		
 		Tarifa tarifa = new Tarifa();
 		tarifa.setIdChef(tarifaDTO.getIdchef());
 		tarifa.setPreciohora(tarifaDTO.getPrecioHora());
@@ -87,6 +93,10 @@ public class TarifaController {
 	 */
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> deleteTarifa(@RequestParam Long id) {
+		
+		if (tarifaService.findByIdChef(id) == null ) {
+			return new ResponseEntity<>("No existe este Id <" +id +">  de tarifa ", HttpStatus.BAD_REQUEST);
+		}
 
 		Long idChef = tarifaService.findById(id).getIdChef();
 		
@@ -94,9 +104,12 @@ public class TarifaController {
 
 		if (!utils.usuarioAutorizado(username, SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>(
-					"Solo se permite delete para el usuario administrador o el chef que dio de alta la reserva",
-					HttpStatus.BAD_REQUEST);
+					"Solo se permite delete para el usuario administrador o el chef que dio de alta la reserva"
+					+ " username <" +username +">"
+					+ " token <" +SecurityContextHolder.getContext().getAuthentication() +">"
+					,HttpStatus.BAD_REQUEST);
 		}
+		
 
 		tarifaService.deleteById(id);
 		return new ResponseEntity<>("el registro de tarifa con id <" + id + "> se ha eliminado exitosamente",
@@ -113,7 +126,17 @@ public class TarifaController {
 	@GetMapping("/get/id")
 	public ResponseEntity<?> getById(@RequestParam Long id) {
 
+		
+		if ( tarifaService.findById(id) == null ) {
+			return new ResponseEntity<>("No existe este Id <" +id +">  de tarifa ", HttpStatus.BAD_REQUEST);
+		}
+		
 		Tarifa tarifa = tarifaService.findById(id);
+		
+		if ( usuarioService.findById(tarifa.getIdChef()) == null ) {
+			return new ResponseEntity<>("No existe este chef con id <" +id +"> ", HttpStatus.BAD_REQUEST);
+		}		
+		
 		String chef = usuarioService.findById(tarifa.getIdChef()).getUsername();
 
 		if (!utils.usuarioAutorizado(chef, SecurityContextHolder.getContext().getAuthentication())) {
@@ -167,6 +190,12 @@ public class TarifaController {
 	 */
 	@PutMapping("/update")
 	public ResponseEntity<?> UpdateTarifa(@RequestBody TarifaDTO tarifaDTO) {
+		
+		long id = tarifaDTO.getId();
+		
+		if ( tarifaService.findById(id) == null ) {
+			return new ResponseEntity<>("No existe este Id <" +id +">  de tarifa ", HttpStatus.BAD_REQUEST);
+		}
 
 		String usuarioReserva = usuarioService.findById(tarifaDTO.getIdchef()).getUsername();
 

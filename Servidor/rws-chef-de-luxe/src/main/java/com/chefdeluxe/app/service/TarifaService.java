@@ -21,12 +21,14 @@ public class TarifaService {
 		tarifaRepositorio.save(tarifa);
 	}
 
-	public Tarifa findById(Long Id) {
-		return tarifaRepositorio.findById(Id).get();
+	public Tarifa findById(Long Id) {		
+		return  tarifaRepositorio.findById(Id).isPresent() ? 
+				tarifaRepositorio.findById(Id).get() : null;
 	}
 	
 	public Tarifa findByIdChef(Long IdChef) {
-		return tarifaRepositorio.findByIdChef(IdChef).get();
+		return tarifaRepositorio.findByIdChef(IdChef).isPresent() ? 
+				tarifaRepositorio.findByIdChef(IdChef).get() : null;
 	}
 	
 	public void deleteById(Long id) {
