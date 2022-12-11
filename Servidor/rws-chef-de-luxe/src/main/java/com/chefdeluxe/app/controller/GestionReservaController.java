@@ -48,7 +48,7 @@ import com.chefdeluxe.app.service.UsuarioService;
  */
 @RestController
 @RequestMapping("/api/client")
-public class GestionReservaController { 
+public class GestionReservaController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -89,9 +89,23 @@ public class GestionReservaController {
 				&& !utils.usuarioEsDelRol("ROLE_CLIENT", SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>("token no valido, no es de cliente ni admin", HttpStatus.BAD_REQUEST);
 		}
+        
+		Long clientId;
+		Long chefId;
+		
+		try {
+		clientId = usuarioService.findByUsernameOrEmail(reservaDTO.getCliente(), reservaDTO.getCliente()).getId();
 
-		Long clientId = usuarioService.findByUsernameOrEmail(reservaDTO.getCliente(), reservaDTO.getCliente()).getId();
-		Long chefId = usuarioService.findByUsernameOrEmail(reservaDTO.getChef(), reservaDTO.getChef()).getId();
+        } catch (Exception e) {
+        	return new ResponseEntity<>("Cliente no existe en base de datos" +reservaDTO.getCliente(), HttpStatus.BAD_REQUEST);
+        }
+		
+		try {
+			chefId = usuarioService.findByUsernameOrEmail(reservaDTO.getChef(), reservaDTO.getChef()).getId();
+        } catch (Exception e) {
+        	return new ResponseEntity<>("Chef no existe en base de datos" +reservaDTO.getChef(), HttpStatus.BAD_REQUEST);
+        }		
+
 		Reserva reserva = new Reserva();
 		reserva.setEstado(reservaDTO.getEstado());
 		reserva.setIdClient(clientId);
@@ -300,8 +314,17 @@ public class GestionReservaController {
 
 	public ResponseEntity<?> getListaReservaClient(String usernameOrEmail, int pageIndex, int pageSize) {
 
-		Usuario usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
-		String clientUserName = usuario.getUsername();
+		Usuario usuario = new Usuario();
+		String clientUserName = " ";
+
+		try {
+			usuario = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+			clientUserName = usuario.getUsername();
+
+		} catch (Exception e) {
+			return new ResponseEntity<>("No se encuentra en base de datos el usuario " + usernameOrEmail,
+					HttpStatus.BAD_REQUEST);
+		}
 
 		if (!utils.usuarioAutorizado(clientUserName, SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>("Usuario no autorizado", HttpStatus.BAD_REQUEST);
