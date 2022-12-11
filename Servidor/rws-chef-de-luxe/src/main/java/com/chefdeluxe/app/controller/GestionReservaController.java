@@ -171,8 +171,14 @@ public class GestionReservaController {
 
 	@GetMapping("/reserva/get/id")
 	public ResponseEntity<?> getListaReservaId(@RequestParam Long id) {
+		Reserva reserva;
 
-		Reserva reserva = reservaService.findById(id);
+		try {
+			reserva = reservaService.findById(id);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Reserva con id <" + id + "> no existe", HttpStatus.BAD_REQUEST);
+
+		}
 
 		String client = usuarioService.findById(reserva.getIdClient()).getUsername();
 		String chef = usuarioService.findById(reserva.getIdChef()).getUsername();
