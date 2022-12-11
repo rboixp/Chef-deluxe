@@ -20,8 +20,19 @@ public class Tarifa {
 	@Column
 	private long idChef;
 	
+	@Column
+	private long idMenu;
+	
 	@Column 
 	private BigDecimal preciohora;
+
+	public long getIdMenu() {
+		return idMenu;
+	}
+
+	public void setIdMenu(long idMenu) {
+		this.idMenu = idMenu;
+	}
 
 	public long getId() {
 		return id;

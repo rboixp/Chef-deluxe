@@ -1,15 +1,8 @@
 package com.chefdeluxe.app.dto;
 
-import java.math.BigDecimal;
-
-public class TarifaDTO {
+public class MenuDTO {
 	
 	private long id;
-	private long  idchef;
-	private BigDecimal precioHora;
-	private String usernameOrEmail;
-	
-	private long idMenu;
 	private long idChef;
 	private String entrante;
 	private String primero;
@@ -17,12 +10,11 @@ public class TarifaDTO {
 	private String postre;
 	private String cafes;
 	
-	
-	public long getIdMenu() {
-		return idMenu;
+	public long getId() {
+		return id;
 	}
-	public void setIdMenu(long idMenu) {
-		this.idMenu = idMenu;
+	public void setId(long id) {
+		this.id = id;
 	}
 	public long getIdChef() {
 		return idChef;
@@ -60,32 +52,6 @@ public class TarifaDTO {
 	public void setCafes(String cafes) {
 		this.cafes = cafes;
 	}
-	public String getUsernameOrEmail() {
-		return usernameOrEmail;
-	}
-	public void setUsernameOrEmail(String usernameOrEmail) {
-		this.usernameOrEmail = usernameOrEmail;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public long getIdchef() {
-		return idchef;
-	}
-	public void setIdchef(long idchef) {
-		this.idchef = idchef;
-	}
-	public BigDecimal getPrecioHora() {
-		return precioHora;
-	}
-	public void setPrecioHora(BigDecimal precioHora) {
-		this.precioHora = precioHora;
-	}
-	
-	
 	
 	
 

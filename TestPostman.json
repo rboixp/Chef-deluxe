@@ -23,7 +23,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnRAbWFpbC5jb20iLCJpYXQiOjE2NzA2NjMyNzUsImV4cCI6MTY3MTI2ODA3NX0.eN1A9SCwGh9ZFkgzhoUBtsWPmq4g_6ezRFfbP2LgPvINcHr3e-uEakToO3lqQwcx3p2YV4rEqujXkhRhAZB1gg",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxQG1haWwuY29tIiwiaWF0IjoxNjcwNzU1NjU3LCJleHAiOjE2NzEzNjA0NTd9.gAIB_TDB-_XQy5vf6srZtGNc8i2jd1I88XeNkZvQENzy01wtnJRDTm-BjNq0F3TAOf-VZfzBABU2wOGpv7D69Q",
 											"type": "string"
 										}
 									]
@@ -38,7 +38,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"estado\": \"pendent\",\r\n    \"cliente\": \"client\",\r\n    \"chef\": \"chef1\",\r\n    \"incio\": \"2022-12-29T13:00:00.00000\",\r\n    \"fin\": \"2022-12-29T16:00:00.00000\",\r\n    \"precio\": \"50\",\r\n    \"comensales\": \"4\"\r\n}",
+									"raw": "{\r\n    \"estado\": \"pendent\",\r\n    \"cliente\": \"client1\",\r\n    \"chef\": \"chef99\",\r\n    \"incio\": \"2022-11-04T10:00:00.00000\",\r\n    \"fin\": \"2022-11-04T14:00:00.00000\",\r\n    \"precio\": \"0\",\r\n    \"comensales\": \"4\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -71,7 +71,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDY4MTYzNiwiZXhwIjoxNjcxMjg2NDM2fQ.hC2vP3yvUGBTKMnR3CwTjgUq2AUEIYWI2oRIUQLJNIbGsvhAPT_7aWwp5EXl2P2nKM5p4KSO4l-pW7ga9UT5jQ",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxQG1haWwuY29tIiwiaWF0IjoxNjcwNzU1Mzc2LCJleHAiOjE2NzEzNjAxNzZ9.QzLoEXNRhJeljFEzQPDEmU3fx3FZDMFEYGNwl_3OQ5tPXXT-EQZfGgU7B9lRqFwz3_NAlm5TVtG8vJvyjzgxug",
 											"type": "string"
 										}
 									]
@@ -85,7 +85,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/get/client/paginable?usernameOrEmail=client1&pageIndex=0&pageSize=20",
+									"raw": "{{base_url}}/api/client/reserva/get/client/paginable?usernameOrEmail=client1&pageIndex=0&pageSize=99",
 									"host": [
 										"{{base_url}}"
 									],
@@ -108,7 +108,7 @@
 										},
 										{
 											"key": "pageSize",
-											"value": "20"
+											"value": "99"
 										}
 									]
 								}
@@ -126,7 +126,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTYwMSwiZXhwIjoxNjcwMTkwNDAxfQ.mZabtBzuwX0or4Zvhv8o5UddgNArWydh8dzzsjn-gkKVOJYPjVK93QKtNNOG7F6CDlxY_bxS5neBcJlqT5RNkA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3NTQ4ODcsImV4cCI6MTY3MTM1OTY4N30.1LljrxCCHpYVO3KYhFpnH3Ghi3_R-fYlvnw9rWOB_uUy5rI-uOUMEd5Vs3LUgD-CrThR5jYOQOJZnvkodhvA-w",
 											"type": "string"
 										}
 									]
@@ -134,7 +134,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/get/chef/paginable?usernameOrEmail=chef&pageIndex=0&pageSize=5",
+									"raw": "{{base_url}}/api/client/reserva/get/chef/paginable?usernameOrEmail=chef99&pageIndex=0&pageSize=5",
 									"host": [
 										"{{base_url}}"
 									],
@@ -149,7 +149,7 @@
 									"query": [
 										{
 											"key": "usernameOrEmail",
-											"value": "chef"
+											"value": "chef99"
 										},
 										{
 											"key": "pageIndex",
@@ -175,7 +175,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTYwMSwiZXhwIjoxNjcwMTkwNDAxfQ.mZabtBzuwX0or4Zvhv8o5UddgNArWydh8dzzsjn-gkKVOJYPjVK93QKtNNOG7F6CDlxY_bxS5neBcJlqT5RNkA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3NTQ5NjgsImV4cCI6MTY3MTM1OTc2OH0.8Vgz4dT0WWe8S-reBrAvxGwSLwOUgupJpoBJ_bu_ZQefP-8aNMr9aBFdn5Un-JMveY_FYFCVMwyfAfgBE5P3hw",
 											"type": "string"
 										}
 									]
@@ -183,7 +183,7 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/update/estado?id=1&estado=confirmado",
+									"raw": "{{base_url}}/api/client/reserva/update/estado?id=5&estado=confirmado",
 									"host": [
 										"{{base_url}}"
 									],
@@ -197,7 +197,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "1"
+											"value": "5"
 										},
 										{
 											"key": "estado",
@@ -264,7 +264,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDcwNTU4MCwiZXhwIjoxNjcxMzEwMzgwfQ.ZR468ALnlIlVQ99Y3UsnTOnGNHHCcaR5mC-wbGWRSD7Hx__M1mx_sEVyXj13jQ5jBzGMWdKppSr27wTodTguAA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxQG1haWwuY29tIiwiaWF0IjoxNjcwNzU1NjU3LCJleHAiOjE2NzEzNjA0NTd9.gAIB_TDB-_XQy5vf6srZtGNc8i2jd1I88XeNkZvQENzy01wtnJRDTm-BjNq0F3TAOf-VZfzBABU2wOGpv7D69Q",
 											"type": "string"
 										}
 									]
@@ -272,7 +272,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/get/id?id=1",
+									"raw": "{{base_url}}/api/client/reserva/get/id?id=6",
 									"host": [
 										"{{base_url}}"
 									],
@@ -286,7 +286,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "1"
+											"value": "6"
 										}
 									]
 								}
@@ -579,7 +579,20 @@
 						},
 						{
 							"name": "Baja usuario",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3NTUzNDEsImV4cCI6MTY3MTM2MDE0MX0.Q3y9k5ChpofiRbnZvLQdBYOCYd3034y4XfaAgmftjT8fk8HlqkMgrrJOU83Jrls5KWlQ0euLb7t5eQ04Jie4RQ",
+											"type": "string"
+										}
+									]
+								},
 								"method": "PUT",
 								"header": [],
 								"url": {
@@ -697,7 +710,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMUBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTM2NSwiZXhwIjoxNjcwMTkwMTY1fQ.IZBm8QkbVzM4c_-s1W_ZjdS5HQoSm9FuGIP7nnUBwffE_V8tO2k1ryNHkcU5dUnd-YSHyHA1ICEh3mmhjNI9hA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3NTU1NjAsImV4cCI6MTY3MTM2MDM2MH0.NwkaUw8YEvig1uBHFzR1Ng_ZGqoS9L0TRn7vdLzepVp1b5kIMTSyFW8LGn0t6I87RJ6ZvSD63nvucDSet7z8gA",
 											"type": "string"
 										}
 									]
@@ -712,7 +725,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"usernameOrEmail\": \"chef\",\r\n    \"estado\": \"Activo\",\r\n    \"poblacion\": \"Paris1\"\r\n}"
+									"raw": "{\r\n    \"usernameOrEmail\": \"chef99\",\r\n    \"estado\": \"Activo\",\r\n    \"poblacion\": \"Fonollosa\"\r\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/api/chef/disponibilidad/post",
@@ -831,7 +844,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTQzMiwiZXhwIjoxNjcwMTkwMjMyfQ.Q2xr4UpkqFMeM41Wm3zQ2GOZjEadPf2cuMUruAazyz0AKfurkGUVNuWhz707OzzX6T6z9ZpUdExLJ9Fij5pw1Q",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzbGRzZHNhc2RhIiwiaWF0IjoxNjcwNjkzNjk1LCJleHAiOjE2NzEyOTg0OTV9.Xgth_EMPsK_p6KdTAaV-SvdvXirHnPHqiK3YLbR9iF8oeFq82m1xrUrHWSickERjt9NAnLvetiyXUpvLl220zg",
 											"type": "string"
 										}
 									]
@@ -839,7 +852,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/chef/disponibilidad/get/filtrado?estado=todos&poblacion=todos",
+									"raw": "{{base_url}}/api/chef/disponibilidad/get/filtrado?estado=Activo&poblacion=todos",
 									"host": [
 										"{{base_url}}"
 									],
@@ -853,7 +866,7 @@
 									"query": [
 										{
 											"key": "estado",
-											"value": "todos"
+											"value": "Activo"
 										},
 										{
 											"key": "poblacion",
@@ -972,7 +985,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMkBtYWlsLmNvbSIsImlhdCI6MTY3MDY2NjE1MiwiZXhwIjoxNjcxMjcwOTUyfQ.Agz0A4n8uJxmQryfKMl7E2oAOBMFZAAH1XZ5Qrn-QyX2eEbQ6zCmkvdWx9Quto3fdGS8KQcHKqq--EHtxq7_5A",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
 											"type": "string"
 										}
 									]
@@ -981,7 +994,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"idchef\": \"16\",\r\n    \"precioHora\": \"50.00\"\r\n}",
+									"raw": "{\r\n    \"usernameOrEmail\": \"chef99\",\r\n    \"precioHora\": \"50.00\",\r\n    \"entrante\": \"Consome\",\r\n    \"primero\": \"Macarrones\",\r\n    \"segundo\": \"Pollo con patatas\",\r\n    \"postre\": \"Flan con nata\",\r\n    \"cafes\": \"Café solo, cortado o con leche\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1014,7 +1027,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjcwNjMxMDI5LCJleHAiOjE2NzEyMzU4Mjl9.-dCi0vOfRvbroL-KuwkmVBrIvPPdJoX06ZQXj-hy5oNb8SuIuXRK53BxfWiUtNGD5YqoBRo6-yg5DkyYQv_j9Q",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
 											"type": "string"
 										}
 									]
@@ -1022,7 +1035,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/chef/tarifa/delete?id=7",
+									"raw": "{{base_url}}/api/chef/tarifa/delete?id=14",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1035,7 +1048,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "7"
+											"value": "14"
 										}
 									]
 								}
@@ -1053,7 +1066,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjcwNjY1MTE2LCJleHAiOjE2NzEyNjk5MTZ9.LI1Zi1sN7adDeMAF4dkFHIpFGwubjWMi0h_OUSiWyeQe7kucVrJbVsIXEvFkCf3r8oJJUhb6aY2ZRvmz80TBmg",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
 											"type": "string"
 										}
 									]
@@ -1061,7 +1074,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/chef/tarifa/get/id?id=8",
+									"raw": "{{base_url}}/api/chef/tarifa/get/id?id=15",
 									"host": [
 										"{{base_url}}"
 									],
@@ -1075,7 +1088,47 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "8"
+											"value": "15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get per usuari",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/tarifa/get/user?usernameOrEmail=chef99",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"tarifa",
+										"get",
+										"user"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef99"
 										}
 									]
 								}
@@ -1093,7 +1146,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDY2NTE1NCwiZXhwIjoxNjcxMjY5OTU0fQ.CqRJhtx90N7-1i4FSmKnJXfjO8WwuHxZRi2h17prG19kK9HG06HpD0e5GDqoVxW-aNr39yTBgzGZi7021GyR6Q",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDc4OTM3OCwiZXhwIjoxNjcxMzk0MTc4fQ.s-V1tqq8d0izejYFc7_lQ5gS40Il6JOhuaN2epq9RtUbUBa-F4Dm7i4Wi9GMXmIbpv68_OAp_m2l9_hrOZQiaA",
 											"type": "string"
 										}
 									]
@@ -1137,7 +1190,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDY2NTE1NCwiZXhwIjoxNjcxMjY5OTU0fQ.CqRJhtx90N7-1i4FSmKnJXfjO8WwuHxZRi2h17prG19kK9HG06HpD0e5GDqoVxW-aNr39yTBgzGZi7021GyR6Q",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
 											"type": "string"
 										}
 									]
@@ -1146,7 +1199,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"8\",\r\n    \"idchef\": \"3\",\r\n    \"precioHora\": \"59.02\"\r\n}",
+									"raw": "{\r\n    \"id\": \"16\",\r\n    \"usernameOrEmail\": \"chef99\",\r\n    \"precioHora\": \"54.00\",\r\n    \"entrante\": \"Consome\",\r\n    \"primero\": \"Macarrones\",\r\n    \"segundo\": \"Pollo con patatas\",\r\n    \"postre\": \"Flan con nata y nueces.\",\r\n    \"cafes\": \"Café solo, cortado o con leche\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1162,6 +1215,218 @@
 										"api",
 										"chef",
 										"tarifa",
+										"update"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Menu",
+					"item": [
+						{
+							"name": "alta menu",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"idChef\": \"6\",\r\n    \"entrante\": \"Consome\",\r\n    \"primero\": \"Macarrones\",\r\n    \"segundo\": \"Pollo con patatas\",\r\n    \"postre\": \"Flan con nata\",\r\n    \"cafes\": \"Café solo, cortado o con leche\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chef/menu/post",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"menu",
+										"post"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete  menu",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/tarifa/delete?id=14",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"tarifa",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "14"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDc4OTM3OCwiZXhwIjoxNjcxMzk0MTc4fQ.s-V1tqq8d0izejYFc7_lQ5gS40Il6JOhuaN2epq9RtUbUBa-F4Dm7i4Wi9GMXmIbpv68_OAp_m2l9_hrOZQiaA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/menu/get/all?pageIndex=0&pageSize=5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"menu",
+										"get",
+										"all"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "0"
+										},
+										{
+											"key": "pageSize",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get id",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/chef/menu/get/id?id=8",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"menu",
+										"get",
+										"id"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"protocolProfileBehavior": {
+								"strictSSL": false
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmOTlAbWFpbC5jb20iLCJpYXQiOjE2NzA3ODY4MTMsImV4cCI6MTY3MTM5MTYxM30.De9thLwE9cKSd7HQ5dVPEZCU7zK35SskQgtgVkAP95vsc_yeonebS7y7D_AqGzuo5KYjiGNn9ngUnCA3Puw-cg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 8,\r\n    \"idChef\": 6,\r\n    \"entrante\": \"Consomes varios\",\r\n    \"primero\": \"Macarrones\",\r\n    \"segundo\": \"Pollo con patatas\",\r\n    \"postre\": \"Flan con nata\",\r\n    \"cafes\": \"Café solo, cortado o con leche\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/chef/menu/update",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"chef",
+										"menu",
 										"update"
 									]
 								}

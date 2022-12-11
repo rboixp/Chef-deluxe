@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chefdeluxe.app.dto.ReservaDTO;
 import com.chefdeluxe.app.dto.TarifaDTO;
+import com.chefdeluxe.app.entidades.Menu;
 import com.chefdeluxe.app.entidades.Reserva;
 import com.chefdeluxe.app.entidades.Rol;
 import com.chefdeluxe.app.entidades.Tarifa;
 import com.chefdeluxe.app.entidades.Usuario;
+import com.chefdeluxe.app.service.MenuService;
 import com.chefdeluxe.app.service.RolService;
 import com.chefdeluxe.app.service.TarifaService;
 import com.chefdeluxe.app.service.UsuarioService;
@@ -48,6 +50,9 @@ public class TarifaController {
 	private TarifaService tarifaService;
 
 	@Autowired
+	private MenuService menuService;
+
+	@Autowired
 	private Utils utils;
 
 	@PersistenceContext
@@ -61,26 +66,34 @@ public class TarifaController {
 	@PostMapping("/post")
 	public ResponseEntity<?> altaTarifa(@RequestBody TarifaDTO tarifaDTO) {
 
+		Usuario user;
+
 		if (!utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())
 				&& !utils.usuarioEsDelRol("ROLE_CHEF", SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>("token no valido, no es de chef ni admin", HttpStatus.BAD_REQUEST);
 		}
 
-		if (tarifaDTO.getIdchef() == 0) {
-			return new ResponseEntity<>("Falta informar el Id del chef", HttpStatus.BAD_REQUEST);
+		if (tarifaDTO.getIdchef() == 0 && tarifaDTO.getUsernameOrEmail().isBlank()) {
+			return new ResponseEntity<>("Falta informar el Id del chef o el usuario o el mail", HttpStatus.BAD_REQUEST);
 		} else {
-			
+
 			try {
-				Usuario user = usuarioService.findById(tarifaDTO.getIdchef());
+				if (tarifaDTO.getIdchef() > 0) {
+					user = usuarioService.findById(tarifaDTO.getIdchef());
+				} else {
+					user = usuarioService.findByUsernameOrEmail(tarifaDTO.getUsernameOrEmail(),
+							tarifaDTO.getUsernameOrEmail());
+				}
 			} catch (Exception e) {
-				return new ResponseEntity<>("IdChef no existe en la base de datos", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Chef no existe en la base de datos", HttpStatus.BAD_REQUEST);
 			}
 
 			Rol rol = rolService.findByRole("ROLE_CHEF");
 
-			if (!usuarioService.findById(tarifaDTO.getIdchef()).getRoles().contains(rol)) {
+			if (!user.getRoles().contains(rol)) {
 				return new ResponseEntity<>(
-						"idChef <" +tarifaDTO.getIdchef() +"> no es chef, tiene perfil admin o cliente", HttpStatus.BAD_REQUEST);
+						"Chef <" + user.getUsername() + "> no es chef, tiene perfil admin o cliente",
+						HttpStatus.BAD_REQUEST);
 			}
 		}
 
@@ -88,18 +101,30 @@ public class TarifaController {
 			return new ResponseEntity<>("Falta informar el precio hora", HttpStatus.BAD_REQUEST);
 		}
 
-		Tarifa tarduplicada = tarifaService.findByIdChef(tarifaDTO.getIdchef());
-
-		if (tarifaService.findByIdChef(tarifaDTO.getIdchef()) != null) {
-			if (tarduplicada.getIdChef() == tarifaDTO.getIdchef()) {
+		try {
+			Tarifa tarduplicada = tarifaService.findByIdChef(user.getId());
+			if (tarduplicada.getId() > 0) {
 				return new ResponseEntity<>("No se puede dar de alta. Chef ya tiene tarifa ", HttpStatus.BAD_REQUEST);
 			}
+		} catch (Exception e) {
 		}
 
+		Menu menu = new Menu();
+
+		menu.setIdChef(user.getId());
+		menu.setEntrante(tarifaDTO.getEntrante());
+		menu.setPrimero(tarifaDTO.getPrimero());
+		menu.setSegundo(tarifaDTO.getSegundo());
+		menu.setPostre(tarifaDTO.getPostre());
+		menu.setCafes(tarifaDTO.getCafes());
+		menuService.save(menu);
+
 		Tarifa tarifa = new Tarifa();
-		tarifa.setIdChef(tarifaDTO.getIdchef());
+		tarifa.setIdChef(user.getId());
 		tarifa.setPreciohora(tarifaDTO.getPrecioHora());
+		tarifa.setIdMenu(menu.getId());
 		tarifaService.save(tarifa);
+
 		return new ResponseEntity<>("tarifa dada de alta exitosamente", HttpStatus.OK);
 	}
 
@@ -127,7 +152,10 @@ public class TarifaController {
 					HttpStatus.BAD_REQUEST);
 		}
 
+		menuService.deleteById(tarifaService.findById(id).getIdMenu());
+		
 		tarifaService.deleteById(id);
+
 		return new ResponseEntity<>("el registro de tarifa con id <" + id + "> se ha eliminado exitosamente",
 				HttpStatus.OK);
 
@@ -164,6 +192,60 @@ public class TarifaController {
 		tarifaDTO.setIdchef(tarifa.getIdChef());
 		tarifaDTO.setPrecioHora(tarifa.getPreciohora());
 
+		Menu menu = menuService.findById(tarifa.getIdMenu());
+
+		tarifaDTO.setEntrante(menu.getEntrante());
+		tarifaDTO.setPrimero(menu.getPrimero());
+		tarifaDTO.setSegundo(menu.getSegundo());
+		tarifaDTO.setPostre(menu.getPostre());
+		tarifaDTO.setCafes(menu.getCafes());
+		tarifaDTO.setUsernameOrEmail(chef);
+
+		return new ResponseEntity<>(tarifaDTO, HttpStatus.OK);
+	}
+
+	/**
+	 * End point getById
+	 *
+	 * retorna una tarifa de la base de dades filtrada per id.
+	 */
+
+	@GetMapping("/get/user")
+	public ResponseEntity<?> getByUsernameOrEmail(@RequestParam String usernameOrEmail) {
+
+		Usuario user;
+		Tarifa tarifa;
+		try {
+			user = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		} catch (Exception e) {
+			return new ResponseEntity<>("No existe este usuario <" + usernameOrEmail + "> ", HttpStatus.BAD_REQUEST);
+		}
+
+		if (!utils.usuarioAutorizado(user.getUsername(), SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Solo se permite consultar la tarifa al chef que la realizó o al admin",
+					HttpStatus.BAD_REQUEST);
+		}
+        System.out.println("Chef tarifa" +user.getId());
+		tarifa = tarifaService.findByIdChef(user.getId());
+        
+		if (tarifa == null ) {
+			return new ResponseEntity<>("El usuario " +usernameOrEmail +"no tiene tarifas ", HttpStatus.BAD_REQUEST);
+		}
+		
+		TarifaDTO tarifaDTO = new TarifaDTO();
+		tarifaDTO.setId(tarifa.getId());
+		tarifaDTO.setUsernameOrEmail(usernameOrEmail);
+		tarifaDTO.setIdchef(tarifa.getIdChef());
+		tarifaDTO.setPrecioHora(tarifa.getPreciohora());
+
+		Menu menu = menuService.findById(tarifa.getIdMenu());
+
+		tarifaDTO.setEntrante(menu.getEntrante());
+		tarifaDTO.setPrimero(menu.getPrimero());
+		tarifaDTO.setSegundo(menu.getSegundo());
+		tarifaDTO.setPostre(menu.getPostre());
+		tarifaDTO.setCafes(menu.getCafes());
+
 		return new ResponseEntity<>(tarifaDTO, HttpStatus.OK);
 	}
 
@@ -191,6 +273,16 @@ public class TarifaController {
 			tarifaDTO.setId(tarifa.getId());
 			tarifaDTO.setIdchef(tarifa.getIdChef());
 			tarifaDTO.setPrecioHora(tarifa.getPreciohora());
+
+			Menu menu = menuService.findById(tarifa.getIdMenu());
+
+			tarifaDTO.setEntrante(menu.getEntrante());
+			tarifaDTO.setPrimero(menu.getPrimero());
+			tarifaDTO.setSegundo(menu.getSegundo());
+			tarifaDTO.setPostre(menu.getPostre());
+			tarifaDTO.setCafes(menu.getCafes());
+			tarifaDTO.setUsernameOrEmail(usuarioService.findById(tarifa.getIdChef()).getUsername());
+
 			tarifaListDTO.add(tarifaDTO);
 		}
 		;
@@ -207,33 +299,44 @@ public class TarifaController {
 	public ResponseEntity<?> UpdateTarifa(@RequestBody TarifaDTO tarifaDTO) {
 
 		long id = tarifaDTO.getId();
+		Tarifa tarifa = tarifaService.findById(id);
 
-		if (tarifaService.findById(id) == null) {
+		if (tarifa == null) {
 			return new ResponseEntity<>("No existe este Id <" + id + ">  de tarifa ", HttpStatus.BAD_REQUEST);
 		}
-        try {
-		String usuarioReserva = usuarioService.findById(tarifaDTO.getIdchef()).getUsername();
-        } catch (Exception e) {
-        	return new ResponseEntity<>("idChef <" +tarifaDTO.getIdchef() +"> no existe en base de datos ", HttpStatus.BAD_REQUEST);
-        }
+		try {
+			String usuarioReserva = usuarioService.findById(tarifa.getIdChef()).getUsername();
+		} catch (Exception e) {
+			return new ResponseEntity<>("idChef <" + tarifa.getIdChef() + "> no existe en base de datos ",
+					HttpStatus.BAD_REQUEST);
+		}
 
 		if (!utils.usuarioEsDelRol("ROLE_CHEF", SecurityContextHolder.getContext().getAuthentication())
 				&& !utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>("Usuario no es chef ni admin", HttpStatus.BAD_REQUEST);
 		}
+	
+		Tarifa tarifaUpd = new Tarifa();
 
-		Tarifa tarifa = new Tarifa();
-		tarifa.setId(tarifaDTO.getId());
-		tarifa.setIdChef(tarifaDTO.getIdchef());
-		tarifa.setPreciohora(tarifaDTO.getPrecioHora());
-
+		tarifaUpd.setId(tarifaDTO.getId());
+		tarifaUpd.setIdChef(tarifa.getIdChef());
+		tarifaUpd.setPreciohora(tarifaDTO.getPrecioHora());
 		tarifaService.save(tarifa);
-
 		tarifaDTO.setId(tarifa.getId());
 		tarifaDTO.setIdchef(tarifa.getIdChef());
 		tarifaDTO.setPrecioHora(tarifa.getPreciohora());
 
-		return new ResponseEntity<>(tarifaDTO, HttpStatus.OK);
+
+		Menu menu = menuService.findById(tarifa.getIdMenu());
+		menu.setEntrante(tarifaDTO.getEntrante());
+		menu.setPrimero(tarifaDTO.getPrimero());
+		menu.setSegundo(tarifaDTO.getSegundo());
+		menu.setPostre(tarifaDTO.getPostre());
+		menu.setCafes(tarifaDTO.getCafes());
+		menuService.save(menu);
+
+
+		return new ResponseEntity<>("Tarifa y menu actualizados ", HttpStatus.BAD_REQUEST);
 
 	}
 

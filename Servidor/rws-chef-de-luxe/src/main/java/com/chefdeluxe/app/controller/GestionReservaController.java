@@ -391,6 +391,15 @@ public class GestionReservaController {
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaDTO.setComensales(reserva.getComensales());
 			reservaDTO.setInstruccions("");
+			
+			if (reserva.getEstado().equals("confirmado")) {
+				Usuario chefuser = usuarioService.findById(reserva.getIdChef());
+
+				reservaDTO.setInstruccions("Debe realizar una transferencia al IBAN " + chefuser.getIban() + " a nombre de "
+						+ chefuser.getNombre() + " " + chefuser.getApellidos() + " o un Bizum al telefono "
+						+ chefuser.getTelefono() + ". Una vez realizado el pago actualizar la reserva a estado pagado");
+			}
+			
 			reservaListDTO.add(reservaDTO);
 		}
 		;
