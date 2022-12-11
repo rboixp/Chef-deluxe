@@ -72,13 +72,13 @@ public class MenuController {
 			return new ResponseEntity<>("token no valido, no es de chef ni admin", HttpStatus.BAD_REQUEST);
 		}
 
-		if (menuDTO.getIdChef() == 0 ) {
+		if (menuDTO.getIdChef() == 0) {
 			return new ResponseEntity<>("Falta informar el Id del chef ", HttpStatus.BAD_REQUEST);
 		} else {
 
-			try {	
-					user = usuarioService.findById(menuDTO.getIdChef());
-		
+			try {
+				user = usuarioService.findById(menuDTO.getIdChef());
+
 			} catch (Exception e) {
 				return new ResponseEntity<>("Chef no existe en la base de datos", HttpStatus.BAD_REQUEST);
 			}
@@ -92,11 +92,8 @@ public class MenuController {
 			}
 		}
 
-		if (menuDTO.getEntrante().isBlank() ||
-			menuDTO.getPrimero().isBlank() ||
-			menuDTO.getSegundo().isBlank() ||
-			menuDTO.getPostre().isBlank() ||
-			menuDTO.getCafes().isBlank() ){
+		if (menuDTO.getEntrante().isBlank() || menuDTO.getPrimero().isBlank() || menuDTO.getSegundo().isBlank()
+				|| menuDTO.getPostre().isBlank() || menuDTO.getCafes().isBlank()) {
 			return new ResponseEntity<>("Falta el menu completo ", HttpStatus.BAD_REQUEST);
 		}
 
@@ -124,7 +121,7 @@ public class MenuController {
 	/**
 	 * End point deleteMenu
 	 *
-	 * Esborra un menu  de la base de dades.
+	 * Esborra un menu de la base de dades.
 	 */
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> deleteMenu(@RequestParam Long id) {
@@ -155,7 +152,7 @@ public class MenuController {
 	/**
 	 * End point getById
 	 *
-	 * retorna un menu  de la base de dades filtrada per id.
+	 * retorna un menu de la base de dades filtrada per id.
 	 */
 
 	@GetMapping("/get/id")
@@ -177,7 +174,7 @@ public class MenuController {
 			return new ResponseEntity<>("Solo se permite consultar el menu al chef que lo realizó o al admin",
 					HttpStatus.BAD_REQUEST);
 		}
-        MenuDTO menuDTO = new MenuDTO();
+		MenuDTO menuDTO = new MenuDTO();
 		menuDTO.setEntrante(menu.getEntrante());
 		menuDTO.setPrimero(menu.getPrimero());
 		menuDTO.setSegundo(menu.getSegundo());
@@ -187,7 +184,6 @@ public class MenuController {
 
 		return new ResponseEntity<>(menuDTO, HttpStatus.OK);
 	}
-
 
 	/**
 	 * Clase getListaMenu
@@ -249,7 +245,7 @@ public class MenuController {
 				&& !utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>("Usuario no es chef ni admin", HttpStatus.BAD_REQUEST);
 		}
-	
+
 		Menu menuUpd = new Menu();
 
 		menuUpd.setId(menuDTO.getId());
@@ -261,10 +257,8 @@ public class MenuController {
 		menu.setCafes(menuDTO.getCafes());
 		menuService.save(menu);
 
-
 		return new ResponseEntity<>("Menu actualizado ", HttpStatus.BAD_REQUEST);
 
 	}
-
 
 }

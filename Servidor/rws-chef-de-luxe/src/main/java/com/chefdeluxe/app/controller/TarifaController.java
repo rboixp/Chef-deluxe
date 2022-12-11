@@ -153,9 +153,9 @@ public class TarifaController {
 		}
 
 		if (menuService.findById(tarifaService.findById(id).getIdMenu()) != null) {
-		    menuService.deleteById(tarifaService.findById(id).getIdMenu());
+			menuService.deleteById(tarifaService.findById(id).getIdMenu());
 		}
-		
+
 		tarifaService.deleteById(id);
 
 		return new ResponseEntity<>("el registro de tarifa con id <" + id + "> se ha eliminado exitosamente",
@@ -227,13 +227,13 @@ public class TarifaController {
 			return new ResponseEntity<>("Solo se permite consultar la tarifa al chef que la realizó o al admin",
 					HttpStatus.BAD_REQUEST);
 		}
-        System.out.println("Chef tarifa" +user.getId());
+		System.out.println("Chef tarifa" + user.getId());
 		tarifa = tarifaService.findByIdChef(user.getId());
-        
-		if (tarifa == null ) {
-			return new ResponseEntity<>("El usuario " +usernameOrEmail +"no tiene tarifas ", HttpStatus.BAD_REQUEST);
+
+		if (tarifa == null) {
+			return new ResponseEntity<>("El usuario " + usernameOrEmail + "no tiene tarifas ", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		TarifaDTO tarifaDTO = new TarifaDTO();
 		tarifaDTO.setId(tarifa.getId());
 		tarifaDTO.setUsernameOrEmail(usernameOrEmail);
@@ -277,13 +277,13 @@ public class TarifaController {
 			tarifaDTO.setPrecioHora(tarifa.getPreciohora());
 
 			Menu menu = menuService.findById(tarifa.getIdMenu());
-            if (menu != null ) {
-			tarifaDTO.setEntrante(menu.getEntrante());
-			tarifaDTO.setPrimero(menu.getPrimero());
-			tarifaDTO.setSegundo(menu.getSegundo());
-			tarifaDTO.setPostre(menu.getPostre());
-			tarifaDTO.setCafes(menu.getCafes());
-            }
+			if (menu != null) {
+				tarifaDTO.setEntrante(menu.getEntrante());
+				tarifaDTO.setPrimero(menu.getPrimero());
+				tarifaDTO.setSegundo(menu.getSegundo());
+				tarifaDTO.setPostre(menu.getPostre());
+				tarifaDTO.setCafes(menu.getCafes());
+			}
 			tarifaDTO.setUsernameOrEmail(usuarioService.findById(tarifa.getIdChef()).getUsername());
 
 			tarifaListDTO.add(tarifaDTO);
@@ -318,28 +318,27 @@ public class TarifaController {
 				&& !utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>("Usuario no es chef ni admin", HttpStatus.BAD_REQUEST);
 		}
-	
+
 		Tarifa tarifaUpd = new Tarifa();
 
 		tarifaUpd.setId(tarifaDTO.getId());
 		tarifaUpd.setIdChef(tarifa.getIdChef());
 		tarifaUpd.setPreciohora(tarifaDTO.getPrecioHora());
-		tarifaService.save(tarifa);
-		tarifaDTO.setId(tarifa.getId());
-		tarifaDTO.setIdchef(tarifa.getIdChef());
-		tarifaDTO.setPrecioHora(tarifa.getPreciohora());
-
+		tarifaUpd.setIdMenu(tarifa.getIdMenu());
+		tarifaService.save(tarifaUpd);
+		tarifaDTO.setId(tarifaUpd.getId());
+		tarifaDTO.setIdchef(tarifaUpd.getIdChef());
+		tarifaDTO.setPrecioHora(tarifaUpd.getPreciohora());
 
 		Menu menu = menuService.findById(tarifa.getIdMenu());
 		if (menu != null) {
-		menu.setEntrante(tarifaDTO.getEntrante());
-		menu.setPrimero(tarifaDTO.getPrimero());
-		menu.setSegundo(tarifaDTO.getSegundo());
-		menu.setPostre(tarifaDTO.getPostre());
-		menu.setCafes(tarifaDTO.getCafes());
-		menuService.save(menu);
+			menu.setEntrante(tarifaDTO.getEntrante());
+			menu.setPrimero(tarifaDTO.getPrimero());
+			menu.setSegundo(tarifaDTO.getSegundo());
+			menu.setPostre(tarifaDTO.getPostre());
+			menu.setCafes(tarifaDTO.getCafes());
+			menuService.save(menu);
 		}
-
 
 		return new ResponseEntity<>("Tarifa y menu actualizados ", HttpStatus.BAD_REQUEST);
 
