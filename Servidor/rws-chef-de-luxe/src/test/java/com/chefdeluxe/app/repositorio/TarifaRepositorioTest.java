@@ -64,7 +64,6 @@ public class TarifaRepositorioTest {
 		tarifa.setIdChef(99L);
 		tarifa.setPreciohora(new BigDecimal("50.00"));
 		tarifaRepositorio.save(tarifa);
-		System.out.println ("tarifa" +tarifa.getId());
 	    tarifaRepositorio.deleteById(tarifa.getId());
 	}	
 

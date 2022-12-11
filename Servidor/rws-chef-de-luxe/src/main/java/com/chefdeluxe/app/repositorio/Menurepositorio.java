@@ -20,8 +20,6 @@ public interface Menurepositorio extends JpaRepository <Menu, Long> {
 	
 	Page<Menu> findAll(Pageable pageable);
 	
-	List<Menu> findAll();
-	
 	void deleteById (long id);
 
 }

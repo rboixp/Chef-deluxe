@@ -152,7 +152,9 @@ public class TarifaController {
 					HttpStatus.BAD_REQUEST);
 		}
 
-		menuService.deleteById(tarifaService.findById(id).getIdMenu());
+		if (menuService.findById(tarifaService.findById(id).getIdMenu()) != null) {
+		    menuService.deleteById(tarifaService.findById(id).getIdMenu());
+		}
 		
 		tarifaService.deleteById(id);
 
@@ -275,12 +277,13 @@ public class TarifaController {
 			tarifaDTO.setPrecioHora(tarifa.getPreciohora());
 
 			Menu menu = menuService.findById(tarifa.getIdMenu());
-
+            if (menu != null ) {
 			tarifaDTO.setEntrante(menu.getEntrante());
 			tarifaDTO.setPrimero(menu.getPrimero());
 			tarifaDTO.setSegundo(menu.getSegundo());
 			tarifaDTO.setPostre(menu.getPostre());
 			tarifaDTO.setCafes(menu.getCafes());
+            }
 			tarifaDTO.setUsernameOrEmail(usuarioService.findById(tarifa.getIdChef()).getUsername());
 
 			tarifaListDTO.add(tarifaDTO);
@@ -328,12 +331,14 @@ public class TarifaController {
 
 
 		Menu menu = menuService.findById(tarifa.getIdMenu());
+		if (menu != null) {
 		menu.setEntrante(tarifaDTO.getEntrante());
 		menu.setPrimero(tarifaDTO.getPrimero());
 		menu.setSegundo(tarifaDTO.getSegundo());
 		menu.setPostre(tarifaDTO.getPostre());
 		menu.setCafes(tarifaDTO.getCafes());
 		menuService.save(menu);
+		}
 
 
 		return new ResponseEntity<>("Tarifa y menu actualizados ", HttpStatus.BAD_REQUEST);
