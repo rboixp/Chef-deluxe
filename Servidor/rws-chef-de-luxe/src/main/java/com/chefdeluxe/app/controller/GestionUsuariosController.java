@@ -248,6 +248,49 @@ public class GestionUsuariosController {
 		return new ResponseEntity<>(convertDTO(usuario), HttpStatus.OK);
 	}
 
+	
+	/**
+	 * End point baja
+	 *
+	 * Da de baja un usuario.
+	 */
+	@PutMapping("/update/user/baja")
+	public ResponseEntity<?>   baja (@RequestParam String usernameOrEmail) {
+		
+		if (!utils.usuarioAutorizado(usernameOrEmail, SecurityContextHolder.getContext().getAuthentication())) {
+			return new ResponseEntity<>("Solo se permiten baja de usuario propio o ser usuario admin.",
+					HttpStatus.BAD_REQUEST);
+		}
+		
+	    Usuario usuarioBaja;
+		try {
+			usuarioBaja = usuarioService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("Usuario no existe en la base de datos", HttpStatus.BAD_REQUEST);
+		}
+		
+		usuarioBaja.setNombre(usuarioBaja.getId() +"_inactivo");
+		usuarioBaja.setUsername(usuarioBaja.getId() +"_inactivo");
+		usuarioBaja.setEmail(usuarioBaja.getId() +"_inactivo");
+		usuarioBaja.setPassword(passwordEncoder.encode("password"));
+		usuarioBaja.setApellidos("");
+		usuarioBaja.setDireccion("");
+		usuarioBaja.setCodigoPostal("");
+		usuarioBaja.setPoblacion("");
+		usuarioBaja.setNacionalidad("");
+		usuarioBaja.setEdad(0);
+		usuarioBaja.setTelefono(0);
+		usuarioBaja.setIban("ESXXXXXXXXXXXXXXXXXXXXXX");
+		usuarioService.flush(usuarioBaja);
+		
+		return new ResponseEntity<>("Se ha realziado la baja existosamente", HttpStatus.OK);
+	
+	
+	
+	}
+
+	
 	/**
 	 * End point convertDTO
 	 *

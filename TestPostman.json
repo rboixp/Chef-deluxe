@@ -71,7 +71,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxQG1haWwuY29tIiwiaWF0IjoxNjY4OTY5ODA3LCJleHAiOjE2Njk1NzQ2MDd9.mRiZlbh8fWnhOxL1TafnFlc_PLrQfcFSinDwBlBmhF8Wb-lBsU4ZVmMgBXeVwxy5bJu0ZcdUSjuro_KIfhS6lg",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDY4MTYzNiwiZXhwIjoxNjcxMjg2NDM2fQ.hC2vP3yvUGBTKMnR3CwTjgUq2AUEIYWI2oRIUQLJNIbGsvhAPT_7aWwp5EXl2P2nKM5p4KSO4l-pW7ga9UT5jQ",
 											"type": "string"
 										}
 									]
@@ -85,7 +85,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/get/client/paginable?usernameOrEmail=client1&pageIndex=1&pageSize=2",
+									"raw": "{{base_url}}/api/client/reserva/get/client/paginable?usernameOrEmail=client1&pageIndex=0&pageSize=20",
 									"host": [
 										"{{base_url}}"
 									],
@@ -104,11 +104,11 @@
 										},
 										{
 											"key": "pageIndex",
-											"value": "1"
+											"value": "0"
 										},
 										{
 											"key": "pageSize",
-											"value": "2"
+											"value": "20"
 										}
 									]
 								}
@@ -264,7 +264,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY2OTU4NTYwMSwiZXhwIjoxNjcwMTkwNDAxfQ.mZabtBzuwX0or4Zvhv8o5UddgNArWydh8dzzsjn-gkKVOJYPjVK93QKtNNOG7F6CDlxY_bxS5neBcJlqT5RNkA",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImlhdCI6MTY3MDcwNTU4MCwiZXhwIjoxNjcxMzEwMzgwfQ.ZR468ALnlIlVQ99Y3UsnTOnGNHHCcaR5mC-wbGWRSD7Hx__M1mx_sEVyXj13jQ5jBzGMWdKppSr27wTodTguAA",
 											"type": "string"
 										}
 									]
@@ -272,7 +272,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/api/client/reserva/get/id?id=2",
+									"raw": "{{base_url}}/api/client/reserva/get/id?id=1",
 									"host": [
 										"{{base_url}}"
 									],
@@ -286,7 +286,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "2"
+											"value": "1"
 										}
 									]
 								}
@@ -576,6 +576,33 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Baja usuario",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/users/update/user/baja?usernameOrEmail=chef99",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"update",
+										"user",
+										"baja"
+									],
+									"query": [
+										{
+											"key": "usernameOrEmail",
+											"value": "chef99"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -601,7 +628,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"client\",\r\n    \"email\": \"client@mail.com\",\r\n    \"username\": \"client\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CLIENT\",\r\n    \"apellidos\": \"lopez perez\",\r\n\t\"direccion\": \"Barcelona 14\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"25\",\r\n\t\"telefono\": \"123456789\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
+									"raw": "{\r\n    \"nombre\": \"Antoni\",\r\n    \"email\": \"chef99@mail.com\",\r\n    \"username\": \"chef99\",\r\n    \"password\": \"password\",\r\n    \"perfil\": \"ROLE_CHEF\",\r\n    \"apellidos\": \"Riu Mata\",\r\n\t\"direccion\": \"Barcelona 14\",\r\n\t\"codigoPostal\": \"08002\",\r\n\t\"poblacion\": \"Fonollosa\",\r\n\t\"nacionalidad\": \"Bages\",\r\n\t\"edad\": \"64\",\r\n\t\"telefono\": \"698898989\",\r\n    \"iban\": \"ES2114650100XXX030876293\"\r\n}"
 								},
 								"url": {
 									"raw": "{{base_url}}/api/auth/registrar",
@@ -945,7 +972,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmQG1haWwuY29tIiwiaWF0IjoxNjcwNjYzNDkyLCJleHAiOjE2NzEyNjgyOTJ9.XhCXxbTixerK4igRhTycbmADzo27koZgYrlvQHoMenCaE4SH-a5T_X_PYDeDR01IzGBT_5aTGQh0C8hdbAq8Mg",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGVmMkBtYWlsLmNvbSIsImlhdCI6MTY3MDY2NjE1MiwiZXhwIjoxNjcxMjcwOTUyfQ.Agz0A4n8uJxmQryfKMl7E2oAOBMFZAAH1XZ5Qrn-QyX2eEbQ6zCmkvdWx9Quto3fdGS8KQcHKqq--EHtxq7_5A",
 											"type": "string"
 										}
 									]
@@ -954,7 +981,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"idchef\": \"3\",\r\n    \"precioHora\": \"50.00\"\r\n}",
+									"raw": "{\r\n    \"idchef\": \"16\",\r\n    \"precioHora\": \"50.00\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

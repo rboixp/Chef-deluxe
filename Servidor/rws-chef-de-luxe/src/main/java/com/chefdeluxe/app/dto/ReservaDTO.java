@@ -13,7 +13,14 @@ public class ReservaDTO {
 	private Timestamp fin;
 	private BigDecimal precio;
 	private long comensales;
+	private String instruccions;
 	
+	public String getInstruccions() {
+		return instruccions;
+	}
+	public void setInstruccions(String instruccions) {
+		this.instruccions = instruccions;
+	}
 	public long getId() {
 		return id;
 	}

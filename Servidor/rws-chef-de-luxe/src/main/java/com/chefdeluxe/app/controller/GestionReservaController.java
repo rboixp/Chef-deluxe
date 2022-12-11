@@ -1,5 +1,6 @@
 package com.chefdeluxe.app.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.chefdeluxe.app.entidades.Usuario;
 import com.chefdeluxe.app.service.DisponibilidadService;
 import com.chefdeluxe.app.service.ReservaService;
 import com.chefdeluxe.app.service.RolService;
+import com.chefdeluxe.app.service.TarifaService;
 import com.chefdeluxe.app.service.UsuarioService;
 import com.chefdeluxe.app.utils.Utils;
 import com.chefdeluxe.app.seguridad.JwtTokenProvider;
@@ -54,6 +56,9 @@ public class GestionReservaController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private TarifaService tarifaService;
 
 	@Autowired
 	private ReservaService reservaService;
@@ -89,22 +94,24 @@ public class GestionReservaController {
 				&& !utils.usuarioEsDelRol("ROLE_CLIENT", SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>("token no valido, no es de cliente ni admin", HttpStatus.BAD_REQUEST);
 		}
-        
+
 		Long clientId;
 		Long chefId;
-		
-		try {
-		clientId = usuarioService.findByUsernameOrEmail(reservaDTO.getCliente(), reservaDTO.getCliente()).getId();
 
-        } catch (Exception e) {
-        	return new ResponseEntity<>("Cliente no existe en base de datos" +reservaDTO.getCliente(), HttpStatus.BAD_REQUEST);
-        }
-		
+		try {
+			clientId = usuarioService.findByUsernameOrEmail(reservaDTO.getCliente(), reservaDTO.getCliente()).getId();
+
+		} catch (Exception e) {
+			return new ResponseEntity<>("Cliente no existe en base de datos" + reservaDTO.getCliente(),
+					HttpStatus.BAD_REQUEST);
+		}
+
 		try {
 			chefId = usuarioService.findByUsernameOrEmail(reservaDTO.getChef(), reservaDTO.getChef()).getId();
-        } catch (Exception e) {
-        	return new ResponseEntity<>("Chef no existe en base de datos" +reservaDTO.getChef(), HttpStatus.BAD_REQUEST);
-        }		
+		} catch (Exception e) {
+			return new ResponseEntity<>("Chef no existe en base de datos" + reservaDTO.getChef(),
+					HttpStatus.BAD_REQUEST);
+		}
 
 		Reserva reserva = new Reserva();
 		reserva.setEstado(reservaDTO.getEstado());
@@ -114,8 +121,24 @@ public class GestionReservaController {
 		reserva.setFin(reservaDTO.getFin());
 		reserva.setPrecio(reservaDTO.getPrecio());
 		reserva.setComensales(reservaDTO.getComensales());
+
+		long antes = reserva.getInicio().getHours();
+		long ahora = reserva.getFin().getHours();
+		BigDecimal horas = new BigDecimal(ahora - antes);
+		BigDecimal precioHora = new BigDecimal(0);
+		try {
+			precioHora = tarifaService.findByIdChef(reserva.getIdChef()).getPreciohora();
+		} catch (Exception e) {
+			precioHora = new BigDecimal(0);
+		}
+
+		BigDecimal comensales = new BigDecimal(reserva.getComensales());
+		BigDecimal factor = comensales.multiply(horas);
+		BigDecimal precio = precioHora.multiply(factor);
+		reserva.setPrecio(precio);
+
 		reservaService.save(reserva);
-		return new ResponseEntity<>("Reserva dada de alta exitosamente", HttpStatus.OK);
+		return new ResponseEntity<>(reserva, HttpStatus.OK);
 	}
 
 	/**
@@ -170,6 +193,15 @@ public class GestionReservaController {
 		reservaDTO.setFin(reserva.getFin());
 		reservaDTO.setComensales(reserva.getComensales());
 		reservaDTO.setPrecio(reserva.getPrecio());
+		reservaDTO.setInstruccions("");
+
+		if (reserva.getEstado().equals("confirmado")) {
+			Usuario chefuser = usuarioService.findById(reserva.getIdChef());
+
+			reservaDTO.setInstruccions("Debe realizar una transferencia al IBAN " + chefuser.getIban() + " a nombre de "
+					+ chefuser.getNombre() + " " + chefuser.getApellidos() + " o un Bizum al telefono "
+					+ chefuser.getTelefono() + ". Una vez realizado el pago actualizar la reserva a estado pagado");
+		}
 
 		return new ResponseEntity<>(reservaDTO, HttpStatus.OK);
 	}
@@ -205,6 +237,7 @@ public class GestionReservaController {
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaDTO.setComensales(reserva.getComensales());
+			reservaDTO.setInstruccions("");
 			reservaListDTO.add(reservaDTO);
 		}
 		;
@@ -258,6 +291,7 @@ public class GestionReservaController {
 		reservaDTO.setFin(reserva.getFin());
 		reservaDTO.setPrecio(reserva.getPrecio());
 		reservaDTO.setComensales(reserva.getComensales());
+		reservaDTO.setInstruccions("");
 
 		return new ResponseEntity<>(reservaDTO, HttpStatus.OK);
 
@@ -298,6 +332,7 @@ public class GestionReservaController {
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaDTO.setComensales(reserva.getComensales());
+			reservaDTO.setInstruccions("");
 			reservaListDTO.add(reservaDTO);
 		}
 		;
@@ -349,6 +384,7 @@ public class GestionReservaController {
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaDTO.setComensales(reserva.getComensales());
+			reservaDTO.setInstruccions("");
 			reservaListDTO.add(reservaDTO);
 		}
 		;
@@ -390,6 +426,7 @@ public class GestionReservaController {
 			reservaDTO.setFin(reserva.getFin());
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaDTO.setComensales(reserva.getComensales());
+			reservaDTO.setInstruccions("");
 			reservaListDTO.add(reservaDTO);
 		}
 		;
