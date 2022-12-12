@@ -176,6 +176,7 @@ public class MenuController {
 		menuDTO.setPostre(menu.getPostre());
 		menuDTO.setCafes(menu.getCafes());
 		menuDTO.setIdChef(menu.getIdChef());
+		menuDTO.setId(menu.getId());
 
 		return new ResponseEntity<>(menuDTO, HttpStatus.OK);
 	}
