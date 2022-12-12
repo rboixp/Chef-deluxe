@@ -147,9 +147,7 @@ public class TarifaController {
 		if (!utils.usuarioAutorizado(username, SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>(
 					"Solo se permite delete para el usuario administrador o el chef que dio de alta la reserva"
-							+ " username <" + username + ">" + " token <"
-							+ SecurityContextHolder.getContext().getAuthentication() + ">",
-					HttpStatus.BAD_REQUEST);
+							+ " username <" + username + ">" ,HttpStatus.BAD_REQUEST);
 		}
 
 		if (menuService.findById(tarifaService.findById(id).getIdMenu()) != null) {
@@ -184,11 +182,6 @@ public class TarifaController {
 
 		String chef = usuarioService.findById(tarifa.getIdChef()).getUsername();
 
-		if (!utils.usuarioAutorizado(chef, SecurityContextHolder.getContext().getAuthentication())) {
-			return new ResponseEntity<>("Solo se permite consultar la tarifa al chef que la realizó o al admin",
-					HttpStatus.BAD_REQUEST);
-		}
-
 		TarifaDTO tarifaDTO = new TarifaDTO();
 		tarifaDTO.setId(tarifa.getId());
 		tarifaDTO.setIdchef(tarifa.getIdChef());
@@ -202,14 +195,16 @@ public class TarifaController {
 		tarifaDTO.setPostre(menu.getPostre());
 		tarifaDTO.setCafes(menu.getCafes());
 		tarifaDTO.setUsernameOrEmail(chef);
+		tarifaDTO.setIdChef(tarifa.getIdChef());
+		tarifaDTO.setIdMenu(menu.getId());
 
 		return new ResponseEntity<>(tarifaDTO, HttpStatus.OK);
 	}
 
 	/**
-	 * End point getById
+	 * End point getByUsernameOrEmail
 	 *
-	 * retorna una tarifa de la base de dades filtrada per id.
+	 * retorna una tarifa de la base de dades filtrada per usuari.
 	 */
 
 	@GetMapping("/get/user")
@@ -223,11 +218,6 @@ public class TarifaController {
 			return new ResponseEntity<>("No existe este usuario <" + usernameOrEmail + "> ", HttpStatus.BAD_REQUEST);
 		}
 
-		if (!utils.usuarioAutorizado(user.getUsername(), SecurityContextHolder.getContext().getAuthentication())) {
-			return new ResponseEntity<>("Solo se permite consultar la tarifa al chef que la realizó o al admin",
-					HttpStatus.BAD_REQUEST);
-		}
-		System.out.println("Chef tarifa" + user.getId());
 		tarifa = tarifaService.findByIdChef(user.getId());
 
 		if (tarifa == null) {
@@ -247,6 +237,8 @@ public class TarifaController {
 		tarifaDTO.setSegundo(menu.getSegundo());
 		tarifaDTO.setPostre(menu.getPostre());
 		tarifaDTO.setCafes(menu.getCafes());
+		tarifaDTO.setIdChef(tarifa.getIdChef());
+		tarifaDTO.setIdMenu(menu.getId());
 
 		return new ResponseEntity<>(tarifaDTO, HttpStatus.OK);
 	}
@@ -258,10 +250,6 @@ public class TarifaController {
 	 */
 	@GetMapping("/get/all")
 	public ResponseEntity<?> getListaTarifas(int pageIndex, int pageSize) {
-
-		if (!utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
-			return new ResponseEntity<>("Usuario no es admin ", HttpStatus.BAD_REQUEST);
-		}
 
 		List<Tarifa> tarifas = tarifaService.findAll(pageIndex, pageSize);
 
@@ -285,7 +273,8 @@ public class TarifaController {
 				tarifaDTO.setCafes(menu.getCafes());
 			}
 			tarifaDTO.setUsernameOrEmail(usuarioService.findById(tarifa.getIdChef()).getUsername());
-
+			tarifaDTO.setIdChef(tarifa.getIdChef());
+			tarifaDTO.setIdMenu(menu.getId());
 			tarifaListDTO.add(tarifaDTO);
 		}
 		;

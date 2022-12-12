@@ -137,9 +137,8 @@ public class MenuController {
 		if (!utils.usuarioAutorizado(username, SecurityContextHolder.getContext().getAuthentication())) {
 			return new ResponseEntity<>(
 					"Solo se permite delete para el usuario administrador o el chef que dio de alta el menu"
-							+ " username <" + username + ">" + " token <"
-							+ SecurityContextHolder.getContext().getAuthentication() + ">",
-					HttpStatus.BAD_REQUEST);
+							+ " username <" + username + ">",HttpStatus.BAD_REQUEST);
+					
 		}
 
 		menuService.deleteById(menuService.findById(id).getId());
@@ -170,10 +169,6 @@ public class MenuController {
 
 		String chef = usuarioService.findById(menu.getIdChef()).getUsername();
 
-		if (!utils.usuarioAutorizado(chef, SecurityContextHolder.getContext().getAuthentication())) {
-			return new ResponseEntity<>("Solo se permite consultar el menu al chef que lo realizó o al admin",
-					HttpStatus.BAD_REQUEST);
-		}
 		MenuDTO menuDTO = new MenuDTO();
 		menuDTO.setEntrante(menu.getEntrante());
 		menuDTO.setPrimero(menu.getPrimero());
@@ -192,10 +187,6 @@ public class MenuController {
 	 */
 	@GetMapping("/get/all")
 	public ResponseEntity<?> getListaMenu(int pageIndex, int pageSize) {
-
-		if (!utils.usuarioEsDelRol("ROLE_ADMIN", SecurityContextHolder.getContext().getAuthentication())) {
-			return new ResponseEntity<>("Usuario no es admin ", HttpStatus.BAD_REQUEST);
-		}
 
 		List<Menu> menuList = menuService.findAll(pageIndex, pageSize);
 
