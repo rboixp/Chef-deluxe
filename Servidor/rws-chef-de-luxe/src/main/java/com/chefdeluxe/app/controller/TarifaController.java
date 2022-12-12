@@ -331,6 +331,7 @@ public class TarifaController {
 		tarifaDTO.setPrecioHora(tarifaUpd.getPreciohora());
 
 		Menu menu = menuService.findById(tarifa.getIdMenu());
+		
 		if (menu != null) {
 			menu.setEntrante(tarifaDTO.getEntrante());
 			menu.setPrimero(tarifaDTO.getPrimero());
@@ -340,7 +341,7 @@ public class TarifaController {
 			menuService.save(menu);
 		}
 
-		return new ResponseEntity<>("Tarifa y menu actualizados ", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("Tarifa y menu actualizados ", HttpStatus.OK);
 
 	}
 
