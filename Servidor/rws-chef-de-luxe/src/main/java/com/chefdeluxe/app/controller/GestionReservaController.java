@@ -208,6 +208,10 @@ public class GestionReservaController {
 					+ chefuser.getNombre() + " " + chefuser.getApellidos() + " o un Bizum al telefono "
 					+ chefuser.getTelefono() + ". Una vez realizado el pago actualizar la reserva a estado pagado");
 		}
+		
+		if (reserva.getEstado().equals("pagado")) {
+			reservaDTO.setInstruccions("Una vez recibido el pago debe actualizar el estado de la reserva a conciliado");
+		}
 
 		return new ResponseEntity<>(reservaDTO, HttpStatus.OK);
 	}
@@ -339,6 +343,9 @@ public class GestionReservaController {
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaDTO.setComensales(reserva.getComensales());
 			reservaDTO.setInstruccions("");
+			if (reserva.getEstado().equals("pagado")) {
+				reservaDTO.setInstruccions("Una vez recibido el pago debe actualizar el estado de la reserva a conciliado");
+			}
 			reservaListDTO.add(reservaDTO);
 		}
 		;
@@ -442,6 +449,10 @@ public class GestionReservaController {
 			reservaDTO.setPrecio(reserva.getPrecio());
 			reservaDTO.setComensales(reserva.getComensales());
 			reservaDTO.setInstruccions("");
+			
+			if (reserva.getEstado().equals("pagado")) {
+				reservaDTO.setInstruccions("Una vez recibido el pago debe actualizar el estado de la reserva a conciliado");
+			}
 			reservaListDTO.add(reservaDTO);
 		}
 		;
