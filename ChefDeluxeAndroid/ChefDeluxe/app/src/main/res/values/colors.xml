@@ -160,12 +160,11 @@
 
     <!--Color de fons de pantalla-->
     <color name="background_main2">#FBFDFB</color>
-    <color name="background_main">#f1f8e9
-    </color>
+    <color name="background_main">#f1f8e9</color>
+    <color name="card_state_deny">#F8E9F1</color>
+
 
     <!--Transparencies-->
     <color name="transparency">#5E000000</color>
-
-
 
 </resources>

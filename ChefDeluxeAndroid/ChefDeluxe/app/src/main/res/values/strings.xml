@@ -100,7 +100,7 @@
     <string name="txt_title_acc_information">Información personal</string>
     <string name="hint_phone">Teléfono</string>
     <string name="hint_addresss">Dirección</string>
-    <string name="hint_postalCode">Codigo postal</string>
+    <string name="hint_postalCode">Código postal</string>
     <string name="hint_village">Población</string>
     <string name="hint_country">País</string>
     <string name="hint_age">Edad</string>
@@ -114,6 +114,9 @@
 
     <!-- Canvi de contrasenya-->
     <string name="tv_title_password">Contrasenya</string>
+    <string name="tv_title_tarifa">Tarifa</string>
+    <string name="tv_title_tarifaMenu">Tarifa y menú</string>
+    <string name="tv_title_menu">Menú</string>
     <string name="tv_info_password">Cambiar contrasenya</string>
     <string name="hint_passwordChanged">Contraseña actual</string>
     <string name="hint_newPasswordChanged">Nueva contraseña</string>
@@ -121,11 +124,12 @@
     <string name="hint_accept_passwordChange">Aceptar</string>
     <string name="tv_error_password">La contraseña es incorrecta</string>
     <string name="tv_error_password2">Las contraseñas son diferentes</string>
+    <string name="tv_error_password3">La nueva contrasenya no puede ser igual a la actual</string>
     <string name="tv_info_password2">Cambios realizados con éxito!</string>
 
     <!-- Eliminar la conta-->
     <string name="txt_title_accountDelete">Quieres eliminar tu cuenta?</string>
-    <string name="txt_delete_accountInfo">Esta seguro que quiere eliminar su cuenta? Una vez eliminda no podra recuperar sus datos.</string>
+    <string name="txt_delete_accountInfo">Esta seguro que quiere eliminar la cuenta? Una vez eliminda no podra recuperar los datos.</string>
     <string name="txt_delete_yes">Si</string>
     <string name="txt_delete_no">No</string>
 
@@ -157,15 +161,59 @@
     <string name="txt_cook_dispo_xml_send5">Enviar</string>
     <string name="txt_cook_dispo_xml_send6">Lista de mi disponibilidad</string>
 
+    <!--Cuiners Dialeg reserves-->
+    <string name="txt_title_reservation_message">Petición de reserva de %1$s</string>
+    <string name="txt_reservation_message">Al aceptar la petición, su estado y el del cliente passará a ser <b>Confirmado</b>, de lo contrario pasara al estado <b>Denegado</b>.</string>
+    <string name="tv_info_reservation_accept">Aceptar</string>
+    <string name="tv_info_reservation_conciliar">Conciliar</string>
+    <string name="tv_info_reservation_deny">Rechazar</string>
+    <string name="tv_reservation_update">Actualizar</string>
+    <!--Cuiners Dialeg Conciliar reserves-->
+    <string name="tv_title_confirm_pay">Pago recibido</string>
+    <string name="tv_reservation_confirm_pay">El cliente ha completado el pago. Para finalizar pulse en <b>conciliar</b>. A continuació le mostramos un resumen de la reserva. </string>
+
+    <string name="tv_reservation_resum_cook">Cliente: %1$s\nNúmero de comensales: %2$s\nFecha inicio: %3$s\nFecha final: %4$s </string>
+
+    //id, nameClient, fecha inicio, fehca final,, persones , preus
 
     <!-- Llista de reserves fetes per el client -->
     <string name="tv_info_reservation">Aún no tienes reservas</string>
+    <string name="tv_info_reservation_select">Si la reserva se encuentra en estado pendiente tendra que esperar a que el cocinero confirme o rechaze su oferta, si quiere cancelarla deslízala hacia el lado izquierdo. \nSi la reserva ha sido confirmada haz clic en ella y finalízala con el pago </string>
+
     <string name="tv_info_reservation_cancel"> Reserva cancelada</string>
     <string name="tv_info_reservation_no">No hay reservas con este número id</string>
     <string name="tv_info_reservation_deleteTitle">Quieres eliminar la reserva?</string>
     <string name="tv_info_reservation_deleteInfo">Esta seguro que quiere eliminar la reserva?</string>
     <string name="tv_info_reservation_deleteYes">Si</string>
     <string name="tv_info_reservation_deleteNo">No</string>
+
+    <!--Clients pago dialeg-->
+    <string name="tv_title_pay">Pago</string>
+    <string name="tv_forma_pay">Forma de pago: <b>Transferència bancaria</b></string>
+    <string name="tv_iban_pay">Cuenta(IBAN): </string>
+    <string name="tv_price_pay">Precio: </string>
+
+    <!-- Usuari Administrador -->
+    <string name="drawer_layout_open_admin">Abrir</string>
+    <string name="drawer_layout_close_admin">Cerrar</string>
+    <string name="drawer_item_user_admin">Usuarios</string>
+    <string name="tv_userName_admin">Usuario: %1$s</string>
+
+    <string name="tv_statistic_number_user">Nombre de usuarios: %1$s</string>
+    <string name="tv_statistic_number_admin">Administradores: %1$s</string>
+    <string name="tv_statistic_number_client">Clientes: %1$s</string>
+    <string name="tv_statistic_number_cook">Cocineros: %1$s</string>
+
+
+    <!-- Array de rols d'usuaris -->
+    <string-array name="rol_array">
+        <item>Administrador</item>
+        <item>Cliente</item>
+        <item>Cocinero</item>
+    </string-array>
+
+    <!-- Classe Tarifa -->
+    <string name="tv_tarifa_final">%1$s €</string>
 
 
     <!-- Array municipis espanya -->
@@ -8293,6 +8341,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 </resources>

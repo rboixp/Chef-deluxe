@@ -35,6 +35,25 @@
         <item name="hintTextColor">@color/hint_stroke_color</item>
     </style>
 
+
+    <!-- TextInputLayout Drop -->
+    <style name="OutlinedRoundBoxDrop" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/cornerRadius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/cornerRadius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/cornerRadius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/cornerRadius</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeColor">@color/txtinputly_stroke_color</item>
+        <item name="boxBackgroundColor">@color/txtinputly_background_color</item>
+        <item name="hintTextColor">@color/hint_stroke_color</item>
+    </style>
+
+
+
+
+
     <!-- Boto Registre  -->
     <style name="RegistrationButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="cornerRadius">@dimen/cornerRadius</item>
@@ -43,6 +62,10 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_enable_color</item>
     </style>
+
+
+
+
 
     <!-- Boto Login  -->
     <style name="LoginButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
@@ -77,6 +100,18 @@
     </style>
 
 
+    <style name="App.Material3.NavigationView" parent="Widget.Material3.NavigationView">
+        <item name="dividerInsetStart">12dp</item>
+        <item name="dividerInsetEnd">12dp</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+
+    </style>
+
+    <style name="TextNavigation" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
 
 
 
