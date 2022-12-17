@@ -5,8 +5,10 @@
     <!--Permisos per accedir a internet-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- usesCleartextTraffic, ens permet comunicacions amb Http-->
+    <!-- android:networkSecurityConfig="@xml/network_security_config"-->
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,8 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChefDeluxe"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
