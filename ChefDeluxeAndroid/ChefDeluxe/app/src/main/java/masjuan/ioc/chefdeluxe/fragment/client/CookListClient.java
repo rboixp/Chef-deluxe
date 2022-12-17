@@ -24,15 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentClientSearchCookBinding;
 import masjuan.ioc.chefdeluxe.model.Disponibilidad;
+import masjuan.ioc.chefdeluxe.model.Tarifa;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
 import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
 import masjuan.ioc.chefdeluxe.utils.UtilsFragments;
-import masjuan.ioc.chefdeluxe.utils.recyclerView.RvItemClickListener;
 import masjuan.ioc.chefdeluxe.utils.recyclerView.RvAdapterListCook;
+import masjuan.ioc.chefdeluxe.utils.recyclerView.RvItemClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,8 +41,9 @@ import retrofit2.Response;
  * Classe on mostra el llistat de disponibilitats dels cuiners
  */
 public class CookListClient extends Fragment {
-    private FragmentClientSearchCookBinding b;
 
+    private FragmentClientSearchCookBinding b;
+    private ApiGlobal apiGlobal;
     private ApiCodes apiCodes;
     private UtilsFragments frag = null;
     private SharedPreferences preferences;
@@ -82,6 +83,7 @@ public class CookListClient extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         frag = new UtilsFragments(requireActivity().getSupportFragmentManager());
+        apiGlobal = new ApiGlobal();
         fragmentManager = requireActivity().getSupportFragmentManager();
     }
 
@@ -103,6 +105,7 @@ public class CookListClient extends Fragment {
 
         // Toolbar popBackStack (ens retorna al fragment)
         navigationToolbar(b.lyToolbar.toolbar, frag, fragmentManager);
+
         // Títol per la toolbar
         b.lyToolbar.toolbar.setTitle(getResources().getString(R.string.txt_cookList));
 
@@ -215,8 +218,9 @@ public class CookListClient extends Fragment {
      * @author Eduard Masjuan
      */
     public void getAvailabilityListCook(String state, String village) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<List<Disponibilidad>> available = apiService.getFilterCookAvailable(state, village);
+        //Call<List<Disponibilidad>> available = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getFilterCookAvailable(state, village);
+        Call<List<Disponibilidad>> available = apiGlobal.apiClient(preferences.getToken()).getFilterCookAvailable(state, village);
+
         available.enqueue(new Callback<List<Disponibilidad>>() {
             /**
              * Es crida si ja una resposta HTTP correcte
@@ -233,6 +237,7 @@ public class CookListClient extends Fragment {
                             // Creem un Adaptador i obtenim la llista dels cuiners
                             rvCookAdapter = new RvAdapterListCook(getActivity(), mShowCookAvailableList);
                             recyclerViewCook.setAdapter(rvCookAdapter);
+
                         }
                     }
                 } else {

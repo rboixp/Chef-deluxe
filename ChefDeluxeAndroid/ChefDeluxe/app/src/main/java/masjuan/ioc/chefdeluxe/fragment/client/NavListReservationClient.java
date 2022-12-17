@@ -1,57 +1,67 @@
 package masjuan.ioc.chefdeluxe.fragment.client;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import masjuan.ioc.chefdeluxe.MainActivity;
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentClientNavReservationBinding;
 import masjuan.ioc.chefdeluxe.model.Reservation;
+import masjuan.ioc.chefdeluxe.model.User;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
 import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
-import masjuan.ioc.chefdeluxe.utils.UtilsFragments;
-import masjuan.ioc.chefdeluxe.utils.recyclerView.RvItemClickListener;
 import masjuan.ioc.chefdeluxe.utils.recyclerView.RvAdapterListReservationClient;
+import masjuan.ioc.chefdeluxe.utils.recyclerView.RvItemClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
  * Classe on mostrarà les reserves fetes per els clients
+ *
+ * @author Eduard Masjuan
  */
 public class NavListReservationClient extends Fragment {
-    private FragmentClientNavReservationBinding b;
     private SharedPreferences preferences;
-    private final UtilsFragments frag = null;
-    private final FragmentManager fragmentManager = null;
     private ApiCodes apiCodes;
+    private ApiGlobal apiGlobal;
+    private FragmentClientNavReservationBinding b;
 
+    private final String estado = "";
+    boolean reserves = false;
+    String iban = "";
     // Reservation
     private List<Reservation> mShowClientReservationList;
     private RecyclerView recyclerViewClient = null;
     private RvAdapterListReservationClient rvReservationAdapter;
-
-    boolean reserves = false;
-
 
     /**
      * Constructor buit
@@ -94,9 +104,13 @@ public class NavListReservationClient extends Fragment {
         b = FragmentClientNavReservationBinding.inflate(inflater, container, false);
         preferences = new SharedPreferences(requireActivity());
         apiCodes = new ApiCodes();
+        apiGlobal = new ApiGlobal();
 
         // Títol per la toolbar
         b.lyToolbar.toolbar.setTitle(getResources().getString(R.string.tv_acc_reservation));
+        ((MainActivity) requireActivity()).setSupportActionBar(b.lyToolbar.toolbar);
+        setHasOptionsMenu(true);
+
 
         // Llista reserves
         mShowClientReservationList = new ArrayList<>();
@@ -105,17 +119,17 @@ public class NavListReservationClient extends Fragment {
         recyclerViewClient.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewClient.setHasFixedSize(false);
 
-        // Comprova si hi han reserves fetes
-        if (reserves) {
-            b.tvInfoReserva.setText(getResources().getString(R.string.tv_info_reservation));
-        } else {
-            b.tvInfoReserva.setVisibility(View.GONE);
-        }
+        // Chip Listener
+        b.chipGroupFilter.setOnCheckedStateChangeListener(chipListener);
+
+        // Comprova si te introduit IBAN
+        getUser(preferences.getUsername());
 
         // Mostra les reserves
         getReservationPageListClient(preferences.getUsername(), 0, 1000);
 
-        // Controla el onItemclick al fer clic a un element del Recyclerview
+
+        // Listener Touch, al fer clic sobre una reserva feta per un client s'obre un diàleg de pagament
         recyclerViewClient.addOnItemTouchListener(new RvItemClickListener(getActivity(), recyclerViewClient, new RvItemClickListener.OnItemClickListener() {
 
             /**
@@ -123,13 +137,27 @@ public class NavListReservationClient extends Fragment {
              * @param view Vista
              * @param position int, posició de l'element
              */
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onItemClick(View view, int position) {
-                Reservation clientReservation = mShowClientReservationList.get(position);
-                long id = clientReservation.getId();
-                Toast.makeText(getActivity(), "Número de reserva:" + id, Toast.LENGTH_SHORT).show();
-            }
 
+                Reservation cookReservation = mShowClientReservationList.get(position);
+                long id = cookReservation.getId();
+                String nameCook = cookReservation.getCliente();
+                BigDecimal price = cookReservation.getPrecio();
+                long lPrice = price.longValue();
+                String state = cookReservation.getEstado();
+
+                if (state.equals("confirmado")) {
+                    if (!iban.equals("")) {
+                        BottomSheetDialogFragment sheetDialog = DialogReservationPayClient.newInstance(id, nameCook, lPrice);
+                        sheetDialog.show(requireActivity().getSupportFragmentManager(), "BottomSheetConfirm");
+                    } else {
+                        Toast.makeText(getActivity(), "Añade primero una cuenta bancaria para hacer el pago", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
 
             /**
              * Quan es manté el clic a un item
@@ -140,6 +168,7 @@ public class NavListReservationClient extends Fragment {
             public void onLongItemClick(View view, int position) {
 
             }
+
         }));
 
         // Permet eliminar un element arrosegant-lo cap a la esquerre.
@@ -169,8 +198,11 @@ public class NavListReservationClient extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getBindingAdapterPosition();
                 Reservation clientReservation = mShowClientReservationList.get(pos);
+
                 long id = clientReservation.getId();
-                dialogDeleteReservation(id).show(); // Mostrem el AlertDialog
+                String state = clientReservation.getEstado();
+
+                dialogDeleteReservation(id).show(); // Mostra el AlertDialog
                 // Esborrar l'element
                 mShowClientReservationList.remove(viewHolder.getBindingAdapterPosition());
                 // Avisa que ha borrat un element i que actualitzi
@@ -183,6 +215,57 @@ public class NavListReservationClient extends Fragment {
 
         return b.getRoot();
     }
+
+    /**
+     * Especifica les opcions del menu
+     *
+     * @param menu     menu
+     * @param inflater Infla la vista menu
+     */
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_update_reservation, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    /**
+     * Selecció d'items del menu
+     *
+     * @param item Item del menu
+     * @return boolean
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_update) {
+            refreshList();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Listener ChipGroup
+     */
+    private final ChipGroup.OnCheckedStateChangeListener chipListener = new ChipGroup.OnCheckedStateChangeListener() {
+        @Override
+        public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+            for (Integer id : checkedIds) {
+                Chip chip = group.findViewById(id);
+                if (chip != null) {
+                    String state = "";
+                    if (chip.getText().equals("Confirmado")) {
+                        state = "confirmado";
+                    } else if (chip.getText().equals("Pendiente")) {
+                        state = "pendiente";
+                    } else if (chip.getText().equals("Pagada")) {
+                        state = "pagado";
+                    }
+
+
+                }
+            }
+        }
+    };
 
     /**
      * Diàleg per confirmar si es vol eliminar una reserva
@@ -224,8 +307,9 @@ public class NavListReservationClient extends Fragment {
      * @author Eduard Masjuan
      */
     public void getReservationPageListClient(String userName, int pageIndex, int pageSize) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<List<Reservation>> reservation = apiService.getPagClientReservation(userName, pageIndex, pageSize);
+       // Call<List<Reservation>> reservation = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getPagClientReservation(userName, pageIndex, pageSize);
+        Call<List<Reservation>> reservation = apiGlobal.apiClient(preferences.getToken()).getPagClientReservation(userName, pageIndex, pageSize);
+
         reservation.enqueue(new Callback<List<Reservation>>() {
             /**
              * Es crida si ja una resposta HTTP correcte
@@ -238,15 +322,32 @@ public class NavListReservationClient extends Fragment {
                     if (response.body() != null) {
                         if (apiCodes.codeHttp(response.code())) {
 
-                            reserves = true;
                             mShowClientReservationList = response.body();
+
                             // Creem un Adaptador i obtenim la llista de les reserves
                             rvReservationAdapter = new RvAdapterListReservationClient(getActivity(), mShowClientReservationList);
                             recyclerViewClient.setAdapter(rvReservationAdapter);
+
+                            // Comprova si hi han reserves fetes
+                            if (mShowClientReservationList.isEmpty()) {
+                                b.tvInfoReserva.setVisibility(View.VISIBLE);
+                                //b.tvInfoReserva.setText(getResources().getString(R.string.tv_info_reservation));
+                            } else {
+                                b.tvInfoReserva.setVisibility(View.GONE);
+                            }
+
+                            // Ordena l'Array per ordre alfabètic
+                            Collections.sort(mShowClientReservationList, new Comparator<Reservation>() {
+                                @Override
+                                public int compare(Reservation reservation, Reservation t1) {
+                                    return reservation.getEstado().compareTo(t1.getEstado());
+                                }
+                            });
+
                         }
                     }
                 } else {
-                    Toast.makeText(getActivity(), "No hay reservas de este usuario", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "No hay reservas de este usuario", Toast.LENGTH_SHORT).show();
                     apiCodes.codeHttp(response.code());
                 }
             }
@@ -278,8 +379,9 @@ public class NavListReservationClient extends Fragment {
      * @author Eduard Masjuan
      */
     public void deleteReservationClient(long id) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<String> deleteReservation = apiService.deleteClientReservation(id);
+        Call<String> deleteReservation = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).deleteClientReservation(id);
+        //Call<String> deleteReservation = apiGlobal.apiClient(preferences.getToken()).deleteClientReservation(id);
+
         deleteReservation.enqueue(new Callback<String>() {
             /**
              * Es crida si ja una resposta HTTP correcte
@@ -292,6 +394,8 @@ public class NavListReservationClient extends Fragment {
                     if (response.body() != null) {
                         if (apiCodes.codeHttp(response.code())) {
                             Toast.makeText(getActivity(), getResources().getString(R.string.tv_info_reservation_cancel), Toast.LENGTH_SHORT).show();
+                            b.tvInfoReserva.setVisibility(View.VISIBLE);
+                            b.tvInfoReserva.setText(getResources().getString(R.string.tv_info_reservation));
                         }
                     }
                 } else {
@@ -317,6 +421,65 @@ public class NavListReservationClient extends Fragment {
 
             }
         });
+    }
+
+    /**
+     * Mètode on realitza una petició GET al servidor. Rebem les dades de l'usuari passat per paràmetre
+     * -
+     *
+     * @param username String, nom d'usuari del cuiner
+     * @author Eduard Masjuan
+     */
+    private void getUser(String username) {
+        //Call<User> user = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getRol(username);
+        Call<User> user = apiGlobal.apiClient(preferences.getToken()).getRol(username);
+
+        user.enqueue(new Callback<User>() {
+            /**
+             * Es crida si ja una resposta HTTPS correcte
+             * @param call Sol.licita al API les dades
+             * @param response  Obtenir les dades
+             */
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        iban = response.body().getIban();
+                    } else {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.tv_update_error2), Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(getActivity(), "Codi:" + response.code() + getResources().getString(R.string.codigo_401), Toast.LENGTH_SHORT).show();
+                    apiCodes.codeHttp(response.code());
+                }
+            }
+
+            /**
+             * Es produeix una excepció de xarxa en la comunicació amb el servidor o una excepció en la gestió de la sol·licitud
+             * @param call Sol·licita al API les dades
+             * @param t Captura l’excepció
+             */
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                if (t instanceof IOException) {
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_connexion));
+                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_conversion));
+                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    /**
+     * Mètode on netegem la array y mostrem de nou el llistat de reserves
+     */
+    public void refreshList() {
+        // Refresca la llista
+        mShowClientReservationList.clear();
+        getReservationPageListClient(preferences.getUsername(), 0, 1000);
     }
 
 }

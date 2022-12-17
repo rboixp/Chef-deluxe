@@ -52,15 +52,19 @@ public class MainActivity extends AppCompatActivity {
      * @author Eduard Masjuan
      */
     private void showFrag() {
-        if (!preferences.getToken().equals("")) {
+        if (!preferences.getToken().equals("")) { // Token omplert
             if (preferences.getRole() == GlobalVariables.idRolAdmin) {
                 frag.replaceFragment(R.id.container, UserAdmin.newInstance());
             } else if (preferences.getRole() == GlobalVariables.idRolCook) {
                 frag.replaceFragment(R.id.container, UserCook.newInstance());
             } else if (preferences.getRole() == GlobalVariables.idRolClient) {
                 frag.replaceFragment(R.id.container, UserClient.newInstance());
+            } else { // Token omplert
+                preferences.cleanToken();
+                frag.addFragment(R.id.container, UserLogin.newInstance(), "loginFrag");
             }
-        } else {
+
+        } else { // Token buit
             frag.addFragment(R.id.container, UserLogin.newInstance(), "loginFrag");
         }
     }

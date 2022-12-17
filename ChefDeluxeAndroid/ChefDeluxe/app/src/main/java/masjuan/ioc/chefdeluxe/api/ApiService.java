@@ -4,8 +4,10 @@ import java.util.List;
 
 import masjuan.ioc.chefdeluxe.model.Disponibilidad;
 import masjuan.ioc.chefdeluxe.model.Login;
+import masjuan.ioc.chefdeluxe.model.Menu;
 import masjuan.ioc.chefdeluxe.model.Registration;
 import masjuan.ioc.chefdeluxe.model.Reservation;
+import masjuan.ioc.chefdeluxe.model.Tarifa;
 import masjuan.ioc.chefdeluxe.model.Token;
 import masjuan.ioc.chefdeluxe.model.User;
 import retrofit2.Call;
@@ -18,7 +20,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 /**
- * Interfície ApiService amb mètodes que es fan servir per executar sol·licituds HTTP.
+ * Interfície ApiService amb mètodes que es fan servir per executar sol·licituds HTTPS
  *
  * @author Eduard Masjuan
  */
@@ -27,6 +29,7 @@ public interface ApiService {
     String RUTA_USER = "/api/users/";
     String RUTA_CHEF = "/api/chef/";
     String RUTA_CLIENT = "/api/client/";
+
 
     // SESSION
 
@@ -50,18 +53,6 @@ public interface ApiService {
     @POST(RUTA_AUTH + "registrar")
     Call<String> addUser(@Body Registration register);
 
-
-    //CRUD
-
-    /**
-     * Obtenir tots els usuaris de la BD
-     * Per usuaris Administrador
-     *
-     * @return Llista d'usuaris
-     */
-    @GET(RUTA_USER + "get/users")
-    Call<List<User>> getAllUsers();
-
     /**
      * Obtenir les dades d'un usuari passat per paràmetre
      *
@@ -80,6 +71,17 @@ public interface ApiService {
      */
     @PUT(RUTA_USER + "update/user")
     Call<User> putUserData(@Query("usernameOrEmail") String usernameOrEmail, @Body Registration register);
+
+    /**
+     * Canviar la contrasenya
+     *
+     * @param usernameOrEmail String nom d'usuari o email
+     * @param newPassword     String nou password
+     * @return User
+     */
+    @PUT(RUTA_USER + "password/user")
+    Call<User> putChangePass(@Query("usernameOrEmail") String usernameOrEmail,
+                             @Query("newPassword") String newPassword);
 
     /**
      * Elimina un usuari
@@ -117,9 +119,9 @@ public interface ApiService {
      * @return Disponibilidad
      */
     @PUT(RUTA_CHEF + "disponibilidad/update/estado")
-    Call<Disponibilidad> putAvailableUser2(@Query("usernameOrEmail") String usernameOrEmail,
-                                           @Query("poblacion") String poblacion,
-                                           @Body Disponibilidad availability);
+    Call<Disponibilidad> putAvailableUser(@Query("usernameOrEmail") String usernameOrEmail,
+                                          @Query("poblacion") String poblacion,
+                                          @Body Disponibilidad availability);
 
     /**
      * Obtenir un llistat de cuiners amb filtres
@@ -177,16 +179,134 @@ public interface ApiService {
                                                   @Query("pageIndex") int pageIndex,
                                                   @Query("pageSize") int pageSize);
 
+    /**
+     * Obtenir una reserva destinada a un chef
+     *
+     * @param usernameOrEmail String nom d'usuari o email
+     * @return llista de reserves
+     */
+    @GET(RUTA_CLIENT + "reserva/get/chef/")
+    Call<List<Reservation>> getChefReservation(@Query("usernameOrEmail") String usernameOrEmail);
+
+    /**
+     * Actualitza l'estat de la reserva
+     *
+     * @param id     long id reserva
+     * @param estado String estat en la que es trova la reserva
+     * @return Reservation
+     */
+    @PUT(RUTA_CLIENT + "reserva/update/estado")
+    Call<Reservation> putReservaCook(@Query("id") long id,
+                                     @Query("estado") String estado
+    );
+
+    /**
+     * Crea una tarifa per el cuiner
+     *
+     * @param tarifa Object Tarifa
+     * @return String
+     */
+    @POST(RUTA_CHEF + "tarifa/post")
+    Call<String> postTarifa(@Body Tarifa tarifa);
+
+    /**
+     * Obtenir la tarifa d'un cuiner
+     *
+     * @param id long, id usuari cuiner
+     * @return llista de disponibilitats
+     */
+    @GET(RUTA_CHEF + "tarifa/get/id")
+    Call<Tarifa> getTarifaId(@Query("id") long id);
+
+    /**
+     * Obtenir la tarifa d'un cuiner
+     *
+     * @param usernameOrEmail String, id usuari cuiner
+     * @return llista de disponibilitats
+     */
+    @GET(RUTA_CHEF + "tarifa/get/user")
+    Call<Tarifa> getTarifaUser(@Query("usernameOrEmail") String usernameOrEmail);
+
+    /**
+     * Actualiza la tarifa d'un cuiner
+     *
+     * @param tarifa Object Tarifa
+     * @return String
+     */
+    @PUT(RUTA_CHEF + "tarifa/update")
+    Call<String> putTarifa(@Body Tarifa tarifa);
+
+    /**
+     * Elimina la tarifa del cuiner
+     *
+     * @param id del cuiner
+     * @return String
+     */
+    @DELETE(RUTA_CHEF + "tarifa/delete")
+    Call<String> deleteTarifa(@Query("id") long id);
+
+    /**
+     * Crea un menu
+     *
+     * @param menu Object Menu
+     * @return String
+     */
+    @POST(RUTA_CHEF + "menu/post")
+    Call<String> postMenu(@Body Menu menu);
+
+    /**
+     * Obtenir el menu d'un cuiner
+     *
+     * @param id long, id usuari cuiner
+     * @return llista de disponibilitats
+     */
+    @GET(RUTA_CHEF + "menu/get/id")
+    Call<Menu> getMenu(@Query("id") Long id);
+
+    /**
+     * Actualitza un menu
+     *
+     * @param menu Object Menu
+     * @return String
+     */
+    @PUT(RUTA_CHEF + "menu/update")
+    Call<String> putMenu(@Body Menu menu);
+
 
     //ADMIN
 
     /**
-     * Obtenir un llistat de cuiners (ADMIN)
+     * Obtenir tots els usuaris de la BD
+     * Per usuaris Administrador
+     *
+     * @return Llista d'usuaris
+     */
+    @GET(RUTA_USER + "get/users")
+    Call<List<User>> getAllUsers();
+
+    /**
+     * Obtenir un llistat de disponibilitats dels cuiners (ADMIN)
      *
      * @return LLista de disponibilitats
      */
     @GET(RUTA_CHEF + "disponibilidad/get/all")
-    Call<List<Disponibilidad>> getAllCooks();
+    Call<List<Disponibilidad>> getAllDisponibilidad();
+
+    /**
+     * Obtenir un llistat de les reserves (ADMIN)
+     *
+     * @return LLista de reserves
+     */
+    @GET(RUTA_CLIENT + "reserva/get/all")
+    Call<List<Reservation>> getAllReservation();
+
+    /**
+     * Obtenir un llistat de les tarifes (ADMIN)
+     *
+     * @return Llista de tarifes
+     */
+    @GET(RUTA_CHEF + "tarifa/get/all")
+    Call<List<Tarifa>> getAllTarifa(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize);
 
     /**
      * Elimina la disponibilitat d'un cuiner (ADMIN)
@@ -196,15 +316,5 @@ public interface ApiService {
      */
     @DELETE(RUTA_CHEF + "disponibilidad/delete")
     Call<String> deleteAvailableCook(@Query("id") Long id);
-
-    /**
-     * Obtenir una reserva per id feta per un client
-     * Admin o chef
-     *
-     * @param id long, id reserva
-     * @return llista Reservation
-     */
-    @GET(RUTA_CLIENT + "reserva/get/id")
-    Call<Reservation> getFilterIdClientReservation(@Query("id") long id);
 
 }

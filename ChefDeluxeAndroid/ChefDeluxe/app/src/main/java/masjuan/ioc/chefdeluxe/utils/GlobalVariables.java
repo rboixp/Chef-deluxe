@@ -7,8 +7,9 @@ package masjuan.ioc.chefdeluxe.utils;
  */
 public class GlobalVariables {
 
-    public static final String urlBase = "http://ip";
-    public static final String urlApiRest = "http://awschefdeluxe-env.eba-ygfvtvek.us-east-1.elasticbeanstalk.com";
+    public static final String urlBase = "http://ip:8080";
+    public static final String urlBaseHttps = "https://ip:8080";
+    public static final String urlApiRest = "https://render-chef-deluxe.onrender.com";
 
     public static final String nameRolAdmin = "ROLE_ADMIN";
     public static final String nameRolCook = "ROLE_CHEF";

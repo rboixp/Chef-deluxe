@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Matcher;
@@ -78,6 +79,25 @@ public class Methods {
     /**
      * Comprovació si els camps no estan buits
      *
+     * @param password   String contrasenya
+     * @param name       String nom
+     * @param surname    String Cognoms
+     * @param age        String Edat
+     * @param phone      String Numero de telèfon
+     * @param address    String Domicili
+     * @param village    String Població
+     * @param postalcode String Codi postal
+     * @param country    String País
+     * @param iban       String Iban
+     * @return Boolean, si els camps estan buits o no
+     */
+    public boolean dataEmpty(@NonNull String password, String name, String surname, String age, String phone, String address, String village, String postalcode, String country, String iban) {
+        return !password.isEmpty() && !name.isEmpty() && !surname.isEmpty() && !age.isEmpty() && !phone.isEmpty() && !address.isEmpty() && !village.isEmpty() && !postalcode.isEmpty() && !country.isEmpty() && !iban.isEmpty();
+    }
+
+    /**
+     * Comprovació si els camps no estan buits
+     *
      * @param password       String Contrasenya
      * @param newpassword    String Nova contrasenya
      * @param repeatpassword String Repetir nova contrasenya
@@ -133,5 +153,6 @@ public class Methods {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
         imm.showSoftInput(textView, 0);
     }
+
 
 }

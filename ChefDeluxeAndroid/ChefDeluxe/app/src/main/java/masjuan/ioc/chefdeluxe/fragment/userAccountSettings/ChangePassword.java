@@ -18,10 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import java.io.IOException;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentUserChangePasswordBinding;
-import masjuan.ioc.chefdeluxe.model.Registration;
 import masjuan.ioc.chefdeluxe.model.User;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
 import masjuan.ioc.chefdeluxe.utils.Methods;
@@ -48,6 +46,7 @@ public class ChangePassword extends Fragment {
 
     private String currentPassword, newPassword, repeatNewPassword;
     private ApiCodes apiCodes;
+    private ApiGlobal apiGlobal;
 
     /**
      * Constructor buit
@@ -76,6 +75,7 @@ public class ChangePassword extends Fragment {
         super.onCreate(savedInstanceState);
         frag = new UtilsFragments(requireActivity().getSupportFragmentManager());
         fragmentManager = requireActivity().getSupportFragmentManager();
+        apiGlobal = new ApiGlobal();
     }
 
     /**
@@ -108,20 +108,35 @@ public class ChangePassword extends Fragment {
 
         // Boto per canviar la contrasenya
         b.bttConfirmPassword.setOnClickListener(view -> {
+            // si es modifica
 
-            // Comprovem i el password escrit es el mateix
-            if (currentPassword.equals(preferences.getPassword())) {
-                // Comprovem camps buits i comparació del camp password
-                if (!newPassword.isEmpty() && !repeatNewPassword.isEmpty() && newPassword.equals(repeatNewPassword)) {
-                    // Actualitzem el password de l'usuari
-                    Registration dataUser = userRegistrationData();
-                    putUserApi(preferences.getUsername(), dataUser);
+            if (checkCurrentPassword() && !checkCurrentNewPassword() && checkRepeatNewPassword()) {
+                method.dataInputLayoutEmpty(b.edtvCurrentPassword, null, currentPassword);
+                method.dataInputLayoutEmpty(b.edtvNewPassword, null, newPassword);
+                method.dataInputLayoutEmpty(b.edtvRepeatNewPassword, null, repeatNewPassword);
+                putChangePassword(preferences.getUsername(), newPassword);
 
-                } else {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.tv_error_password2), Toast.LENGTH_SHORT).show();
-                }
             } else {
-                Toast.makeText(getActivity(), getResources().getString(R.string.tv_error_password), Toast.LENGTH_SHORT).show();
+
+                if (!checkCurrentPassword()) {
+                    method.dataInputLayoutEmpty(b.edtvCurrentPassword, getResources().getString(R.string.tv_error_password), currentPassword);
+                } else {
+                    method.dataInputLayoutEmpty(b.edtvCurrentPassword, null, currentPassword);
+                }
+
+                if (!checkRepeatNewPassword()) {
+                    method.dataInputLayoutEmpty(b.edtvNewPassword, getResources().getString(R.string.tv_error_password2), newPassword);
+                    method.dataInputLayoutEmpty(b.edtvRepeatNewPassword, getResources().getString(R.string.tv_error_password2), repeatNewPassword);
+                } else {
+                    method.dataInputLayoutEmpty(b.edtvNewPassword, null, newPassword);
+                    method.dataInputLayoutEmpty(b.edtvRepeatNewPassword, null, repeatNewPassword);
+                }
+
+                if (checkCurrentNewPassword()) {
+                    method.dataInputLayoutEmpty(b.edtvNewPassword, getResources().getString(R.string.tv_error_password3), newPassword);
+                } else {
+                    method.dataInputLayoutEmpty(b.edtvNewPassword, null, newPassword);
+                }
             }
         });
 
@@ -129,40 +144,44 @@ public class ChangePassword extends Fragment {
     }
 
     /**
-     * Dades de l'objecte Registration
+     * Comprovar que la contrasenya escrita és l'actual
      *
-     * @return Retorna l'objecte Registration amb les dades introduïdes per l'usuari
-     * @author Eduard Masjuan
+     * @return boolean
      */
-    private Registration userRegistrationData() {
-        Registration dataUser = new Registration();
-
-        dataUser.setPassword(String.valueOf(b.inputEdtvNewPassword.getText()));
-        dataUser.setUsername(preferences.getUsername());
-        dataUser.setEmail(preferences.getEmail());
-        if (preferences.getRole() == 1) {
-            dataUser.setPerfil("ROLE_ADMIN");
-        } else if (preferences.getRole() == 2) {
-            dataUser.setPerfil("ROLE_CHEF");
-        } else if (preferences.getRole() == 3) {
-            dataUser.setPerfil("ROLE_CLIENT");
-        }
-
-        return dataUser;
+    private boolean checkCurrentPassword() {
+        return currentPassword.equals(preferences.getPassword());
     }
 
     /**
-     * Mètode on realitza una petició PUT. Canvi de dades
+     * Comprovar que la nova contrasenya no siguin igual que l'anterior
      *
-     * @param username     String nom d'usuari
-     * @param registration Registration
+     * @return boolean
+     */
+    private boolean checkCurrentNewPassword() {
+        return newPassword.equals(preferences.getPassword());
+    }
+
+    /**
+     * Comprovar que la nova contrasenya i la repetició de contranseya sigui'n iguals
+     *
+     * @return boolean
+     */
+    private boolean checkRepeatNewPassword() {
+        return newPassword.equals(repeatNewPassword);
+    }
+
+    /**
+     * Mètode on realitza una petició PUT. Canvi de contrasenya
+     *
+     * @param username    String nom d'usuari
+     * @param newPassword String nova contrasenya
      * @author Eduard Masjuan
      */
-    public void putUserApi(String username, Registration registration) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
+    private void putChangePassword(String username, String newPassword) {
+       // Call<User> updatePassword = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).putChangePass(username, newPassword);
+        Call<User> updatePassword = apiGlobal.apiClient(preferences.getToken()).putChangePass(username, newPassword);
 
-        Call<User> user = apiService.putUserData(username, registration);
-        user.enqueue(new Callback<User>() {
+        updatePassword.enqueue(new Callback<User>() {
             /**
              * Es crida si ja una resposta HTTP correcte
              * @param call Sol.licita al API les dades
@@ -198,6 +217,7 @@ public class ChangePassword extends Fragment {
                 }
             }
         });
+
     }
 
     /**
@@ -226,9 +246,14 @@ public class ChangePassword extends Fragment {
             newPassword = String.valueOf(b.inputEdtvNewPassword.getText());
             repeatNewPassword = String.valueOf(b.inputEdtvRepeatNewPassword.getText());
 
+            // Si el camp contrasenya no es buit activa el camp de repetició de contrasenya
+            boolean repeatPassword = !newPassword.isEmpty();
+            b.inputEdtvRepeatNewPassword.setEnabled(repeatPassword);
+
             // Si els camps estan plens s'activa el boto de guardar.
             boolean validat = method.dataEmpty(currentPassword, newPassword, repeatNewPassword);
             b.bttConfirmPassword.setEnabled(validat);
+
 
             // Si tots els camps estan omplerts
             if (validat) {

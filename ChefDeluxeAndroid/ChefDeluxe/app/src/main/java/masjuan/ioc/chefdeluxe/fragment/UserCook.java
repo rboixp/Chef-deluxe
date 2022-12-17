@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.databinding.FragmentUsersNavigationBinding;
+import masjuan.ioc.chefdeluxe.databinding.ToolbarNavigationUsersBinding;
 import masjuan.ioc.chefdeluxe.fragment.cook.NavAccManageCook;
 import masjuan.ioc.chefdeluxe.fragment.cook.NavAvailableCook;
-import masjuan.ioc.chefdeluxe.fragment.cook.NavValidateReservationCook;
+import masjuan.ioc.chefdeluxe.fragment.cook.NavListReservationCook;
 import masjuan.ioc.chefdeluxe.utils.UtilsFragments;
 
 /**
@@ -57,6 +57,7 @@ public class UserCook extends Fragment {
     /**
      * Dissenya la interfície d'usuari per primera vegada
      * Mostra el panel principal del rol cuiner
+     *
      * @param inflater           Infla la vista
      * @param container          Vista que s'adjuntarà a la interfície d'usuari
      * @param savedInstanceState Bundle
@@ -65,7 +66,7 @@ public class UserCook extends Fragment {
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        masjuan.ioc.chefdeluxe.databinding.FragmentUsersNavigationBinding b = FragmentUsersNavigationBinding.inflate(inflater, container, false);
+        ToolbarNavigationUsersBinding b = ToolbarNavigationUsersBinding.inflate(inflater, container, false);
 
         b.bottomNavigation.getMenu().clear(); // Netejem el menu anterior
         b.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu_cook); // Menu Cuiner
@@ -84,7 +85,7 @@ public class UserCook extends Fragment {
         if (idItem == R.id.nav_home) {
             fragment = new NavAvailableCook();
         } else if (idItem == R.id.nav_dispo) {
-            fragment = new NavValidateReservationCook();
+            fragment = new NavListReservationCook();
         } else if (idItem == R.id.nav_config) {
             fragment = new NavAccManageCook();
         }

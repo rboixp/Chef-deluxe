@@ -3,7 +3,8 @@ package masjuan.ioc.chefdeluxe.utils;
 import android.content.Context;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
+import masjuan.ioc.chefdeluxe.api.ApiClient;
+import masjuan.ioc.chefdeluxe.api.ApiClientSSL;
 import masjuan.ioc.chefdeluxe.fragment.UserLogin;
 
 /**
@@ -109,6 +110,15 @@ public class SharedPreferences {
         editor.apply();
     }
 
+    public void setIdTarifa(long tarifa) {
+        editor.putLong(fileName + "tarifa", tarifa);
+        editor.apply();
+    }
+    public void setIdMenu(long menu) {
+        editor.putLong(fileName + "menu", menu);
+        editor.apply();
+    }
+
 
     // GET
 
@@ -161,6 +171,14 @@ public class SharedPreferences {
         return sharedPref.getString(fileName + "timeFinal", "");
     }
 
+    public Long getIdTarifa() {
+        return sharedPref.getLong(fileName + "tarifa", 0);
+    }
+
+    public Long getIdMenu() {
+        return sharedPref.getLong(fileName + "menu", 0);
+    }
+
 
     /**
      * Mètode per fer reset els valors.
@@ -171,6 +189,8 @@ public class SharedPreferences {
         setUsername("");
         setEmail("");
         setPassword("");
+        setIdTarifa(0);
+        setIdMenu(0);
         editor.apply();
     }
 
@@ -206,6 +226,11 @@ public class SharedPreferences {
         editor.apply();
     }
 
+    public void cleanTarifa() {
+        setIdTarifa(0);
+        editor.apply();
+    }
+
     public void cleanDateTime() {
         setDateBegin("");
         setDateFinal("");
@@ -222,9 +247,11 @@ public class SharedPreferences {
      */
     public void logout(UtilsFragments fragment) {
         cleanDate();
+        cleanDateTime();
         // Ens assegurem de que s'han esborrat les SharedPreferences
         if (getToken().equals("") && getRole() == 0) {
-            ApiClientToken.deleteInstance();
+            ApiClient.deleteInstance();
+            ApiClientSSL.deleteInstance();
             fragment.replaceFragment(R.id.container, UserLogin.newInstance());
         }
     }

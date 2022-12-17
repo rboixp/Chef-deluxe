@@ -89,7 +89,6 @@ public class RvAdapterListAvailableCook extends RecyclerView.Adapter<RvAdapterLi
         public ViewHolder(@NonNull CvItemAvailableCookBinding cardView) {
             super(cardView.getRoot());
             this.b = cardView;
-            // b.cardView.setOnClickListener(this);
         }
 
         public void bindTo(Disponibilidad currentReservation) {

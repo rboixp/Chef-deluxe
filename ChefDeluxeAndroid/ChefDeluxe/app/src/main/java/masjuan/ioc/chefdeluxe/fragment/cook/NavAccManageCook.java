@@ -76,6 +76,12 @@ public class NavAccManageCook extends Fragment {
         // Canvi de password
         b.tvDatauserPassword.setOnClickListener(view -> frag.replaceFragment(R.id.user_container, ChangePassword.newInstance(), "changePasswordFrag"));
 
+        // Tarifa
+        b.tvDatauserTarifa.setOnClickListener(view -> frag.replaceFragment(R.id.user_container, TarifaCook.newInstance(), "tarifaFrag"));
+
+        // Menu
+        b.tvDatauserMenu.setOnClickListener(view -> frag.replaceFragment(R.id.user_container, MenuCook.newInstance(), "menuFrag"));
+
         // Tanquem sessió
         b.tvLogout.setOnClickListener(view -> preferences.logout(frag));
 

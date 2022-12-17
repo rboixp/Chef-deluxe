@@ -15,6 +15,8 @@ public class Reservation {
     private String estado;
     private String  cliente;
     private String  chef;
+    private long comensales;
+    private String instruccions;
 
     private java.sql.Timestamp incio;
     private java.sql.Timestamp fin;
@@ -74,5 +76,21 @@ public class Reservation {
 
     public void setPrecio(BigDecimal precio) {
         this.precio = precio;
+    }
+
+    public long getComensales() {
+        return comensales;
+    }
+
+    public void setComensales(long comensales) {
+        this.comensales = comensales;
+    }
+
+    public String getInstruccions() {
+        return instruccions;
+    }
+
+    public void setInstruccions(String instruccions) {
+        this.instruccions = instruccions;
     }
 }

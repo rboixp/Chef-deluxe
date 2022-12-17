@@ -1,11 +1,15 @@
 package masjuan.ioc.chefdeluxe.fragment.client;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -34,11 +38,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import masjuan.ioc.chefdeluxe.MainActivity;
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentClientNavHomeBinding;
 import masjuan.ioc.chefdeluxe.model.Reservation;
+import masjuan.ioc.chefdeluxe.model.Tarifa;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
 import masjuan.ioc.chefdeluxe.utils.Methods;
 import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
@@ -58,6 +63,7 @@ public class NavReservationClient extends Fragment {
     private ApiCodes apiCodes;
     private Methods method;
     private UtilsFragments frag = null;
+    private ApiGlobal apiGlobal;
 
     private String[] villageArray;
 
@@ -68,7 +74,10 @@ public class NavReservationClient extends Fragment {
     private String dateFinal;
     private String villageInput;
     private String chooseCook;
-    private String ofertPay;
+    private String comensales;
+    private BigDecimal tarifaCook;
+
+    private long calculTotal = 0;
 
     /**
      * Constructor buit
@@ -97,6 +106,7 @@ public class NavReservationClient extends Fragment {
         super.onCreate(savedInstanceState);
         frag = new UtilsFragments(requireActivity().getSupportFragmentManager());
         preferences = new SharedPreferences(requireActivity());
+        apiGlobal = new ApiGlobal();
     }
 
     /**
@@ -117,6 +127,8 @@ public class NavReservationClient extends Fragment {
 
         // Títol per la toolbar
         b.lyToolbar.toolbar.setTitle(getResources().getString(R.string.tv_acc_home));
+        ((MainActivity) requireActivity()).setSupportActionBar(b.lyToolbar.toolbar);
+        setHasOptionsMenu(true);
 
         // Array poblacions
         villageArray = getResources().getStringArray(R.array.villages_array);
@@ -128,7 +140,8 @@ public class NavReservationClient extends Fragment {
         b.tvTimeBeginning.addTextChangedListener(textWatcher);
         b.tvTimeFinal.addTextChangedListener(textWatcher);
         b.tvCook.addTextChangedListener(textWatcher);
-        b.spinnerPay.addTextChangedListener(textWatcher);
+        b.inputPay.addTextChangedListener(textWatcher);
+        b.inputComensales.addTextChangedListener(textWatcher);
 
         // DatePicker- Seleccionar Data
         MaterialDatePicker.Builder<Long> datePicker = MaterialDatePicker.Builder.datePicker();
@@ -143,7 +156,6 @@ public class NavReservationClient extends Fragment {
         MaterialTimePicker mTimePickerBegin = timePicker.build();
         MaterialTimePicker mTimePickerFinal = timePicker.build();
 
-        // Boto timePicker, mostra l'hora seleccionada
         // Boto dataPicker, mostra la data seleccionada
         b.lyDateBegin.setOnClickListener(view -> materialDatePickerBegin.show(getChildFragmentManager(), "DATE_PICKER_BEGIN"));
         b.lyDateFinal.setOnClickListener(view -> materialDatePickerfinal.show(getChildFragmentManager(), "DATE_PICKER_FINAL"));
@@ -169,11 +181,12 @@ public class NavReservationClient extends Fragment {
         });
 
         // Spinner població
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.villages_array, R.layout.village_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.villages_array, R.layout.spinner_item);
         b.spinnerVillage.setAdapter(adapter);
 
         // Boto llista cuiners disponibles
         b.tvCook.setOnClickListener(view -> frag.replaceFragment(R.id.user_container, CookListClient.newInstance(), "cookListFrag"));
+
         // Rebem el cuiners
         getParentFragmentManager().setFragmentResultListener("keyChooseCook", this, new FragmentResultListener() {
             /**
@@ -197,6 +210,33 @@ public class NavReservationClient extends Fragment {
     }
 
     /**
+     * Especifica les opcions del menu
+     *
+     * @param menu     menu
+     * @param inflater Infla la vista menu
+     */
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_empty_text_reservation, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    /**
+     * Selecció d'items del menu
+     *
+     * @param item Item del menu
+     * @return boolean
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_clean) {
+            textEmpty();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
      * Mètode que ens fa format de l'hora
      *
      * @param newHour   int hora
@@ -204,6 +244,7 @@ public class NavReservationClient extends Fragment {
      * @param text      Textview, text on es mostrarà l'hora
      * @author Eduard Masjuan
      */
+    @NonNull
     private String timeSet(int newHour, int newMinute, @NonNull MaterialTextView text) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, newHour);
@@ -225,6 +266,7 @@ public class NavReservationClient extends Fragment {
      * @param text Textview, text on es mostrarà la data
      * @author Eduard Masjuan
      */
+    @NonNull
     private String dateSet(long ml, @NonNull MaterialTextView text) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(ml);
@@ -258,7 +300,8 @@ public class NavReservationClient extends Fragment {
 
             // Capturem la escriptura
             villageInput = String.valueOf(b.spinnerVillage.getText());
-            ofertPay = String.valueOf(b.spinnerPay.getText());
+            String ofertPay = String.valueOf(b.inputPay.getText());
+            comensales = String.valueOf(b.inputComensales.getText());
 
             String cookInput = String.valueOf(b.tvCook.getText());
 
@@ -266,6 +309,7 @@ public class NavReservationClient extends Fragment {
             dateFinal = String.valueOf(b.tvDateFinal.getText());
             timeBegin = String.valueOf(b.tvTimeBeginning.getText());
             timeFinal = String.valueOf(b.tvTimeFinal.getText());
+
 
             if (!dateBegin.isEmpty() && !dateFinal.isEmpty() && !timeBegin.isEmpty() && !timeFinal.isEmpty()) {
                 b.spinnerVillage.setEnabled(true);
@@ -281,11 +325,23 @@ public class NavReservationClient extends Fragment {
                 dataBundle(villageInput);
             }
 
+            // Si no esta buit
             boolean cookValid = !cookInput.isEmpty();
-            b.spinnerPay.setEnabled(cookValid);
+            b.inputComensales.setEnabled(cookValid);
 
-            boolean payValid = !ofertPay.isEmpty();
-            b.bttReservation.setEnabled(payValid);
+            if (cookValid) {
+                getTarifa(cookInput);
+            } else if (cookInput.equals("")) {
+                b.tvTarifa.setText("");
+            }
+
+            boolean comensalesValid = !comensales.isEmpty();
+            b.bttReservation.setEnabled(comensalesValid);
+
+            // Calcula el preu de la reserva
+            if (comensalesValid) {
+                calculTotal = tarifaCook.longValue() * Long.parseLong(comensales) * hores();
+            }
 
         }
 
@@ -296,7 +352,6 @@ public class NavReservationClient extends Fragment {
         @Override
         public void afterTextChanged(Editable editable) {
 
-
             // Al clicar l'acció del teclat (done)
             b.spinnerVillage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
@@ -306,7 +361,6 @@ public class NavReservationClient extends Fragment {
                         b.spinnerVillage.dismissDropDown();
                         b.spinnerVillage.setText("");
                         Toast.makeText(getActivity(), getResources().getString(R.string.txt_cook_dispo_send4), Toast.LENGTH_SHORT).show();
-
                     } else {
                         // Amaga el teclat virtual
                         method.closeKeyboard(textView, requireActivity());
@@ -315,12 +369,47 @@ public class NavReservationClient extends Fragment {
                         // Enviem les dades Data i Disponibilitat
                         dataBundle(villageInput);
                     }
+                    return true;
+                }
+            });
+
+            b.inputComensales.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                    String calcul = String.valueOf(calculTotal);
+
+                    b.inputPay.setText(calcul + " €");
+                    method.closeKeyboard(textView, requireActivity());
 
                     return true;
                 }
             });
         }
     };
+
+    /**
+     * Calcula la diferencia entre les hores d'inici i final d'una reserva
+     *
+     * @return long diferencia hores
+     */
+    private long hores() {
+
+        String horaInici = String.valueOf(b.tvTimeBeginning.getText());
+        String horaFinal = String.valueOf(b.tvTimeFinal.getText());
+
+        int indiceInici = 6 > horaInici.length() ? 0 : horaInici.length() - 6;
+        int indiceFinal = 6 > horaFinal.length() ? 0 : horaFinal.length() - 6;
+
+        String horaIniciCalcul = horaInici.substring(0, indiceInici);
+        String horaFinalCalcul = horaFinal.substring(0, indiceFinal);
+
+        long lhorainici = Long.parseLong(horaIniciCalcul);
+        long lhoraifinal = Long.parseLong(horaFinalCalcul);
+
+        return Math.abs(lhorainici - lhoraifinal);
+    }
 
     /**
      * Guarda i envia la disponibilitat i la població
@@ -336,7 +425,7 @@ public class NavReservationClient extends Fragment {
     }
 
     /**
-     * Mètode que ens retorna la dara i hora en format Timestamp
+     * Mètode que ens retorna la dara i hora en format Timestampa
      *
      * @param date String, data de la reserva
      * @param time String, hora de la reserva
@@ -370,22 +459,15 @@ public class NavReservationClient extends Fragment {
      * @author Eduard Masjuan
      */
     public void postReservation(Reservation reservation) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
+        //Call<String> reservat = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).postReservaClient(reservation);
+        Call<String> reservat = apiGlobal.apiClient(preferences.getToken()).postReservaClient(reservation);
 
-        Call<String> reservat = apiService.postReservaClient(reservation);
         reservat.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (apiCodes.codeHttp(response.code())) {
-                            b.tvDateBeginning.setText("");
-                            b.tvDateFinal.setText("");
-                            b.tvTimeBeginning.setText("");
-                            b.tvTimeFinal.setText("");
-                            b.spinnerVillage.setText("");
-                            b.tvCook.setText("");
-                            b.spinnerPay.setText("");
                             preferences.cleanDateTime();
                             Toast.makeText(getActivity(), "Reserva completada!", Toast.LENGTH_SHORT).show();
                         }
@@ -410,13 +492,6 @@ public class NavReservationClient extends Fragment {
     }
 
     /**
-     * Mètode on realitza una petició GET al servidor. Obtenim la id de la reserva feta
-     *
-     * @param id long, id de la reserva
-     * @author Eduard Masjuan
-     */
-
-    /**
      * Dades de l'objecte Reservation
      *
      * @return Retorna l'objecte Reservation amb les dades de la reserva
@@ -432,9 +507,64 @@ public class NavReservationClient extends Fragment {
         reservation.setChef(chooseCook);
         reservation.setIncio(timesStamp(dateBegin, timeBegin));
         reservation.setFin(timesStamp(dateFinal, timeFinal));
-        reservation.setPrecio(new BigDecimal(ofertPay));
+        reservation.setComensales(Long.parseLong(comensales));
+        //reservation.setPrecio(BigDecimal.valueOf(0));
 
         return reservation;
+    }
+
+    /**
+     * Mètode on realitza una petició GET. Retorna la tarifa d'un chef
+     *
+     * @param username , String usuari del chef
+     * @author Eduard Masjuan
+     */
+    public void getTarifa(String username) {
+       // Call<Tarifa> mTarifa = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getTarifaUser(username);
+        Call<Tarifa> mTarifa = apiGlobal.apiClient(preferences.getToken()).getTarifaUser(username);
+
+        mTarifa.enqueue(new Callback<Tarifa>() {
+            /**
+             * Es crida si ja una resposta HTTPS correcte
+             * @param call Sol.licita al API les dades
+             * @param response  Obtenir les dades
+             */
+            @Override
+            public void onResponse(@NonNull Call<Tarifa> call, @NonNull Response<Tarifa> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+
+                        Tarifa tarifa = response.body();
+
+                        tarifaCook = tarifa.getPrecioHora();
+                        b.tvTarifa.setText(tarifaCook + "€ p/h");
+
+
+                    } else {
+                        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    //Toast.makeText(getActivity(), "Codi:" + response.code() + getResources().getString(R.string.codigo_401), Toast.LENGTH_SHORT).show();
+                    apiCodes.codeHttp(response.code());
+                }
+            }
+
+            /**
+             * Es produeix una excepció de xarxa en la comunicació amb el servidor o una excepció en la gestió de la sol·licitud
+             * @param call Sol·licita al API les dades
+             * @param t Captura l’excepció
+             */
+            @Override
+            public void onFailure(@NonNull Call<Tarifa> call, @NonNull Throwable t) {
+                if (t instanceof IOException) {
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_connexion));
+                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_conversion));
+                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**
@@ -450,6 +580,22 @@ public class NavReservationClient extends Fragment {
         b.tvDateFinal.setText(preferences.getDateFinal());
         b.tvTimeBeginning.setText(preferences.getTimeBegin());
         b.tvTimeFinal.setText(preferences.getTimeFinal());
+    }
+
+    /**
+     * Camps de text buits
+     */
+    private void textEmpty() {
+        b.tvTarifa.setEnabled(false);
+        b.tvDateBeginning.setText("");
+        b.tvDateFinal.setText("");
+        b.tvTimeBeginning.setText("");
+        b.tvTimeFinal.setText("");
+        b.spinnerVillage.setText("");
+        b.tvCook.setText("");
+        b.tvTarifa.setText("");
+        b.inputComensales.setText("");
+        b.inputPay.setText("");
     }
 
 }

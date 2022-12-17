@@ -91,7 +91,6 @@ public class RvAdapterListCook extends RecyclerView.Adapter<RvAdapterListCook.Vi
         public ViewHolder(@NonNull CvItemAvailableClientBinding cardView) {
             super(cardView.getRoot());
             this.b = cardView;
-            // b.cardView.setOnClickListener(this);
         }
 
         public void bindTo(Disponibilidad currentDispo) {
@@ -99,6 +98,8 @@ public class RvAdapterListCook extends RecyclerView.Adapter<RvAdapterListCook.Vi
             b.tvMNameCook.setText(currentDispo.getUsernameOrEmail());
             b.tvMDispo.setText(currentDispo.getEstado());
             b.tvMVillage.setText(currentDispo.getPoblacion());
+
+            // Si la disponibilitat es Activo
             if (b.tvMDispo.getText().equals("Activo")) {
                 b.tvMDispo.setTextColor(Color.rgb(0, 100, 0));
                 b.lyInsideCardView.setBackgroundResource(R.color.background_main);

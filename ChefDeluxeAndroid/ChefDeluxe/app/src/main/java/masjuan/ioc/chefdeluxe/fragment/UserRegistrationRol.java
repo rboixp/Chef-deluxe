@@ -16,8 +16,7 @@ import androidx.fragment.app.FragmentResultListener;
 import java.io.IOException;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClient;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentRegistrationRolBinding;
 import masjuan.ioc.chefdeluxe.model.Registration;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
@@ -37,6 +36,9 @@ public class UserRegistrationRol extends Fragment {
     private FragmentRegistrationRolBinding b;
     private UtilsFragments frag = null;
     private FragmentManager fragmentManager = null;
+    private ApiCodes apiCode;
+    private ApiGlobal apiGlobal;
+
     private String name, surname, email, userName, password;
     private String rol_user = "";
 
@@ -68,7 +70,8 @@ public class UserRegistrationRol extends Fragment {
         super.onCreate(savedInstanceState);
         frag = new UtilsFragments(requireActivity().getSupportFragmentManager());
         fragmentManager = requireActivity().getSupportFragmentManager();
-
+        apiCode = new ApiCodes();
+        apiGlobal = new ApiGlobal();
         // Cridem a FragmentResultListener per rebre dades
         getParentFragmentManager().setFragmentResultListener("key", this, new FragmentResultListener() {
             /**
@@ -115,7 +118,7 @@ public class UserRegistrationRol extends Fragment {
         // Boto de finalització de registre
         b.bttRegisterNext.setOnClickListener(view -> {
             if (rol_user.isEmpty()) {
-                Toast.makeText(getActivity(), "Ha de seleccionar un tipo de usuario", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Seleccione un tipo de usuario", Toast.LENGTH_SHORT).show();
             } else {
                 Registration user = userRegistrationData();
                 postRegister(user);
@@ -169,6 +172,7 @@ public class UserRegistrationRol extends Fragment {
         dataUser.setEmail(email);
         dataUser.setUsername(userName);
         dataUser.setPassword(password);
+        dataUser.setIban("");
         dataUser.setPerfil(roleSelection());
 
         return dataUser;
@@ -182,9 +186,9 @@ public class UserRegistrationRol extends Fragment {
      * @author Eduard Masjuan
      */
     private void postRegister(Registration user) {
-        ApiCodes apiCode = new ApiCodes();
-        ApiService apiService = ApiClient.getInstance();
-        Call<String> callRegister = apiService.addUser(user);
+        //Call<String> callRegister = apiGlobal.apiClientCert(getActivity()).addUser(user);
+        Call<String> callRegister = apiGlobal.apiClient().addUser(user);
+
         callRegister.enqueue(new Callback<String>() {
             /**
              * Es crida si ja una resposta HTTP correcte

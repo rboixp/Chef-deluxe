@@ -16,8 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.IOException;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentClientNavSettingsBinding;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
 import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
@@ -33,6 +32,7 @@ public class DeleteAccount extends DialogFragment {
     private SharedPreferences preferences;
     private ApiCodes apiCodes;
     private UtilsFragments frag = null;
+    private ApiGlobal apiGlobal;
 
     /**
      * Constructor
@@ -52,6 +52,7 @@ public class DeleteAccount extends DialogFragment {
         frag = new UtilsFragments(requireActivity().getSupportFragmentManager());
         preferences = new SharedPreferences(requireActivity());
         apiCodes = new ApiCodes();
+        apiGlobal = new ApiGlobal();
         return b.getRoot();
     }
 
@@ -83,9 +84,10 @@ public class DeleteAccount extends DialogFragment {
      * @author Eduard Masjuan
      */
     public void deleteUserApi(String username) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<String> user = apiService.deleteUserData(username);
-        user.enqueue(new Callback<String>() {
+        //Call<String> deletedUser = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).deleteUserData(username);
+        Call<String> deletedUser = apiGlobal.apiClient(preferences.getToken()).deleteUserData(username);
+
+        deletedUser.enqueue(new Callback<String>() {
             /**
              * Es crida si ja una resposta HTTP correcte
              * @param call Sol.licita al API les dades

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,15 +26,17 @@ import java.util.Comparator;
 import java.util.List;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
+import masjuan.ioc.chefdeluxe.api.ApiClientSSL;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.api.ApiService;
 import masjuan.ioc.chefdeluxe.databinding.FragmentCookNavAvailabilityBinding;
 import masjuan.ioc.chefdeluxe.model.Disponibilidad;
+import masjuan.ioc.chefdeluxe.model.Tarifa;
 import masjuan.ioc.chefdeluxe.utils.ApiCodes;
 import masjuan.ioc.chefdeluxe.utils.Methods;
 import masjuan.ioc.chefdeluxe.utils.SharedPreferences;
-import masjuan.ioc.chefdeluxe.utils.recyclerView.RvItemClickListener;
 import masjuan.ioc.chefdeluxe.utils.recyclerView.RvAdapterListAvailableCook;
+import masjuan.ioc.chefdeluxe.utils.recyclerView.RvItemClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,11 +52,13 @@ public class NavAvailableCook extends Fragment {
     private ApiCodes apiCodes;
     private Methods method;
     private SharedPreferences preferences;
+    private ApiGlobal apiGlobal;
 
     private String[] villageArray;
     private String villageInput;
     private String state = "";
     private boolean selectAddEdit = false;
+    private long price = -1;
 
 
     // Reservation
@@ -61,6 +66,8 @@ public class NavAvailableCook extends Fragment {
     private RecyclerView recyclerViewCook = null;
     private RvAdapterListAvailableCook rvAvailableAdapter;
 
+    // Boolean per comparar l'estat d'un poble amb l'estat que li don l'usuari al editar
+    boolean sameState = false;
 
     /**
      * Constructor
@@ -87,6 +94,7 @@ public class NavAvailableCook extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiGlobal = new ApiGlobal();
     }
 
     /**
@@ -137,25 +145,48 @@ public class NavAvailableCook extends Fragment {
         villageArray = getResources().getStringArray(R.array.villages_array);
 
         // Adaptador per el 'Spinner AutoCompletText'
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.villages_array, R.layout.village_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.villages_array, R.layout.spinner_item);
         b.inputEdtvSelectVillage.setAdapter(adapter);
+
+        // Comprova si existeix tarifa
+        getTarifa(preferences.getUsername());
 
         // Boto per enviar la confirmació de la disponibilitat
         b.bttConfirmSearch.setOnClickListener(view -> {
-            // Refresquem llista
-            refreshList();
 
-            // Afegir o edita una disponabilitat
-            if (selectAddEdit) {
-                putAvailableUser(preferences.getUsername(), villageInput, cookAvailabilityData());
-                b.inputEdtvSelectVillage.setText("");
+            if (price == -1) {
+                Toast.makeText(getActivity(), "Antes tiene que crear una tarifa.", Toast.LENGTH_SHORT).show();
+
             } else {
-                postAvailability(cookAvailabilityData());
-                b.inputEdtvSelectVillage.setText("");
+                // Afegir o editar una disponabilitat
+                if (selectAddEdit) {
+                    // Comprova si la disponibilitat(estat) donada d'un poble per l'usuari és la mateixa
+                    for (Disponibilidad dispo : mShowClientAvailableList) {
+                        if (villageInput.equals(dispo.getPoblacion())) {
+                            if (state.equals(dispo.getEstado())) {
+                                sameState = true;
+                            } else {
+                                sameState = false;
+                            }
+                        }
+                    }
+
+                    // Si no te el mateix estat, el modifiquem (Editar)
+                    if (!sameState) {
+                        putAvailableUser(preferences.getUsername(), villageInput, cookAvailabilityData());
+                    } else { // Si te el mateix estat, missatge
+                        Toast.makeText(getActivity(), villageInput + " ya se encuentra " + state, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    postAvailability(cookAvailabilityData());
+                    b.inputEdtvSelectVillage.setText("");
+                }
+
             }
 
             // Tanca el teclat virtual
             method.closeKeyboard(view, requireActivity());
+            refreshList();
         });
 
         // Boto per refresca la llista de disponibilitats
@@ -178,10 +209,9 @@ public class NavAvailableCook extends Fragment {
                 } else {
                     b.switchAvailability.setChecked(false);
                 }
-
-                b.inputEdtvSelectVillage.setText(cookAvailable.getPoblacion());
                 method.closeKeyboard(b.inputEdtvSelectVillage, requireActivity());
-
+                b.inputEdtvSelectVillage.setText(cookAvailable.getPoblacion());
+                b.icRefresh.requestFocus();
             }
 
             /**
@@ -316,9 +346,10 @@ public class NavAvailableCook extends Fragment {
      * @author Eduard Masjuan
      */
     public void postAvailability(Disponibilidad availability) {
+       // Call<String> available = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).postAvailability(availability);
+        Call<String> available = apiGlobal.apiClient(preferences.getToken()).postAvailability(availability);
 
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<String> available = apiService.postAvailability(availability);
+
         available.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
@@ -355,8 +386,9 @@ public class NavAvailableCook extends Fragment {
      * @author Eduard Masjuan
      */
     public void getAvailableUser(String username) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<List<Disponibilidad>> availableUser = apiService.getAvailableUser(username);
+        //Call<List<Disponibilidad>> availableUser = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getAvailableUser(username);
+        Call<List<Disponibilidad>> availableUser = apiGlobal.apiClient(preferences.getToken()).getAvailableUser(username);
+
         availableUser.enqueue(new Callback<List<Disponibilidad>>() {
             /**
              * Es crida si ja una resposta HTTP correcte
@@ -372,7 +404,6 @@ public class NavAvailableCook extends Fragment {
                         // Creem un Adaptador i obtenim la llista de les reserves
                         rvAvailableAdapter = new RvAdapterListAvailableCook(getActivity(), mShowClientAvailableList);
                         recyclerViewCook.setAdapter(rvAvailableAdapter);
-
 
                         // Ordena l'Array per ordre alfabètic
                         Collections.sort(mShowClientAvailableList, new Comparator<Disponibilidad>() {
@@ -409,7 +440,7 @@ public class NavAvailableCook extends Fragment {
     }
 
     /**
-     * ètode on realitza una petició PUT al servidor. Actualitzem la disponibilitat del cuiner
+     * Mètode on realitza una petició PUT al servidor. Actualitzem la disponibilitat del cuiner
      *
      * @param username     String nom d'usuari del cuiner
      * @param poblacion    String, població que es vol modificar l'estat de la disponibilitat
@@ -417,8 +448,9 @@ public class NavAvailableCook extends Fragment {
      * @author Eduard Masjuan
      */
     public void putAvailableUser(String username, String poblacion, Disponibilidad availability) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<Disponibilidad> availableUser = apiService.putAvailableUser2(username, poblacion, availability);
+        //Call<Disponibilidad> availableUser = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).putAvailableUser(username, poblacion, availability);
+        Call<Disponibilidad> availableUser = apiGlobal.apiClient(preferences.getToken()).putAvailableUser(username, poblacion, availability);
+
         availableUser.enqueue(new Callback<Disponibilidad>() {
             /**
              * Es crida si ja una resposta HTTP correcte
@@ -429,6 +461,7 @@ public class NavAvailableCook extends Fragment {
             @Override
             public void onResponse(@NonNull Call<Disponibilidad> call, @NonNull Response<Disponibilidad> response) {
                 if (response.isSuccessful()) {
+
                     if (response.body() != null) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.txt_cook_dispo_send_error), Toast.LENGTH_SHORT).show();
                     }
@@ -456,6 +489,60 @@ public class NavAvailableCook extends Fragment {
             }
         });
 
+    }
+
+    /**
+     * Mètode on realitza una petició GET. Retorna la tarifa d'un chef
+     *
+     * @param usernameOrEmail String, id usuari del chef
+     * @author Eduard Masjuan
+     */
+    public void getTarifa(String usernameOrEmail) {
+      // Call<Tarifa> mTarifa = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getTarifaUser(usernameOrEmail);
+        Call<Tarifa> mTarifa = apiGlobal.apiClient(preferences.getToken()).getTarifaUser(usernameOrEmail);
+
+        mTarifa.enqueue(new Callback<Tarifa>() {
+            /**
+             * Es crida si ja una resposta HTTPS correcte
+             * @param call Sol.licita al API les dades
+             * @param response  Obtenir les dades
+             */
+            @Override
+            public void onResponse(@NonNull Call<Tarifa> call, @NonNull Response<Tarifa> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+
+                        // Preu Tarifa
+                        Tarifa tarifa = response.body();
+                        BigDecimal preu = tarifa.getPrecioHora();
+
+                        price = preu.longValue();
+
+                    } else {
+                        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    //Toast.makeText(getActivity(), "Codi:" + response.code() + getResources().getString(R.string.codigo_401), Toast.LENGTH_SHORT).show();
+                    apiCodes.codeHttp(response.code());
+                }
+            }
+
+            /**
+             * Es produeix una excepció de xarxa en la comunicació amb el servidor o una excepció en la gestió de la sol·licitud
+             * @param call Sol·licita al API les dades
+             * @param t Captura l’excepció
+             */
+            @Override
+            public void onFailure(@NonNull Call<Tarifa> call, @NonNull Throwable t) {
+                if (t instanceof IOException) {
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_connexion));
+                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.v("Código", getResources().getString(R.string.codigo_onFailure_conversion));
+                    Toast.makeText(getActivity(), getResources().getString(R.string.codigo_onFailure_connexion), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**

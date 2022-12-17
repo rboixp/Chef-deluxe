@@ -19,8 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import java.io.IOException;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentUserAccountPerfilBinding;
 import masjuan.ioc.chefdeluxe.model.Registration;
 import masjuan.ioc.chefdeluxe.model.User;
@@ -45,6 +44,7 @@ public class UpdateData extends Fragment {
     private UtilsFragments frag = null;
     private Methods method;
     private ApiCodes apiCodes;
+    private ApiGlobal apiGlobal;
 
     private String name, surname, age, phone, address, village, postalcode, country, iban;
 
@@ -75,6 +75,7 @@ public class UpdateData extends Fragment {
         super.onCreate(savedInstanceState);
         frag = new UtilsFragments(requireActivity().getSupportFragmentManager());
         fragmentManager = requireActivity().getSupportFragmentManager();
+        apiGlobal = new ApiGlobal();
     }
 
     /**
@@ -104,6 +105,9 @@ public class UpdateData extends Fragment {
         // Botons visibilitat
         b.bttEditData.setVisibility(View.VISIBLE);
         b.bttSaveDataUser.setVisibility(View.INVISIBLE);
+        b.lyInputData.edtvUsername.setEnabled(false);
+        b.lyInputData.edtvEmail.setEnabled(false);
+        b.lyInputData.edtvPassword.setVisibility(View.GONE);
 
         //Recuperem dades de l' usuari
         getUserApi(preferences.getUsername());
@@ -116,27 +120,69 @@ public class UpdateData extends Fragment {
         });
 
         // TextWatcher- Escolta els canvis que es produeixen en els camps següents
-        b.inputEdtvName.addTextChangedListener(textWatcher);
-        b.inputEdtvSurname.addTextChangedListener(textWatcher);
-        b.inputEdtvAge.addTextChangedListener(textWatcher);
-        b.inputEdtvPhone.addTextChangedListener(textWatcher);
-        b.inputEdtvAddress.addTextChangedListener(textWatcher);
-        b.inputEdtvVillage.addTextChangedListener(textWatcher);
-        b.inputEdtvPostalcode.addTextChangedListener(textWatcher);
-        b.inputEdtvCountry.addTextChangedListener(textWatcher);
-        b.inputEdtvIban.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvName.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvSurname.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvAge.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvPhone.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvAddress.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvVillage.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvPostalcode.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvCountry.addTextChangedListener(textWatcher);
+        b.lyInputData.inputEdtvIban.addTextChangedListener(textWatcher);
 
         // Boto guarda les dades modificades
         b.bttSaveDataUser.setOnClickListener(view -> {
-            if (dataValidation(name, surname, age, phone, address, village, postalcode, country, iban)) {
-                Registration user = userRegistrationData();
-                putUserApi(preferences.getUsername(), user);
-            } else {
-                Toast.makeText(getActivity(), getResources().getString(R.string.tv_update_error), Toast.LENGTH_SHORT).show();
+            if (dataValidation()) {
+                if (writeValidation(name, surname, age, phone, address, village, postalcode, country, iban)) {
+                    Registration user = userRegistrationData();
+                    putUserApi(preferences.getUsername(), user);
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.tv_update_error), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
+
         return b.getRoot();
+    }
+
+    /**
+     * Validació de dades
+     *
+     * @return boolea
+     */
+    private boolean dataValidation() {
+        boolean ok = true;
+
+        if (age.length() > 3) {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvAge, "Edad incorrecta", age);
+            ok = false;
+        } else {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvAge, null, age);
+        }
+
+        if (!(phone.length() == 9)) {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvPhone, "Número de teléfono incorrecto", phone);
+            ok = false;
+        } else {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvPhone, null, phone);
+        }
+
+        if (!(postalcode.length() == 5)) {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvPostalcode, "Código postal incorrecto", postalcode);
+            ok = false;
+        } else {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvPostalcode, null, postalcode);
+        }
+
+        if ((iban.length() > 30)) {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvIban, "Iban incorrecto", iban);
+            ok = false;
+        } else {
+            method.dataInputLayoutEmpty(b.lyInputData.edtvIban, null, iban);
+        }
+
+        return ok;
     }
 
     /**
@@ -161,15 +207,15 @@ public class UpdateData extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             // Capturem la escriptura
-            name = String.valueOf(b.inputEdtvName.getText());
-            surname = String.valueOf(b.inputEdtvSurname.getText());
-            age = String.valueOf(b.inputEdtvAge.getText());
-            phone = String.valueOf(b.inputEdtvPhone.getText());
-            address = String.valueOf(b.inputEdtvAddress.getText());
-            village = String.valueOf(b.inputEdtvVillage.getText());
-            postalcode = String.valueOf(b.inputEdtvPostalcode.getText());
-            country = String.valueOf(b.inputEdtvCountry.getText());
-            iban = String.valueOf(b.inputEdtvIban.getText());
+            name = String.valueOf(b.lyInputData.inputEdtvName.getText());
+            surname = String.valueOf(b.lyInputData.inputEdtvSurname.getText());
+            age = String.valueOf(b.lyInputData.inputEdtvAge.getText());
+            phone = String.valueOf(b.lyInputData.inputEdtvPhone.getText());
+            address = String.valueOf(b.lyInputData.inputEdtvAddress.getText());
+            village = String.valueOf(b.lyInputData.inputEdtvVillage.getText());
+            postalcode = String.valueOf(b.lyInputData.inputEdtvPostalcode.getText());
+            country = String.valueOf(b.lyInputData.inputEdtvCountry.getText());
+            iban = String.valueOf(b.lyInputData.inputEdtvIban.getText());
 
             // Si els camps estan plens s'activa el boto de guardar.
             boolean validat = method.dataEmpty(name, surname, age, phone, address, village, postalcode, country, iban);
@@ -179,22 +225,22 @@ public class UpdateData extends Fragment {
             if (validat) {
                 b.bttSaveDataUser.setStrokeWidth(1);
 
-            } else { // Si tots camps estan en blanc o alguns d'ells
+            } else { // Si tots els camps estan en blanc o alguns d'ells
                 b.bttSaveDataUser.setStrokeWidth(0);
-                method.dataInputLayoutEmpty(b.edtvName, null, name);
-                method.dataInputLayoutEmpty(b.edtvSurname, null, surname);
-                method.dataInputLayoutEmpty(b.edtvAge, null, age);
-                method.dataInputLayoutEmpty(b.edtvPhone, null, phone);
-                method.dataInputLayoutEmpty(b.edtvAddress, null, address);
-                method.dataInputLayoutEmpty(b.edtvVillage, null, village);
-                method.dataInputLayoutEmpty(b.edtvPostalcode, null, postalcode);
-                method.dataInputLayoutEmpty(b.edtvCountry, null, country);
-                method.dataInputLayoutEmpty(b.edtvIban, null, iban);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvName, null, name);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvSurname, null, surname);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvAge, null, age);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvPhone, null, phone);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvAddress, null, address);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvVillage, null, village);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvPostalcode, null, postalcode);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvCountry, null, country);
+                method.dataInputLayoutEmpty(b.lyInputData.edtvIban, null, iban);
             }
         }
 
         /**
-         * Es crida després de que s'hagi canviat el text d'un camp i al clicar el boto Done del teclat
+         * Es crida després de que s'hagi canviat el text d'un camp
          */
         @Override
         public void afterTextChanged(Editable editable) {
@@ -216,17 +262,19 @@ public class UpdateData extends Fragment {
      * @return Boolean validació
      * @author Eduard Masjuan
      */
-    private boolean dataValidation(String name, String surname, String age, String phone, String address, String village, String postalcode, String country, String iban) {
+    private boolean writeValidation(String name, String surname, String age, String
+            phone, String address, String village, String postalcode, String country, String iban) {
+
         Methods method = new Methods();
-        Boolean regName = method.patternValidation(b.edtvName, getString(R.string.txtLay_invalid_name), "^[a-zA-Z]+$", name);
-        Boolean regSurname = method.patternValidation(b.edtvSurname, getString(R.string.txtLay_invalid_surname), "^[a-zA-Z\\s]+$", surname);
-        Boolean regAge = method.patternValidation(b.edtvAge, getString(R.string.txtLay_invalid_name), "^[0-9]+$", String.valueOf(age));
-        Boolean regPhone = method.patternValidation(b.edtvPhone, getString(R.string.txtLay_invalid_name), String.valueOf(Patterns.PHONE), String.valueOf(phone));
-        Boolean regAddress = method.patternValidation(b.edtvAddress, getString(R.string.txtLay_invalid_name), "^[a-zA-Z0-9\\ñ\\.\\,\\-\\°\\ª\\/\\s]+$", address);
-        Boolean regVillage = method.patternValidation(b.edtvVillage, getString(R.string.txtLay_invalid_name), "^[a-zA-Z\\ñ\\s]+$", village);
-        Boolean regPostalcole = method.patternValidation(b.edtvPostalcode, getString(R.string.txtLay_invalid_name), "^[0-9]+$", postalcode);
-        Boolean regCountry = method.patternValidation(b.edtvCountry, getString(R.string.txtLay_invalid_name), "^[a-zA-Z\\ñ\\s]+$", country);
-        Boolean regIban = method.patternValidation(b.edtvIban, getString(R.string.txtLay_invalid_name), "^[a-zA-Z0-9\\s]+$", iban);
+        Boolean regName = method.patternValidation(b.lyInputData.edtvName, getString(R.string.txtLay_invalid_name), "^[a-zA-Z]+$", name);
+        Boolean regSurname = method.patternValidation(b.lyInputData.edtvSurname, getString(R.string.txtLay_invalid_surname), "^[a-zA-Z\\s]+$", surname);
+        Boolean regAge = method.patternValidation(b.lyInputData.edtvAge, getString(R.string.txtLay_invalid_name), "^[0-9]+$", String.valueOf(age));
+        Boolean regPhone = method.patternValidation(b.lyInputData.edtvPhone, getString(R.string.txtLay_invalid_name), String.valueOf(Patterns.PHONE), String.valueOf(phone));
+        Boolean regAddress = method.patternValidation(b.lyInputData.edtvAddress, getString(R.string.txtLay_invalid_name), "^[a-zA-Z0-9\\ñ\\.\\,\\-\\°\\ª\\/\\s]+$", address);
+        Boolean regVillage = method.patternValidation(b.lyInputData.edtvVillage, getString(R.string.txtLay_invalid_name), "^[a-zA-Z\\ñ\\s]+$", village);
+        Boolean regPostalcole = method.patternValidation(b.lyInputData.edtvPostalcode, getString(R.string.txtLay_invalid_name), "^[0-9]+$", postalcode);
+        Boolean regCountry = method.patternValidation(b.lyInputData.edtvCountry, getString(R.string.txtLay_invalid_name), "^[a-zA-Z\\ñ\\s]+$", country);
+        Boolean regIban = method.patternValidation(b.lyInputData.edtvIban, getString(R.string.txtLay_invalid_name), "^[A-Z]{2,3}[0-9]{1,30}+$", iban);
 
         return regName && regSurname && regAge && regPhone && regAddress && regVillage && regPostalcole && regCountry && regIban;
     }
@@ -237,15 +285,15 @@ public class UpdateData extends Fragment {
      * @param enabled Boolean
      */
     private void enableEdtv(boolean enabled) {
-        b.edtvName.setEnabled(enabled);
-        b.edtvSurname.setEnabled(enabled);
-        b.edtvAge.setEnabled(enabled);
-        b.edtvPhone.setEnabled(enabled);
-        b.edtvAddress.setEnabled(enabled);
-        b.edtvVillage.setEnabled(enabled);
-        b.edtvPostalcode.setEnabled(enabled);
-        b.edtvCountry.setEnabled(enabled);
-        b.edtvIban.setEnabled(enabled);
+        b.lyInputData.edtvName.setEnabled(enabled);
+        b.lyInputData.edtvSurname.setEnabled(enabled);
+        b.lyInputData.edtvAge.setEnabled(enabled);
+        b.lyInputData.edtvPhone.setEnabled(enabled);
+        b.lyInputData.edtvAddress.setEnabled(enabled);
+        b.lyInputData.edtvVillage.setEnabled(enabled);
+        b.lyInputData.edtvPostalcode.setEnabled(enabled);
+        b.lyInputData.edtvCountry.setEnabled(enabled);
+        b.lyInputData.edtvIban.setEnabled(enabled);
     }
 
     /**
@@ -255,8 +303,9 @@ public class UpdateData extends Fragment {
      * @author Eduard Masjuan
      */
     private void getUserApi(String username) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<User> user = apiService.getRol(username);
+        //Call<User> user = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getRol(username);
+        Call<User> user = apiGlobal.apiClient(preferences.getToken()).getRol(username);
+
         user.enqueue(new Callback<User>() {
             /**
              * Es crida si ja una resposta HTTP correcte
@@ -269,37 +318,41 @@ public class UpdateData extends Fragment {
                     if (response.body() != null) {
 
                         // Mostra les dades de l'usuari en TextInputEditText
-                        b.inputEdtvUsername.setText(response.body().getUsername());
-                        b.inputEdtvEmail.setText(response.body().getEmail());
-                        b.inputEdtvName.setText(response.body().getNombre());
-                        b.inputEdtvSurname.setText(response.body().getApellidos());
+                        b.lyInputData.inputEdtvUsername.setText(response.body().getUsername());
+                        b.lyInputData.inputEdtvEmail.setText(response.body().getEmail());
+                        b.lyInputData.inputEdtvName.setText(response.body().getNombre());
+                        b.lyInputData.inputEdtvSurname.setText(response.body().getApellidos());
 
                         if (response.body().getEdad() == 0) {
-                            b.inputEdtvAge.setText("");
+                            b.lyInputData.inputEdtvAge.setText("");
                         } else {
-                            b.inputEdtvAge.setText(String.valueOf(response.body().getEdad()));
+                            b.lyInputData.inputEdtvAge.setText(String.valueOf(response.body().getEdad()));
                         }
 
                         if (response.body().getTelefono() == 0) {
-                            b.inputEdtvAge.setText("");
+                            b.lyInputData.inputEdtvAge.setText("");
                         } else {
-                            b.inputEdtvPhone.setText(String.valueOf(response.body().getTelefono()));
+                            b.lyInputData.inputEdtvPhone.setText(String.valueOf(response.body().getTelefono()));
                         }
 
-                        b.inputEdtvAddress.setText(response.body().getDireccion());
-                        b.inputEdtvVillage.setText(response.body().getPoblacion());
-                        b.inputEdtvPostalcode.setText(response.body().getCodigoPostal());
-                        b.inputEdtvCountry.setText(response.body().getNacionalidad());
-                        b.inputEdtvIban.setText(response.body().getIban());
+                        b.lyInputData.inputEdtvAddress.setText(response.body().getDireccion());
+                        b.lyInputData.inputEdtvVillage.setText(response.body().getPoblacion());
+                        b.lyInputData.inputEdtvPostalcode.setText(response.body().getCodigoPostal());
+                        b.lyInputData.inputEdtvCountry.setText(response.body().getNacionalidad());
+
+                        if (response.body().getIban() == null) {
+                            b.lyInputData.inputEdtvIban.setText("");
+                        } else {
+                            b.lyInputData.inputEdtvIban.setText(response.body().getIban());
+                        }
+
 
                     } else {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.tv_update_error2),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.tv_update_error2), Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-                    Toast.makeText(getActivity(), "Codi:" + response.code()
-                            + getResources().getString(R.string.codigo_401), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Codi:" + response.code() + getResources().getString(R.string.codigo_401), Toast.LENGTH_SHORT).show();
                     apiCodes.codeHttp(response.code());
                 }
             }
@@ -330,8 +383,9 @@ public class UpdateData extends Fragment {
      * @author Eduard Masjuan
      */
     private void putUserApi(String username, Registration registration) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<User> user = apiService.putUserData(username, registration);
+       // Call<User> user = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).putUserData(username, registration);
+        Call<User> user = apiGlobal.apiClient(preferences.getToken()).putUserData(username, registration);
+
         user.enqueue(new Callback<User>() {
 
             /**
@@ -384,15 +438,15 @@ public class UpdateData extends Fragment {
     private Registration userRegistrationData() {
         Registration dataUser = new Registration();
 
-        dataUser.setNombre(String.valueOf(b.inputEdtvName.getText()));
-        dataUser.setApellidos(String.valueOf(b.inputEdtvSurname.getText()));
-        dataUser.setDireccion(String.valueOf(b.inputEdtvAddress.getText()));
-        dataUser.setCodigoPostal(String.valueOf(b.inputEdtvPostalcode.getText()));
-        dataUser.setPoblacion(String.valueOf(b.inputEdtvVillage.getText()));
-        dataUser.setNacionalidad(String.valueOf(b.inputEdtvCountry.getText()));
-        dataUser.setEdad(Integer.parseInt(String.valueOf(b.inputEdtvAge.getText())));
-        dataUser.setTelefono(Long.parseLong(String.valueOf(b.inputEdtvPhone.getText())));
-        dataUser.setIban(String.valueOf(b.inputEdtvIban.getText()));
+        dataUser.setNombre(String.valueOf(b.lyInputData.inputEdtvName.getText()));
+        dataUser.setApellidos(String.valueOf(b.lyInputData.inputEdtvSurname.getText()));
+        dataUser.setDireccion(String.valueOf(b.lyInputData.inputEdtvAddress.getText()));
+        dataUser.setCodigoPostal(String.valueOf(b.lyInputData.inputEdtvPostalcode.getText()));
+        dataUser.setPoblacion(String.valueOf(b.lyInputData.inputEdtvVillage.getText()));
+        dataUser.setNacionalidad(String.valueOf(b.lyInputData.inputEdtvCountry.getText()));
+        dataUser.setEdad(Integer.parseInt(String.valueOf(b.lyInputData.inputEdtvAge.getText())));
+        dataUser.setTelefono(Long.parseLong(String.valueOf(b.lyInputData.inputEdtvPhone.getText())));
+        dataUser.setIban(String.valueOf(b.lyInputData.inputEdtvIban.getText()));
 
         // No es modifica
         dataUser.setPassword(preferences.getPassword());

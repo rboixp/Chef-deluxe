@@ -18,9 +18,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.api.ApiClient;
-import masjuan.ioc.chefdeluxe.api.ApiClientToken;
-import masjuan.ioc.chefdeluxe.api.ApiService;
+import masjuan.ioc.chefdeluxe.api.ApiGlobal;
 import masjuan.ioc.chefdeluxe.databinding.FragmentLoginBinding;
 import masjuan.ioc.chefdeluxe.model.Login;
 import masjuan.ioc.chefdeluxe.model.Role;
@@ -49,6 +47,9 @@ public class UserLogin extends Fragment {
     private final ApiCodes apiCodes = new ApiCodes();
     private Methods method;
 
+    private ApiGlobal apiGlobal;
+
+
     /**
      * Constructor buit
      */
@@ -76,6 +77,7 @@ public class UserLogin extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         frag = new UtilsFragments(requireActivity().getSupportFragmentManager());
+        apiGlobal = new ApiGlobal();
     }
 
     /**
@@ -110,7 +112,8 @@ public class UserLogin extends Fragment {
             Login login = userLoginData();
 
             // Mètode amb peticio GET per aconseguir el token
-            getTokenApi(login);
+            getToken(login);
+
 
             // Tanquem teclat
             method.closeKeyboard(view, requireActivity());
@@ -127,14 +130,13 @@ public class UserLogin extends Fragment {
      *
      * @author Eduard Masjuan
      */
-    private void getTokenApi(Login login) {
-        ApiService apiService = ApiClient.getInstance();
+    private void getToken(Login login) {
         // Cridem l'objecte que realitzara la petició
-        Call<Token> loginResponse = apiService.tokenLogin(login);
+        //Call<Token> loginResponse = apiGlobal.apiClientCert(getActivity()).tokenLogin(login);
+        Call<Token> loginResponse = apiGlobal.apiClient().tokenLogin(login);
 
         // Envia de forma asincrònica  la petició i notifica a la app amb un Callback<Token> quan la resposta retorna.
         loginResponse.enqueue(new Callback<Token>() {
-
             /**
              * Es crida si ja una resposta HTTP correcte
              * @param call Sol.licita al API les dades
@@ -155,7 +157,7 @@ public class UserLogin extends Fragment {
                             preferences.setPassword(passwordInput);
 
                             // Mètode que realitza una petició per guardar el rol de l'usuari
-                            getUserApi(preferences.getUsername());
+                            getUser(preferences.getUsername());
                         }
                     }
                 } else {
@@ -190,9 +192,10 @@ public class UserLogin extends Fragment {
      *
      * @author Eduard Masjuan
      */
-    public void getUserApi(String username) {
-        ApiService apiService = ApiClientToken.getInstance(preferences.getToken());
-        Call<User> user = apiService.getRol(username);
+    public void getUser(String username) {
+       //Call<User> user = apiGlobal.apiClientCert(getActivity(), preferences.getToken()).getRol(username);
+        Call<User> user = apiGlobal.apiClient(preferences.getToken()).getRol(username);
+
         user.enqueue(new Callback<User>() {
 
             /**
@@ -356,5 +359,6 @@ public class UserLogin extends Fragment {
             });
         }
     };
+
 
 }

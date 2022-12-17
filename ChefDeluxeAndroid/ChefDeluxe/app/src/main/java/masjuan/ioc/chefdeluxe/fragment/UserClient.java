@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 import masjuan.ioc.chefdeluxe.R;
-import masjuan.ioc.chefdeluxe.databinding.FragmentUsersNavigationBinding;
+import masjuan.ioc.chefdeluxe.databinding.ToolbarNavigationUsersBinding;
 import masjuan.ioc.chefdeluxe.fragment.client.NavAccManageClient;
 import masjuan.ioc.chefdeluxe.fragment.client.NavListReservationClient;
 import masjuan.ioc.chefdeluxe.fragment.client.NavReservationClient;
@@ -66,7 +66,7 @@ public class UserClient extends Fragment {
      */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        masjuan.ioc.chefdeluxe.databinding.FragmentUsersNavigationBinding b = FragmentUsersNavigationBinding.inflate(inflater, container, false);
+        ToolbarNavigationUsersBinding b = ToolbarNavigationUsersBinding.inflate(inflater, container, false);
 
         b.bottomNavigation.getMenu().clear(); // Netejem el menu anterior
         b.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu_client); // Menu Client
