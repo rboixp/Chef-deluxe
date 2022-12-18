@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ChefDeluxe</groupId>
+  <artifactId>ChefDeluxe</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>chef de luxe</name>
+  <description>&lt;!-- https://mvnrepository.com/artifact/com.toedter/jcalendar --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.toedter&lt;/groupId&gt;
+    &lt;artifactId&gt;jcalendar&lt;/artifactId&gt;
+    &lt;version&gt;1.4&lt;/version&gt;
+&lt;/dependency&gt;
+chef de luxe</description>
+	<dependencies>
+<!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+<dependency>
+    <groupId>com.toedter</groupId>
+    <artifactId>jcalendar</artifactId>
+    <version>1.4</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20220924</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
+<dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.3.2</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.sun.net.httpserver/http -->
+<dependency>
+    <groupId>com.sun.net.httpserver</groupId>
+    <artifactId>http</artifactId>
+    <version>20070405</version>
+</dependency>
+
+	</dependencies>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
